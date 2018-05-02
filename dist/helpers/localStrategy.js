@@ -2,7 +2,10 @@ let User = require('./user_db');
 let passport = require('passport');
 let localStrategy = require('passport-local').Strategy;
 
-module.exports = new localStrategy(function(username, password, done) {
+module.exports = new localStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, (username, password, done) => {
     User.getUserByUsername(username).then((user)=>{
         if (user.error) {
             return done(null, false, {message: "email not found"});

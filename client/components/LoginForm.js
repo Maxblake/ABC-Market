@@ -1,13 +1,21 @@
 import React from "react";
+import axios from 'axios'
 require('../assets/style/login.css');
 
 class LoginForm extends React.Component {
   email = React.createRef();
   password = React.createRef();
 
-  logIn = (event) => {
+  signUp = (event) => {
     event.preventDefault();
-    console.log(this.email.current.value,  this.password.current.value)
+    axios.post('/login', {
+      email:this.email.current.value,
+      password:this.password.current.value
+    }).then((result)=> {
+        if (result.data.status === 200) {
+          this.props.history.push('/');
+        }
+    }).catch((err)=>console.log(err))
   };
 
   render() {
@@ -15,7 +23,7 @@ class LoginForm extends React.Component {
       <div className="login-page">
         <h1> Log in </h1>
         <div className="login-form">
-          <form className="form" onSubmit={this.logIn}>
+          <form className="form" onSubmit={this.signUp}>
           <input
             type="text"
             ref={this.email}

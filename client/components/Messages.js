@@ -6,10 +6,10 @@ import axios from 'axios'
 class Messages extends React.Component {
 
   componentDidMount() {
-    var url = '../../value';
+    var url = '/value';
     axios.get(url).then((result) => {
       if (result.data.status != 400) {
-        socket.emit('add user', data.data.status);
+        socket.emit('add user', result.data.status);
       } else {
         socket.emit('add user', 'motherfucker');
       }

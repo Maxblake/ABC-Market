@@ -20,8 +20,7 @@ module.exports.getUserByUsername = (username)=>{
 
 module.exports.comparePassword = (candidatePassword, hash)=>{
     return new Promise((res,rej) => {
-        let hashedPass = bcrypt.hashSync(hash, 10);
-        bcrypt.compare(candidatePassword, hashedPass, function(err, isMatch) {
+      bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
             if (err) throw rej(err);
             res(isMatch);
         });
@@ -30,9 +29,9 @@ module.exports.comparePassword = (candidatePassword, hash)=>{
 
 module.exports.add_user = (email, password, name, address)=>{
     return new Promise((res,rej)=>{
-    //  bcrypt.hash(password, 10, function(err, hash) {
+      let hashedPass = bcrypt.hashSync(password, 10)
         db.connect().then((obj)=>{
-            obj.none('INSERT INTO users (email, password, name, address) VALUES ($1, $2, $3, $4)',[name, email, password, address]).then((data)=>{
+            obj.none('INSERT INTO users (email, password, name, address) VALUES ($1, $2, $3, $4)',[email, hashedPass, name, address]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -45,5 +44,4 @@ module.exports.add_user = (email, password, name, address)=>{
             rej(error);
         });
       });
-  //  });
 }

@@ -4,8 +4,9 @@ import Messages from '../components/Messages'
 import MsgBox from '../components/MsgBox'
 import io from 'socket.io-client';
 const socket = io.connect('http://localhost:3000');
+require('../assets/style/chat.css');
 
-class App extends React.Component {
+class Chat extends React.Component {
   componentDidMount() {
     this.initSocket();
   }
@@ -42,4 +43,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Chat;

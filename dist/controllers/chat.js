@@ -5,38 +5,18 @@ module.exports = function(io) {
   var numUsers = 0;
   var room_number = 0;
 
-  console.log(io.nsps['/'].adapter.rooms)
   io.on('connection', function (socket) {
-    console.log(socket.adapter.rooms[room_number])
-    if (socket.adapter.rooms[room_number] === undefined) {
-      socket.on('joinroom', (room_number) => {
+  var room_number = socket.handshake.query.room
+    socket.on('joinroom', (room_number) => {
         socket.join(room_number);
-        console.log(socket.adapter.rooms[room_number].length)
       })
-    } else if (socket.adapter.rooms[room_number].length <= 2) {
-       room_number = room_number + 1
-      socket.on('joinroom', (room_number) => {
-        socket.join(room_number);
-        console.log(socket.id)
-      })
-    }
+
     var addedUser = false;
     // when the client emits 'new message', this listens and executes
     socket.on('new message', function (data) {
       // we tell the client to execute 'new message'
-      console.log(io.nsps['/'].adapter.rooms[1].length)
-      console.log(socket.id);
-      io.sockets.emit('new message', { message: data , id: socket.id});
+      io.to(room_number).emit('new message', { message: data , id: socket.id});
     });
-
-
-
-
-
-
-
-
-
 
 
 

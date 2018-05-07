@@ -31,12 +31,12 @@ class SignupForm extends React.Component {
             placeholder="Full name">
           </input>
           <input
-            type="password"
+            type="text"
             ref={this.address}
             placeholder="Address">
           </input>
           <input
-            type="password"
+            type="text"
             ref={this.email}
             placeholder="Email">
           </input>

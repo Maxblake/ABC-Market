@@ -3,7 +3,6 @@ var io = require("socket.io");
 module.exports = function(io) {
   // Chatroom
   var numUsers = 0;
-  var room_number = 0;
 
   io.on('connection', function (socket) {
   var room_number = socket.handshake.query.room

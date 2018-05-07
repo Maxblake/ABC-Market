@@ -13,7 +13,6 @@ class UploadForm extends React.Component {
       console.log(result.data);
     })
   }
-
   upload = (e) => {
     e.preventDefault();
     var formData = new FormData();
@@ -31,9 +30,9 @@ class UploadForm extends React.Component {
          'content-type': 'multipart/form-data'
        }
     }
-   return post('/file/upload_product',formData,config).then((result) => {
-     console.log(result.data)
-   })
+    return post('/file/upload_product',formData,config).then((result) => {
+      console.log(result.data)
+    })
   }
   render() {
     return (
@@ -64,8 +63,7 @@ class UploadForm extends React.Component {
           <input
             type="file"
             multiple
-            ref={this.file}
-            placeholder="File">
+            ref={this.file}>
           </input>
           <button type="submit">Send</button>
         </form>

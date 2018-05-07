@@ -15,7 +15,6 @@ let router = express.Router();
 router.post('/upload_product',upload.array('files[]'), async(req,res)=>{
   let multipleUpload = new Promise(async (res, rej) => {
     let arr = [];
-    console.log(req.body)
     for (let i=0; i<req.files.length; i++) {
       await cloudinary.uploader.upload(req.files[i].path, (result) => {
           arr.push(result.secure_url);

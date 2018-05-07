@@ -16,8 +16,8 @@ class Messages extends React.Component {
     })
     const { socket, newMessage } = this.props;
     socket.emit('login')
-    socket.on('new message', (msg) => {
-      newMessage(msg.message);
+    socket.on('new message', (data) => {
+      newMessage(data.message, data.id);
     })
   }
 
@@ -25,7 +25,7 @@ class Messages extends React.Component {
     return (
       <div className="messages">
         <div className="messages-content"></div>
-          <Sender history={this.props.history}/>
+          <Sender history={this.props.history} socket={ this.props.socket }/>
       </div>
     )
 	}

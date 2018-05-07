@@ -3,20 +3,49 @@ var io = require("socket.io");
 module.exports = function(io) {
   // Chatroom
   var numUsers = 0;
+  var room_number = 0;
 
+  console.log(io.nsps['/'].adapter.rooms)
   io.on('connection', function (socket) {
+    console.log(socket.adapter.rooms[room_number])
+    if (socket.adapter.rooms[room_number] === undefined) {
+      socket.on('joinroom', (room_number) => {
+        socket.join(room_number);
+        console.log(socket.adapter.rooms[room_number].length)
+      })
+    } else if (socket.adapter.rooms[room_number].length <= 2) {
+       room_number = room_number + 1
+      socket.on('joinroom', (room_number) => {
+        socket.join(room_number);
+        console.log(socket.id)
+      })
+    }
     var addedUser = false;
     // when the client emits 'new message', this listens and executes
     socket.on('new message', function (data) {
       // we tell the client to execute 'new message'
-      socket.emit('new message', { message: data });
-      socket.broadcast.emit('new message', { message: data });
+      console.log(io.nsps['/'].adapter.rooms[1].length)
+      console.log(socket.id);
+      io.sockets.emit('new message', { message: data , id: socket.id});
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // when the client emits 'add user', this listens and executes
     socket.on('add user', function (username) {
       if (addedUser) return;
-      console.log('a')
 
       // we store the username in the socket session for this client
       socket.username = username;
@@ -26,8 +55,6 @@ module.exports = function(io) {
         numUsers: numUsers
       });
       // echo globally (all clients) that a person has connected
-      console.log(username)
-      console.log(numUsers)
       socket.broadcast.emit('user joined', {
         username: socket.username,
         numUsers: numUsers

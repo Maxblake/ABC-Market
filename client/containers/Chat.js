@@ -11,14 +11,8 @@ class Chat extends React.Component {
     this.initSocket();
   }
 
-  newMessage = (msg) => {
-    const messages = { ...this.state.history };
-    let history = [];
-    for (var i in messages) {
-      history.push(messages[i]);
-    }
-    history.push(msg);
-    this.setState({ history });
+  newMessage = (msg, id) => {
+    this.setState({ history:this.state.history.concat({ msg:msg, id:id })});
   }
 
   state = {
@@ -27,8 +21,8 @@ class Chat extends React.Component {
 
   initSocket = () => {
     socket.on('connect', () => {
-      console.log('connected');
-    })
+      socket.emit('joinroom', 1)
+      })
   }
 
   render () {

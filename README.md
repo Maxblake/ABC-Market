@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Luxury Minning C.A
 
 Express Web Application for a cloud mining service.
@@ -37,3 +38,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Inspiration
 * etc
 
+=======
+mercado libre en arubeits
+>>>>>>> refs/remotes/origin/master

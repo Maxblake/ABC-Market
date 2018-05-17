@@ -11,12 +11,12 @@ git clone https://github.com/eduardogz94/Sim-libre.git
 
 ## Built With
 
+* [React](https://github.com/reactjs/reactjs.org) - The views library used
 * [Express](https://expressjs.com/en/api.html) - The web framework used
 * [NodeJS](https://github.com/nodejs/node) - Dependency Management
 * [Bootstrap 3.3](http://getbootstrap.com/docs/3.3/) - The CSS framework used
-
+* [React-bootstrap](https://github.com/react-bootstrap/react-bootstrap) - The CSS framework used
 * [Heroku](https://heroku.com/) - Cloud hosting service
-
 * [Nodemailer](https://github.com/nodemailer/nodemailer) - Mail sender service
 * [Bcrypt](https://github.com/kelektiv/node.bcrypt.js/) - Encrypting module
 * [Passport](https://github.com/jaredhanson/passport-github) - Authentication service

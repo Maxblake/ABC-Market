@@ -33,8 +33,7 @@ export default class Showcase extends Component{
                         <br/>
                         <br/>
                         <Grid container direction="row" justify="center"
-                        spacing={24}
-                        >
+                        spacing={24}>
                             {this.state.places.map((place)=>(
                                 <Grid item xs={3}key={place}>
                                  <Grid container direction="row" justify="center">
@@ -49,15 +48,21 @@ export default class Showcase extends Component{
                         justify="center"
                         spacing={40}>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                 <Grid container direction="row" justify="center">
-                                <Button variant="outlined">Watch</Button>
+                                <Button 
+                                fullWidth
+                                variant="outlined">
+                                Watch
+                                </Button>
                                 </Grid>
                                 </Grid>
                                 
-                                <Grid item xs={6}>
+                                <Grid item xs={5}>
                                 <Grid container direction="row" justify="center">
-                                <Button variant="outlined">Submit</Button>
+                                <Button 
+                                fullWidth
+                                variant="outlined">Submit</Button>
                                 </Grid >
                                 </Grid>
                         </Grid>

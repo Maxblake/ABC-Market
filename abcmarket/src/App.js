@@ -12,6 +12,7 @@ import ProfilePage from './Components/ProfilePage';
 import Inbox from './Components/Inbox'
 import About from './Components/About';
 import Showcase from './Components/Showcase';
+import Category from './Components/Category';
 
 class App extends Component {
   state={
@@ -213,6 +214,11 @@ updateUser=(user)=>{
        return (<ProductPage {...props}/>)
   }
 
+  category=()=>{
+
+    return( <Category products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
+
+  }
   
   render() {
     return (
@@ -231,7 +237,8 @@ updateUser=(user)=>{
         <Route exact path="/profile" component={this.profilePage}/>
         <Route exact path="/inbox" component={this.inbox} />
         <Route exact path="/about" component={About}/>
-        <Route path="/showcase/:type" component={(props)=>this.showcase(props)}/>
+        <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
+        <Route exact path="/showcase/products/vehicles" component={this.category}/>
       </Switch>
       </div>
       </BrowserRouter>

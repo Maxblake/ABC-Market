@@ -71,7 +71,7 @@ export default class ProductPage extends Component{
     render(){
         
         return (
-            <Grow in={this.state.opened}>
+            <Zoom in={this.state.opened}>
             <Grid container
             justify="center" >
             <Grid
@@ -90,7 +90,7 @@ export default class ProductPage extends Component{
                      
             </Grid>
             </Grid>
-            </Grow>
+            </Zoom>
                
             
         )

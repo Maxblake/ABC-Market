@@ -1,0 +1,24 @@
+Mockups de dashboard
+- Remesas 
+- Cosas en venta
+- Mercado Laboral
+- Mercado Fisico
+- Comida
+
+
+
+
+- Dividir contenido de las paginas por secciones para mejor
+
+
+Pagina home es la de (about us en la foto), esa pagina toda la info es por dropdowns o collapses, (pagina 1 son antes de clickear y paginas 2 son las respuestas al clickeo)
+
+
+menos la pagina de cosas en ventas es una vista aparte
+dropdown de cosas en ventas filtra por opciones (principal: tipos de mercado, luego:por articulos), mostrar los ultimos
+
+Vistas
+- Home
+- Cosas en venta y luego la de buscar el producto
+- Usuario (Login, Signup y userindex)
+- Remesas dropdowwn de remesas y de remesas venezolanas (tiene que estar registrado)

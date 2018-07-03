@@ -4,16 +4,14 @@ module.exports.getUserByUsername = (username)=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
               obj.one('SELECT * FROM users where email = $1',[username]).then((data)=>{
-                  res(data);
-                  obj.done();
-              }).catch((error)=>{
-                  console.log(error);
-                  rej(error);
-                  obj.done();
-              });
-          }).catch((error)=>{
-              console.log(error);
-              rej(error);
+                res(data);
+                obj.done();
+            }).catch((error)=>{
+                rej(error);
+                obj.done();
+            });
+        }).catch((error)=>{
+            rej(error);
         });
     });
 }
@@ -43,5 +41,5 @@ module.exports.add_user = (email, password, name, address)=>{
             console.log(error);
             rej(error);
         });
-      });
+    });
 }

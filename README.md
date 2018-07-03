@@ -1,5 +1,5 @@
 
-# Luxury Minning C.A
+# ABC Market
 
 Express Web Application for a cloud mining service.
 
@@ -14,8 +14,6 @@ git clone https://github.com/eduardogz94/Sim-libre.git
 * [React](https://github.com/reactjs/reactjs.org) - The views library used
 * [Express](https://expressjs.com/en/api.html) - The web framework used
 * [NodeJS](https://github.com/nodejs/node) - Dependency Management
-* [Bootstrap 3.3](http://getbootstrap.com/docs/3.3/) - The CSS framework used
-* [React-bootstrap](https://github.com/react-bootstrap/react-bootstrap) - The CSS framework used
 * [Heroku](https://heroku.com/) - Cloud hosting service
 * [Nodemailer](https://github.com/nodemailer/nodemailer) - Mail sender service
 * [Bcrypt](https://github.com/kelektiv/node.bcrypt.js/) - Encrypting module
@@ -25,15 +23,6 @@ git clone https://github.com/eduardogz94/Sim-libre.git
 
 * **Eduardo Gonzalez** - *Initial work* - [Freelance](https://github.com/eduardogz94)
 * **Cesar Brazon** - *Initial work* - [Freelance](https://github.com/cbrzn)
+* **Carlos Di Matteo** - *Initial work* - [Freelance](https://github.com/carlosdimatteo)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc

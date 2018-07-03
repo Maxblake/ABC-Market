@@ -1,91 +1,85 @@
 const db = require('./db');
 
-module.exports.add_product = (user_id, stock, price, description, name, img1, img2, img3, img4, img5)=>{
+module.exports.all = ()=>{
     return new Promise((res,rej)=>{
-        db.connect().then((obj)=>{
-            obj.none('insert into products (user_id, stock, price, description, name, img1, img2, img3, img4, img5) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [user_id, stock, price, description, name, img1, img2, img3, img4, img5]).then((data)=>{
-                res(200);
-                obj.done();
-            }).catch((error)=>{
-                console.log(error);
-                rej(500);
-                obj.done();
-            });
-        }).catch((error)=>{
-            console.log(error);
-            rej(500);
+          db.connect().then(obj=>{
+              obj.any('select * from products').then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
         });
     });
 }
 
-module.exports.show_all_products = () => {
+module.exports.new = (user_id, description, price, stock, name)=>{
     return new Promise((res,rej)=>{
-        db.connect().then((obj)=>{
-            obj.any('SELECT * FROM products').then((data)=>{
-                res(data);
-                obj.done();
-            }).catch((error)=>{
-                console.log(error);
-                rej(error);
-                obj.done();
-            });
-        }).catch((error)=>{
-            console.log(error);
-            rej(error);
+          db.connect().then(obj=>{
+              obj.any('insert into products (user_id, description, price, stock, name) values ($1, $2, $3, $4, $5) returning *', [user_id, description, price, stock, name]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
         });
     });
 }
 
-module.exports.show_product = (id) =>{
+module.exports.show = (id)=>{
     return new Promise((res,rej)=>{
-        db.connect().then((obj)=>{
-          obj.one('SELECT * FROM products where id = $1',[id]).then((data)=>{
-                res(data);
-                obj.done();
-            }).catch((error)=>{
-                console.log(error);
-                rej(error);
-                obj.done();
-            });
-        }).catch((error)=>{
-            console.log(error);
-            rej(error);
+          db.connect().then(obj=>{
+              obj.one('select * from products where id=$1', [id]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  console.log(error)
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
         });
     });
 }
 
-module.exports.delete_product = (id) =>{
+
+module.exports.images = (id)=>{
     return new Promise((res,rej)=>{
-        db.connect().then((obj)=>{
-          obj.none('DELETE FROM products where id = $1',[id]).then((data)=>{
-                res(data);
-                obj.done();
-            }).catch((error)=>{
-                console.log(error);
-                rej(error);
-                obj.done();
-            });
-        }).catch((error)=>{
-            console.log(error);
-            rej(error);
+          db.connect().then(obj=>{
+              obj.any('select images.url from products inner join images on products .id = images.product_id where products.id = $1', [id]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  console.log(error)
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
         });
     });
 }
 
-module.exports.update_product = (price, description, stock, type_supplier, brand, department, code, id) =>{
+module.exports.add_image = (product_id, url)=>{
     return new Promise((res,rej)=>{
-        db.connect().then((obj)=>{
-          obj.result('UPDATE products SET price = $1, description = $2, stock = $3, type_supplier = $4, brand = $5, department = $6, code = $7 WHERE id = $8',[price, description, stock, type_supplier, brand, department, code, id]).then((data)=>{
-                res(data);
-                obj.done();
-            }).catch((error)=>{
-                console.log(error);
-                rej(error);
-                obj.done();
-            });
-        }).catch((error)=>{
-            console.log(error);
-            rej(error);
+          db.connect().then(obj=>{
+              obj.none('insert into images (product_id, url) values ($1, $2)', [product_id, url]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  console.log(error)
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
         });
     });
 }

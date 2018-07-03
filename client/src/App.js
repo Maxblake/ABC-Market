@@ -13,6 +13,7 @@ import Inbox from './Components/Inbox'
 import About from './Components/About';
 import Showcase from './Components/Showcase';
 import Category from './Components/Category';
+import UploadForm from './Components/UploadForm';
 
 class App extends Component {
   state={
@@ -232,11 +233,12 @@ updateUser=(user)=>{
         <Route exact path="/" component={Welcome}/>
         <Route exact path="/login" component={Login}/>
         <Route exact path="/register" component={Register}/>
-        <Route  exact path="/details/:item" component={(props)=>this.productPage(props)}/>
+        <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
         <Route exact path="/home" component={this.homePage} type={this.state.type}/>
         <Route exact path="/profile" component={this.profilePage}/>
         <Route exact path="/inbox" component={this.inbox} />
         <Route exact path="/about" component={About}/>
+        <Route exact path="/upload" component={UploadForm}/>
         <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
         <Route exact path="/showcase/products/vehicles" component={this.category}/>
       </Switch>

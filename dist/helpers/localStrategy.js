@@ -3,7 +3,7 @@ let passport = require('passport');
 let localStrategy = require('passport-local').Strategy;
 
 module.exports = new localStrategy({
-  usernameField: 'user',
+  usernameField: 'username',
   passwordField: 'password'
 }, (username, password, done) => {
     User.getUserByUsername(username).then((user)=>{
@@ -19,6 +19,7 @@ module.exports = new localStrategy({
             throw err;
         });
     }).catch((err)=>{
+        console.log(err)
         return done(null, false, {message: "email not found"});
         // throw err;
     });

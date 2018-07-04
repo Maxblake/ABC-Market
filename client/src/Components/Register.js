@@ -7,16 +7,15 @@ export default class Register extends Component{
 
   state={
     name:"",
-    lastName:"",
+    lastname:"",
     username:"",
     code:"",
     phoneNumber:"",
     password:"",
     gender:"",
-    userType:"",
+    type:"",
     birthDate:"",
     address:"",
-    email:""
   }
     
     handleChange=(event)=>{
@@ -24,8 +23,25 @@ export default class Register extends Component{
           this.setState({[event.target.name]:event.target.value});
     
         }
-    register=()=>{
-      console.log("registered user with the following data :"+JSON.stringify(this.state))
+    
+   register=()=>{
+      const { name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address } = this.state
+      fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({ name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address })
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data)
+          if (data.status == 200) { 
+              this.props.history.push('/') 
+          } else {
+              alert('wrong')
+          }
+      })
     }
 
     render(){
@@ -58,11 +74,11 @@ export default class Register extends Component{
           <br/>
             <TextField
               fullWidth
-              id="lastName"
+              id="lastname"
               label="Last Name"
               margin="normal"
-              name="lastName"
-              value={this.state.lastName}
+              name="lastname"
+              value={this.state.lastname}
               onChange={this.handleChange}
             />
           <br/>
@@ -134,8 +150,8 @@ export default class Register extends Component{
             <FormControl component="fieldset" required >
               <FormLabel component="legend">Type</FormLabel>
               <RadioGroup
-                name="userType"
-                value={this.state.userType}
+                name="type"
+                value={this.state.type}
                 onChange={this.handleChange}
               >
                 <FormControlLabel value="tourist" control={<Radio />} label="tourist" />

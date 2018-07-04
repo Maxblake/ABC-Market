@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 module.exports.getUserByUsername = (username)=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
-              obj.one('SELECT * FROM users where email = $1',[username]).then((data)=>{
+              obj.one('SELECT * FROM users where username = $1',[username]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{

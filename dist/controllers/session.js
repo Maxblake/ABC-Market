@@ -4,8 +4,8 @@ const auth = require('./../middlewares/isAuth')
 let user = require('./../helpers/user_db');
 let router = express.Router();
 
-router.post('/login', auth.isLogged,function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+router.post('/login', auth.isLogged, (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
         if (err) {
             return next(err);
         }
@@ -28,13 +28,17 @@ router.post('/login', auth.isLogged,function(req, res, next) {
     })(req, res, next);
 });
 
-
-router.post('/signup',auth.isLogged,function(req, res, next) {
-     if (user.add_user(req.body.email, req.body.password, req.body.name, req.body.address)) {
-       res.send({status:200});
-     } else {
-       res.send({status:"error"});
-     }
+router.post('/signup',auth.isLogged, (req, res, next) => {
+    const { name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address } = req.body
+    user.new(name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address).then(data => {
+        res.send({
+            status:200
+        })
+    }).catch(err => {
+        res.send({
+            status:500
+        })
+    })
 });
 
 router.get('/value', auth.isAuth, (req,res,next) => {

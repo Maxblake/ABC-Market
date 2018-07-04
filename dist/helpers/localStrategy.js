@@ -3,7 +3,7 @@ let passport = require('passport');
 let localStrategy = require('passport-local').Strategy;
 
 module.exports = new localStrategy({
-  usernameField: 'email',
+  usernameField: 'user',
   passwordField: 'password'
 }, (username, password, done) => {
     User.getUserByUsername(username).then((user)=>{

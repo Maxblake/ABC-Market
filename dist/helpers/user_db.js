@@ -17,9 +17,25 @@ module.exports.getUserByUsername = (username)=>{
     });
 }
 
+module.exports.id = (id)=>{
+    return new Promise((res,rej)=>{
+          db.connect().then((obj)=>{
+              obj.one('SELECT * FROM users where id = $1',[id]).then((data)=>{
+                res(data);
+                obj.done();
+            }).catch((error)=>{
+                rej(error);
+                obj.done();
+            });
+        }).catch((error)=>{
+            rej(error);
+        });
+    });
+}
+
 module.exports.comparePassword = (candidatePassword, hash)=>{
     return new Promise((res,rej) => {
-      bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+      bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
             if (err) throw rej(err);
             res(isMatch);
         });

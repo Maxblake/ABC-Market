@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import {Button} from '@material-ui/core';
 import {Grid,TextField} from '@material-ui/core'
+import { withRouter } from 'react-router';
 
-export default class Login extends Component{
+class Login extends Component{
     state = {
         username: "",
         password: ""
@@ -24,6 +25,11 @@ export default class Login extends Component{
         })
         .then(response => response.json())
         .then(data => {
+            if (data.status == 200) {
+                this.props.logIn()
+                this.props.updateUser()
+                this.props.history.push('/')
+            }
             console.log(data)
         })
     }
@@ -67,3 +73,5 @@ export default class Login extends Component{
         )
     }
 }
+
+export default withRouter(Login)

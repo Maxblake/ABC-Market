@@ -16,44 +16,77 @@ import Category from './Components/Category';
 import UploadForm from './Components/UploadForm';
 import { fetching } from '../fetching/wrapper'
 import { Session, Context } from './Provider/Context';
+import Chat from './Containers/Chat';
 
 class App extends Component {
-
+    
     state = {
+        user: {},
         type: false, 
         isLogged: false,
-        showcase: {services:{
-                        title:"Services",
-                        categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer"],
-                        latest:[
-                            {
-                                image:"Plumber image",
-                                name:"Jose",
-                                service:"Plumber",
-                                price:"20 per hour",
-                                phoneNumber:"+297-0020304",
-                                description:"Covering all your plumbing needs!"
-                            },
-                            {
-                                image:"Cleaning image",
-                                name:"Maria",
-                                service:"Cleaning",
-                                price:"20 per hour",
-                                phoneNumber:"+297-0030405",
-                                description:"I'll leave everything as tidy as possible"
-                            },
-                            {
-                                image:"Programmer image",
-                                name:"Carlos",
-                                service:"Programmer",
-                                price:"20 per hour",
-                                phoneNumber:"+297-0040506",
-                                description:"Any language , any app, I gotcha!"
-                            }
-                        ]
-                    },},
-        contacts: [],
-        user: {}
+        showcase: {
+            services:{
+                title:"Services",
+                categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer"],
+                latest:[
+                    {
+                        image:"Plumber image",
+                        name:"Jose",
+                        service:"Plumber",
+                        price:"20 per hour",
+                        phoneNumber:"+297-0020304",
+                        description:"Covering all your plumbing needs!"
+                    },
+                    {
+                        image:"Cleaning image",
+                        name:"Maria",
+                        service:"Cleaning",
+                        price:"20 per hour",
+                        phoneNumber:"+297-0030405",
+                        description:"I'll leave everything as tidy as possible"
+                    },
+                    {
+                        image:"Programmer image",
+                        name:"Carlos",
+                        service:"Programmer",
+                        price:"20 per hour",
+                        phoneNumber:"+297-0040506",
+                        description:"Any language , any app, I gotcha!"
+                    }
+                ]
+            }
+        },
+        contacts: [{
+                      image:"Ernesto's Image",
+                      name:"Ernesto Gonzalez",
+                      id: 1,
+                      phone:"+297-000000",
+                      reason:{
+                              name:"Tacos de futbol negros",
+                              condition:"Used",
+                              price:"AWG 20"
+                      }
+                  },{
+                      image:"Manuel's Image",
+                      id: 3,
+                      name:"Manuel Gonzalez",
+                      phone:"+297-000000",
+                      reason:{
+                              name:"gomas de basket verdes",
+                              condition:"Used",
+                              price:"AWG 20"
+                      }
+                  },
+                  {   
+                      image:"Marta's Image",
+                      id: 12,
+                      name:"Marta Sanchez",
+                      phone:"+297-0010101",
+                      reason:{
+                          name:"Masajista"
+                      }
+                  }
+                ]
     }
 
 //   state={
@@ -235,8 +268,11 @@ class App extends Component {
     }
 
     homePage=()=>{
-        return (<HomePage {...this.props} type={this.state.type}/>)
-    }
+        return (
+            <Context>
+            <HomePage {...this.props} type={this.state.type}/>
+            </Context>
+        )}
     
     profilePage=()=>{
         return(<ProfilePage updateUser={this.updateUser} user={this.state.user} contacts={this.state.contacts}/>)
@@ -246,25 +282,15 @@ class App extends Component {
         return(<Inbox user={this.state.user} contacts={this.state.contacts}/>)
     }
 
-    testingHeader = () => {
-    <Header 
-        {...this.props}
-        toggleUserType={this.toggleUserType}
-        toggleLog={this.toggleLog}
-        isLogged={this.state.isLogged}
-        user={this.state.user ? this.state.user : null}
-        />
-    }
-
   header=()=>{
     return(
         <Context>
-        <Header 
-            {...this.props}
-            toggleUserType={this.toggleUserType}
-            toggleLog={this.toggleLog}
-            isLogged={this.state.isLogged}
-            user={this.state.user ? this.state.user : null}
+            <Header 
+                {...this.props}
+                toggleUserType={this.toggleUserType}
+                toggleLog={this.toggleLog}
+                isLogged={this.state.isLogged}
+                user={this.state.user ? this.state.user : null}
             />
         </Context>
     )    
@@ -303,6 +329,7 @@ class App extends Component {
                 <Route exact path="/home" component={this.homePage} type={this.state.type}/>
                 <Route exact path="/profile" component={this.profilePage}/>
                 <Route exact path="/inbox" component={this.inbox} />
+                <Route exact path="/inbox/:id" component={Chat} />
                 <Route exact path="/about" component={About}/>
                 <Route exact path="/upload" component={UploadForm}/>
                 <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>

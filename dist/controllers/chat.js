@@ -3,11 +3,11 @@ var io = require("socket.io");
 module.exports = function(io) {
   // Chatroom
   var numUsers = 0;
-
+  
   io.on('connection', function (socket) {
-  var room_number = socket.handshake.query.room
+    let room_number = socket.handshake.query['trade']
     socket.on('joinroom', (room_number) => {
-        socket.join(room_number);
+      socket.join(room_number);
       })
 
     var addedUser = false;

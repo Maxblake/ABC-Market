@@ -22,7 +22,7 @@ router.post('/login', auth.isLogged, (req, res, next) => {
                 })
             }
             res.status(200).send({
-                status:200
+                status:200, user
             })
         })
     })(req, res, next);

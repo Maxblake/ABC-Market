@@ -4,7 +4,16 @@ export const Session = React.createContext('test')
 
 export class Context extends Component {
   state = {
-    user: 'Cesar'
+    user:{
+      name:"Cesar",    
+    },
+    setUser: (u) => {
+      this.setState({
+        user:{
+          name:"Works"
+        }
+      })
+    }
   }
 
   render() {

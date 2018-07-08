@@ -1,11 +1,9 @@
 import React,{Component} from 'react';
 import { Grid, Typography, Paper, Button } from '@material-ui/core';
+import { withRouter } from 'react-router'
 
 
-
-export default class ContactButton extends Component{
-
-
+class ContactButton extends Component{
     render(){
 
         return (
@@ -41,7 +39,7 @@ export default class ContactButton extends Component{
                             {this.props.sendMsg ? 
                             <Button variant="outlined"
                             color="secondary"
-                            onClick={this.props.handleClick}
+                            onClick={() => this.props.chat()}
                             > Send Message</Button>:""
                         }
                         </Grid>
@@ -52,3 +50,5 @@ export default class ContactButton extends Component{
         )
     }
 }
+
+export default withRouter(ContactButton)

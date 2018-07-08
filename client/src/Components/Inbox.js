@@ -1,8 +1,11 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Button, Typography } from '@material-ui/core';
 import ContactButton from './ContactButton'
+import Chat from '../Containers/Chat'
+import { withRouter } from 'react-router'
+const queryString = require('query-string');
 
-export default class Inbox extends Component{
+    class Inbox extends Component{
 
     state={
             chat:false,
@@ -16,25 +19,25 @@ export default class Inbox extends Component{
 
 
     handleClick=(contact)=>{
-        if(contact){
-        this.setState({chat:!this.state.chat,
-        chatContactName:contact.name});
-        }else{
-            this.setState({chat:!this.state.chat,
-                chatContactName:""});
-        }
-
+        // if(contact){
+        // this.setState({chat:!this.state.chat,
+        // chatContactName:contact.name});
+        // }else{
+        //     this.setState({chat:!this.state.chat,
+        //         chatContactName:""});
+        // }
+    }
+    
+    chat = contact => {
+        const { name, id }= contact
+        this.props.history.push({
+            pathname:`/inbox/${contact.id}`,
+            state: { name }
+        })
     }
 
     render(){
-
-
-
-
         return (
-
-
-            
             <Grid container justify="center">
                 <Grid container direction="row"
                 justify="center">
@@ -48,27 +51,22 @@ export default class Inbox extends Component{
                 <Grid container direction="row"
                 justify="center">
                 <Grid item xs={12} sm={8}>
-                        {!this.state.chat ?
                         <Grid item xs={12}>
                         {this.props.contacts.map((contact)=>(
                             <div>
                             <ContactButton 
                             style={{height:120}}
                             key={contact.name}
+                            id={contact.id}
                             type="contact" 
                             sendMsg={true}
-                            handleClick={()=>this.handleClick(contact)}
+                            chat={()=>this.chat(contact)}
                             contact={contact}/>
                             <br/>
                             </div>
                         ))}
                         </Grid>: 
-                        <Grid item xs={12}>
-                        <div>
-                            <h1>Chat with : {this.state.chatContactName}</h1>
-                            <Button color="secondary" onClick={this.handleClick}>Go Back</Button>
-                        </div>
-                        </Grid>
+                    
                                 }
                                 </Grid>
 
@@ -84,3 +82,5 @@ export default class Inbox extends Component{
 
     }
 }
+
+export default withRouter(Inbox)

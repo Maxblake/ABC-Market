@@ -21,8 +21,6 @@ export default class Header extends React.Component{
 render(){
   const {isLogged,user} = this.props;
   return (<div >
-  <Session.Consumer>{val => alert(val)}
-  </Session.Consumer>
       <AppBar position="static" color="secondary">
       <Toolbar>
         <Typography variant="title" color="inherit">
@@ -33,8 +31,8 @@ render(){
           {isLogged && user ?
         <Fragment>
         <Typography variant="button" color="inherit">
-        {user.username}
-      </Typography>
+        {user.name}
+        </Typography>
       <Button 
         style={{display:"block",float:"left"}}
         color="inherit"

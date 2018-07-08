@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import {Button} from '@material-ui/core';
 import {Grid,TextField} from '@material-ui/core'
 import { withRouter } from 'react-router';
+import { Session } from '../Provider/Context'
+
 
 class Login extends Component{
     state = {
@@ -66,7 +68,8 @@ class Login extends Component{
                     </Grid>
                     <br/>
                     <Grid item xs={12}>
-                        <Button color="secondary" variant="raised" onClick={this.logIn}>Log In</Button>
+                            <Button color="secondary" variant="raised" onClick={this.logIn}>Log In</Button>
+                    
                     </Grid>
                 </Grid>
             </form>

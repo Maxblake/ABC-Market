@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
-import ContactButton from './ContactButton'
-import ProductDisplay from './ProductDisplay'
-import { Grid,GridList,GridListTile,ListSubheader, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import GridListComp from './GridListComp'
 import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';

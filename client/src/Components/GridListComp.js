@@ -1,7 +1,7 @@
 import React,{Component,Fragment} from 'react';
 import ContactButton from './ContactButton'
 import ProductDisplay from './ProductDisplay'
-import { Grid,GridList,GridListTile,ListSubheader, Typography } from '@material-ui/core';
+import { GridList,GridListTile } from '@material-ui/core';
 
 
 

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Grid, Paper, Button, Typography } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import ContactButton from './ContactButton'
 
 export default class Inbox extends Component{

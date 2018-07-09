@@ -3,6 +3,7 @@ const passport = require('passport');
 const auth = require('./../middlewares/isAuth')
 let user = require('./../helpers/user_db');
 let router = express.Router();
+var ip = require("ip");
 
 router.post('/login', auth.isLogged, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -42,12 +43,16 @@ router.post('/signup',auth.isLogged, (req, res, next) => {
 })
 
 router.get('/value', auth.isAuth, (req,res,next) => {
-    console.log(req.get('host'))
+    console.log(ip.address())
     user.id(req.user.id).then(user => {
         res.send({ status: 200, user })
     }).catch(err => {
         res.send({ status: 500})
     })
+})
+
+router.get('/ip', (req,res,next) => {
+    res.send({ ip: ip.address()})
 })
 
 router.get('/logout',auth.isAuth ,(req, res) => {

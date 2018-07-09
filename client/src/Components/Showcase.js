@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import GridListComp from './GridListComp'
 import { Paper, Grid, Typography, Button, TextField } from '@material-ui/core';
+import Link from 'react-router-dom/Link';
 
 export default class Showcase extends Component{
 
@@ -13,9 +14,7 @@ export default class Showcase extends Component{
     }
 
     render(){
-
         return(
-
             <Grid container justify="center">
                 <Grid item xs={12} sm={8}>
                     <Paper>
@@ -62,8 +61,10 @@ export default class Showcase extends Component{
                                 <Grid container direction="row" justify="center">
                                 <Button 
                                 fullWidth
+                                component={Link}
+                                to="/submit"
                                 variant="outlined">Submit</Button>
-                                </Grid >
+                                </Grid>
                                 </Grid>
                         </Grid>
                         <br/>

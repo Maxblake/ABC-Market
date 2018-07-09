@@ -1,7 +1,5 @@
 import React,{Component} from 'react';
-import ContactButton from './ContactButton'
-import ProductDisplay from './ProductDisplay'
-import { Grid,GridList,GridListTile,ListSubheader, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import GridListComp from './GridListComp'
 import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';
@@ -37,26 +35,22 @@ export default class ProfilePage extends Component{
        }
 
        
-
         render(){
-
             return(
-
-                    <Grid container justify="center">
+                <Grid container justify="center">
                     <Grid container direction="row"
-                    justify="center">
+                        justify="center">
                         <h1>My Account</h1>
                     </Grid>
                     <Grid container direction="row"
-                    justify="center">
-                        
+                        justify="center">
                         {this.state.editMode ?
-                        <UserInfo user={this.props.user} toggleEdit={this.toggleEdit}/> :
+                        <UserInfo user={this.props.user} key={this.props.user.id} toggleEdit={this.toggleEdit}/> :
                         <UserEdit user={this.props.user} updateUser={this.props.updateUser} toggleEdit={this.toggleEdit} />
                     }
                     </Grid>
                     <Typography variant="display2">
-                    Uploads
+                        Uploads
                     </Typography>
                     <Grid container direction="row"
                     justify="center">

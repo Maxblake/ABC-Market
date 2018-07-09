@@ -1,14 +1,21 @@
 import React,{Component,Fragment} from 'react';
 import ContactButton from './ContactButton'
 import ProductDisplay from './ProductDisplay'
-import { Grid,GridList,GridListTile,ListSubheader, Typography } from '@material-ui/core';
+import { GridList,GridListTile } from '@material-ui/core';
+import { withRouter } from 'react-router';
 
 
 
-export default class GridListComp extends Component{
+class GridListComp extends Component{
 
 
-
+    chat = contact => {
+        const { name, id }= contact
+        this.props.history.push({
+            pathname:`/inbox/${contact.id}`,
+            state: { name }
+        })
+    }
 
     render(){
 
@@ -44,6 +51,7 @@ export default class GridListComp extends Component{
                     {...this.props}
                         contact={contact}
                         sendMsg={this.props.sendMsg}
+                        chat={()=>this.chat(contact)}
                         />
                 </GridListTile>
                 ))}
@@ -54,3 +62,5 @@ export default class GridListComp extends Component{
         )
     }
 }
+
+export default withRouter(GridListComp)

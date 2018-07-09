@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Button,Grid,Icon,Typography,Paper, withStyles} from '@material-ui/core'
+import {Button,Grid,Icon,Typography,Paper} from '@material-ui/core'
 
 export default class UserInfo extends Component{
 

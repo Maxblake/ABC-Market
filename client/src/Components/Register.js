@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import {Button} from '@material-ui/core';
 import {Grid,Radio,TextField,FormControl,FormHelperText,FormLabel,RadioGroup,FormControlLabel,Select,MenuItem,InputLabel,Input,Paper} from '@material-ui/core'
 
-
 export default class Register extends Component{
 
   state={
@@ -19,7 +18,6 @@ export default class Register extends Component{
   }
     
     handleChange=(event)=>{
-      console.log(event.target.name+"//"+event.target.value)
           this.setState({[event.target.name]:event.target.value});
     
         }
@@ -198,4 +196,3 @@ export default class Register extends Component{
     )  
   }
 }
-

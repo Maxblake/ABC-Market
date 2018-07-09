@@ -1,9 +1,7 @@
 import React,{Component} from 'react';
 import {Button} from '@material-ui/core';
-import {Grid,TextField} from '@material-ui/core'
+import {Grid,TextField,Typography} from '@material-ui/core'
 import { withRouter } from 'react-router';
-import { Session } from '../Provider/Context'
-
 
 class Login extends Component{
     state = {
@@ -17,6 +15,7 @@ class Login extends Component{
 
     logIn = () => {
         const { username, password } = this.state
+        console.log(username ,password)
         fetch('/login', {
             method: 'POST',
             headers: {
@@ -28,50 +27,50 @@ class Login extends Component{
         .then(response => response.json())
         .then(data => {
             if (data.status == 200) {
-                this.props.logIn()
-                this.props.updateUser()
-                this.props.history.push('/')
+                this.props.logIn(data.user)
+                this.props.history.push('/home')
             }
             console.log(data)
         })
     }
-
     render(){
         return (
             <form >
-                <Grid container
-                direction="column"
-                alignItems="center"
-                justiy="center">
-                    <Grid item>
-                       <h1>Login</h1>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField fullWidth
-                            id="username"
-                            label="Name"
-                            margin="normal"
-                            name="username"
-                            onChange={this.handleChange} 
-                        />
-                    <br/>
-                    </Grid>
-                    <Grid item xs={12}>
-                    <TextField fullWidth
-                        type="password"
-                        id="password"
-                        label="Password"
-                        margin="normal"
-                        name="password"
-                        onChange={this.handleChange}
-                    />
-                    </Grid>
-                    <br/>
-                    <Grid item xs={12}>
-                            <Button color="secondary" variant="raised" onClick={this.logIn}>Log In</Button>
-                    
-                    </Grid>
-                </Grid>
+            <Grid container
+            direction="column"
+            alignItems="center"
+            justiy="center"
+            >
+            <Grid item><br/>
+            <Typography variant="display2">
+                Login
+            </Typography>
+            </Grid>
+            <Grid item xs={12}>
+            <TextField
+          id="name"
+          name="username"
+          label="Email"
+          margin="normal"
+          onChange={this.handleChange} 
+         />
+        <br/>
+            </Grid>
+            <Grid item xs={12}>
+            <TextField
+          type="password"
+          id="password"
+          name="password"
+          label="Password"
+          margin="normal"
+          onChange={this.handleChange} 
+        />
+            </Grid>
+            <br/>
+            <Grid item xs={12}>
+            <Button color="secondary"variant="raised" onClick={this.logIn}>Log In</Button>
+            </Grid>
+            </Grid>
             </form>
         )
     }

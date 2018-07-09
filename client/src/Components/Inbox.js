@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Grid, Paper, Button, Typography } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import ContactButton from './ContactButton'
 import Chat from '../Containers/Chat'
 import { withRouter } from 'react-router'
@@ -55,20 +55,18 @@ const queryString = require('query-string');
                         {this.props.contacts.map((contact)=>(
                             <div>
                             <ContactButton 
-                            style={{height:120}}
-                            key={contact.name}
-                            id={contact.id}
-                            type="contact" 
-                            sendMsg={true}
-                            chat={()=>this.chat(contact)}
-                            contact={contact}/>
+                                style={{height:120}}
+                                key={contact.id}
+                                id={contact.id}
+                                type="contact" 
+                                sendMsg={true}
+                                chat={()=>this.chat(contact)}
+                                contact={contact}/>
                             <br/>
                             </div>
                         ))}
-                        </Grid>: 
-                    
-                                }
-                                </Grid>
+                        </Grid>
+                </Grid>
 
                     
                 

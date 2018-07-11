@@ -1,4 +1,4 @@
-module.exports.fetching = (data, method, url, cb) => {
+export const fetching = (data, method, url, cb) => {
     switch (method) {
         case 'GET':
             fetch(url, {
@@ -40,3 +40,5 @@ module.exports.fetching = (data, method, url, cb) => {
         break;
     }
 }
+
+

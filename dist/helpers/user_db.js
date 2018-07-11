@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 module.exports.getUserByUsername = (username)=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
-              obj.one('SELECT * FROM users where username = $1',[username]).then((data)=>{
+              obj.one('SELECT * FROM person where username = $1',[username]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -20,7 +20,7 @@ module.exports.getUserByUsername = (username)=>{
 module.exports.id = (id)=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
-              obj.one('SELECT * FROM users where id = $1',[id]).then((data)=>{
+              obj.one('SELECT * FROM person where person_id = $1',[id]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -46,7 +46,7 @@ module.exports.new = (name, lastname, code, phoneNumber, username, password, gen
     return new Promise((res,rej)=>{
       let hashedPass = bcrypt.hashSync(password, 10)
         db.connect().then((obj)=>{
-            obj.none('INSERT INTO users (name, lastname, code, phonenumber, username, password, gender, type, birthDate, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',[name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address]).then((data)=>{
+            obj.none('INSERT INTO person (name, lastname, code, phonenumber, username, password, gender, type, birthDate, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',[name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{

@@ -16,6 +16,7 @@ import Category from './Components/Category';
 import SubmitProduct from "./Components/Submit/SubmitProduct"
 import SubmitSelect from "./Components/Submit/SubmitSelect"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
+import {fetching} from '../fetching/wrapper'
 import Chat from './Containers/Chat';
 class App extends Component {
   state={
@@ -166,12 +167,30 @@ class App extends Component {
       }
   ]
 }
-    componentDidMount() {
-        fetch('/ip')
-        .then(response => response.json())
-        .then(data => {
-            this.setState({ ip: data.ip })
+    updateUser=()=>{
+        fetching({}, 'GET', './value', response => {
+            if (response.status == 200) {
+                this.toggleLog()
+                const { image, name, lastname, username, code, phonenumber, gender, type, birthdate } = response.user
+                this.setState({ 
+                    user:{
+                        image,
+                        name,
+                        lastname,
+                        username,
+                        code,
+                        phonenumber,
+                        gender,
+                        type,
+                        birthdate,
+                    },
+                })
+            } 
         })
+    }
+
+    componentWillMount() {
+        this.updateUser()
     }
 
     logIn=(user)=>{
@@ -180,12 +199,12 @@ class App extends Component {
     }
 
     toggleLog=()=>{
-        this.setState({isLogged:!this.state.isLogged})
+        this.setState({ isLogged:!this.state.isLogged })
     }
 
     toggleUserType=()=>{
         console.log(this.state.type)
-        this.setState({type:!this.state.type})
+        this.setState({ type:!this.state.type })
     }
 
     homePage=()=>{
@@ -197,7 +216,7 @@ class App extends Component {
     }
 
     inbox=()=>{
-        return(<Inbox user={this.state.user} contacts={this.state.contacts}/>)
+        return(<Inbox updateUser={this.updateUser} user={this.state.user} contacts={this.state.contacts} />)
     }
 
     header=()=>{

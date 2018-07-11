@@ -16,7 +16,7 @@ router.post('/login', auth.isLogged, (req, res, next) => {
               status: info
             })
         }
-        req.logIn(user, function(err) {
+        req.logIn(user, (err) => {
             if (err) {
                 return res.status(500).send({
                   status: 'Could not log in user'
@@ -43,10 +43,10 @@ router.post('/signup',auth.isLogged, (req, res, next) => {
 })
 
 router.get('/value', auth.isAuth, (req,res,next) => {
-    console.log(ip.address())
-    user.id(req.user.id).then(user => {
+    user.id(req.user.person_id).then(user => {
         res.send({ status: 200, user })
     }).catch(err => {
+        console.log(err)
         res.send({ status: 500})
     })
 })

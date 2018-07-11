@@ -1,9 +1,9 @@
-const db = require('./db');
+const db = require('./../db');
 
 module.exports.all = ()=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
-              obj.any('select * from products').then(data=>{
+              obj.any('select * from service').then(data=>{
                   res(data);
                   obj.done();
               }).catch(error=>{
@@ -16,10 +16,10 @@ module.exports.all = ()=>{
     });
 }
 
-module.exports.new = (user_id, title, description, category)=>{
+module.exports.show = (id)=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
-              obj.one('insert into product (user_id, title, description, category) values ($1, $2, $3, $4) returning product_id', [user_id, title, description, category]).then(data=>{
+              obj.one('select * from service where service_id = $1',[id]).then(data=>{
                   res(data);
                   obj.done();
               }).catch(error=>{
@@ -32,14 +32,14 @@ module.exports.new = (user_id, title, description, category)=>{
     });
 }
 
-module.exports.images = (id)=>{
+
+module.exports.new = (product_id, post_time)=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
-              obj.any('select images.url from products inner join images on products .id = images.product_id where products.id = $1', [id]).then(data=>{
+              obj.none('insert into service (product_id, post_time) values ($1, $2)',[product_id, post_time]).then(data=>{
                   res(data);
                   obj.done();
               }).catch(error=>{
-                  console.log(error)
                   rej(error);
                   obj.done();
               });
@@ -49,14 +49,29 @@ module.exports.images = (id)=>{
     });
 }
 
-module.exports.add_image = (product_id, url)=>{
+module.exports.edit = ()=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
-              obj.none('insert into images (product_id, url) values ($1, $2)', [product_id, url]).then(data=>{
+              obj.none('update service').then(data=>{
                   res(data);
                   obj.done();
               }).catch(error=>{
-                  console.log(error)
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
+        });
+    });
+}
+
+module.exports.delete = (id)=>{
+    return new Promise((res,rej)=>{
+          db.connect().then(obj=>{
+              obj.none('delete from service where service_id = $1',[id]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
                   rej(error);
                   obj.done();
               });

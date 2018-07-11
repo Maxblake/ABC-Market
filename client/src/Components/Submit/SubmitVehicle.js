@@ -1,24 +1,59 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
+import UploadForm from '../UploadForm'
 
 class SubmitVehicle extends Component{
+    file = React.createRef();
+    
     state={
+        brand:"",
+        model:"",
         fuel:"",
         negotiable:"",
-        financing:"",
-        interior:"",
-        onlyOwner:"",
+        finance:"",
+        int_material:"",
+        unique_owner:"",
         windows:"",
         steer:"",
         ac:"",
         time:0,
         location:""
-
-
     }
+
     handleChange=(event)=>{
         console.log(event.target.name+"//"+event.target.value)
             this.setState({[event.target.name]:event.target.value});
+    }
+
+    create = (e) => {
+        const {brand, model, fuel, negotiable, finance, int_material, unique_owner, windows, steer, ac, time, location } = this.state
+        e.preventDefault()
+        const body = new FormData();
+        const { files } = this.file.current;
+        for (var i = 0; i < files.length; i++) {
+            var filing = files[i];
+            body.append('files[]', filing, filing.name);
+        }
+        body.append('brand', brand)
+        body.append('model', model)
+        body.append('fuel', fuel)
+        body.append('negotiable', negotiable)
+        body.append('finance', finance)
+        body.append('int_material', int_material)
+        body.append('unique_owner', unique_owner)
+        body.append('windows', windows)
+        body.append('steer', steer)
+        body.append('ac', ac)
+        body.append('time', time)
+        body.append('location', location)      
+        fetch('/product/vehicle/new', {
+            method: 'POST',
+            body
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
     }
     render(){
         return(
@@ -33,17 +68,19 @@ class SubmitVehicle extends Component{
                     justify="center"
                     >
                         <Grid item xs={12}>
-                            <Typography
-                            variant="headline"
-                            >Multer pls</Typography>
-                        </Grid>
+                        <input
+                            type="file"
+                            multiple
+                            ref={this.file}>
+                        </input>    
+                    </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center" spacing={8}>
                         <Grid item xs={12} sm={5}>
                         <TextField
                         type="text"
-                        id="make"
-                        label="Make"
+                        id="brand"
+                        label="Brand"
                         fullWidth
                         margin="normal"
                         > </TextField>
@@ -114,17 +151,17 @@ class SubmitVehicle extends Component{
                     <Grid container direction="row" justify="center" spacing={8}>
                         <Grid item xs={12} sm={5}>
                         <FormControl fullWidth margin="normal">
-                                <InputLabel >Financing</InputLabel>
+                                <InputLabel >finance</InputLabel>
                                 <Select
                                 
-                                value={this.state.financing}
+                                value={this.state.finance}
                                 onChange={this.handleChange}
-                                    input={<Input name="financing" />}
+                                    input={<Input name="finance" />}
                                 >
                                     <MenuItem value={"Yes"}>Yes</MenuItem>
                                     <MenuItem value={"No"}>No</MenuItem>
                                 </Select>
-                                <FormHelperText>Do you offer any kind of financing?</FormHelperText>
+                                <FormHelperText>Do you offer any kind of finance?</FormHelperText>
                                     </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={5}>
@@ -132,9 +169,9 @@ class SubmitVehicle extends Component{
                                 <InputLabel >Interior material</InputLabel>
                                 <Select
                                 
-                                value={this.state.interior}
+                                value={this.state.int_material}
                                 onChange={this.handleChange}
-                                    input={<Input name="interior" />}
+                                    input={<Input name="int_material" />}
                                 >
                                     <MenuItem value={"leather"}>Leather</MenuItem>
                                     <MenuItem value={"semi-leather"}>Semi-Leather</MenuItem>
@@ -151,9 +188,9 @@ class SubmitVehicle extends Component{
                                 <InputLabel >Unique Owner</InputLabel>
                                 <Select
                                 
-                                value={this.state.onlyOwner}
+                                value={this.state.unique_owner}
                                 onChange={this.handleChange}
-                                    input={<Input name="onlyOwner" />}
+                                    input={<Input name="unique_owner" />}
                                 >
                                     <MenuItem value={"Yes"}>Yes</MenuItem>
                                     <MenuItem value={"No"}>No</MenuItem>
@@ -258,7 +295,7 @@ class SubmitVehicle extends Component{
                     <Grid container direction="row" justify="center">
                     <Grid item xs={12} sm={10}>
                     <Grid container direction="row" justify="center">
-                    <Button variant="raised" color="secondary">Submit</Button>
+                    <Button variant="raised" color="secondary" onClick={this.create}>Submit</Button>
                     </Grid>
                     </Grid>
                     </Grid>

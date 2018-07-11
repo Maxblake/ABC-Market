@@ -18,7 +18,7 @@ router.get('/all',(req,res)=>{
 })
 
 router.get('/:id', (req,res)=> {
-  (req.user === undefined) ? user_id = null : user_id = req.user.id
+  const user_id = (req.user === undefined) ? null : req.user.id
   product.show_product(req.params.id).then(product =>{
     res.send({
       product, 

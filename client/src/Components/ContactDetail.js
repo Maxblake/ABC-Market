@@ -13,7 +13,6 @@ export default class ContactDetail extends Component{
             </Typography>
             i++
         }
-        console.log(toRender)
         return toRender;
     }
     render(){

@@ -3,17 +3,54 @@ import { Grid, Paper, Typography,TextField,FormControl,FormLabel,RadioGroup,Form
 
 
 class SubmitProduct extends Component{
+    file = React.createRef();
+   
     state={
-        state:"",
-        time:0,
-        location:""
+        description:null,
+        title:null,
+        stock:null,
+        price:null,
+        used:null,
+        link:null,
+        post_time:'',
+        location:''
     }
 
     handleChange=(event)=>{
         console.log(event.target.name+"//"+event.target.value)
-            this.setState({[event.target.name]:event.target.value});
-      }
+        this.setState({[event.target.name]:event.target.value});
+    }
 
+    create = (e) => {
+        console.log('creating product')
+        const { description, title, stock, price, used, link, post_time, location } = this.state
+        e.preventDefault()
+        const body = new FormData();
+        const { files } = this.file.current;
+        for (var i = 0; i < files.length; i++) {
+            var filing = files[i];
+            body.append('files[]', filing, filing.name);
+        }
+        body.append('description', description)
+        body.append('title', title)
+        body.append('stock', stock)
+        body.append('price', price)
+        body.append('used', used)
+        body.append('link', link)
+        body.append('post_time', post_time)
+        body.append('location', location)      
+        fetch('/product/article/new', {
+            method: 'POST',
+            body
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        }).catch(err => {
+            alert('connection error')
+            console.log(err)
+        })
+    }
 
     render(){
         return(
@@ -28,19 +65,22 @@ class SubmitProduct extends Component{
                     justify="center"
                     >
                         <Grid item xs={12}>
-                            <Typography
-                            variant="headline"
-                            >Multer pls</Typography>
+                           <input
+                            type="file"
+                            multiple
+                            ref={this.file}>
+                           </input> 
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center">
                         <Grid item xs={10}>
                             <TextField
                             fullWidth
-                            id="title"
+                            name="title"
                             margin="normal"
                             label="Title"
                             placeholder="Use key words to help users find your product easily..."
+                            onChange={this.handleChange}
                             ></TextField>
                         </Grid>
                     </Grid>
@@ -48,19 +88,21 @@ class SubmitProduct extends Component{
                     <Grid item xs={5}>
                             <TextField
                             fullWidth
-                            id="quantity"
+                            name="stock"
                             label="Quantity"
                             type="number"
                             margin="normal"
+                            onChange={this.handleChange}
                             ></TextField>
                         </Grid>
                         <Grid item xs={5}>
                         <TextField
                             fullWidth
-                            id="price"
+                            name="price"
                             label="Price"
                             type="number"
                             margin="normal"
+                            onChange={this.handleChange}
                             ></TextField>
                         </Grid>
                     </Grid>
@@ -69,12 +111,12 @@ class SubmitProduct extends Component{
                             <FormControl component="fieldset" >
                                 <FormLabel component="legend">State</FormLabel>
                                     <RadioGroup
-                                        name="state"
-                                        value={this.state.state}
+                                        name="used"
+                                        value={this.state.used}
                                         onChange={this.handleChange}
                                     >
-                                    <FormControlLabel value="new" control={<Radio />} label="New" />
-                                    <FormControlLabel value="used" control={<Radio/>} label="Used" />
+                                    <FormControlLabel value="false" control={<Radio />} label="New" />
+                                    <FormControlLabel value="true" control={<Radio/>} label="Used" />
                                     
                                     </RadioGroup>
                                 </FormControl>
@@ -84,10 +126,12 @@ class SubmitProduct extends Component{
                         <Grid item xs={10}>
                             <TextField
                             fullWidth
-                            id="ytLink"
+                            name="link"
                             label="Youtube Link"
                             defaultValue="http://"
-                            margin="normal"></TextField>
+                            margin="normal"
+                            onChange={this.handleChange}>
+                            </TextField>
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center" spacing={8}>
@@ -100,9 +144,9 @@ class SubmitProduct extends Component{
                                     <InputLabel >Post time</InputLabel>
                                     <Select
                                     
-                                    value={this.state.time}
+                                    value={this.state.post_time}
                                     onChange={this.handleChange}
-                                        input={<Input name="time" />}
+                                        input={<Input name="post_time" />}
                                     >
                                         <MenuItem value={30}>30 days</MenuItem>
                                         <MenuItem value={60}>60 days</MenuItem>
@@ -135,14 +179,15 @@ class SubmitProduct extends Component{
                     <Grid container direction="row" justify="center">
                     <Grid item xs={10}>
                         <TextField
-                            id="description"
+                            name="description"
                             label="Description"
                             multiline
                             fullWidth
                             rows={4}
                             margin="normal"
                             placeholder="detail the product the best way possible for better user understanding and to ease the sale "
-                        ></TextField>
+                            onChange={this.handleChange}
+                     ></TextField>
                     </Grid>
                     </Grid>
 					<br/>
@@ -150,6 +195,7 @@ class SubmitProduct extends Component{
                         <Button
 						variant="raised"
 						color="secondary"
+                        onClick={this.create}
 						> Submit </Button>
                     </Grid>
 					<br/>																				

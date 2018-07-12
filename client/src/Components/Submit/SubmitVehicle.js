@@ -8,15 +8,17 @@ class SubmitVehicle extends Component{
     state={
         brand:"",
         model:"",
+        distance:"",
+        year:"",
         fuel:"",
         negotiable:"",
         finance:"",
-        int_material:"",
+        interior:"",
         unique_owner:"",
         windows:"",
         steer:"",
         ac:"",
-        time:0,
+        post_time:0,
         location:""
     }
 
@@ -26,7 +28,7 @@ class SubmitVehicle extends Component{
     }
 
     create = (e) => {
-        const {brand, model, fuel, negotiable, finance, int_material, unique_owner, windows, steer, ac, time, location } = this.state
+        const {brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, post_time, location } = this.state
         e.preventDefault()
         const body = new FormData();
         const { files } = this.file.current;
@@ -36,15 +38,17 @@ class SubmitVehicle extends Component{
         }
         body.append('brand', brand)
         body.append('model', model)
+        body.append('distance', distance)
+        body.append('year', year)
         body.append('fuel', fuel)
         body.append('negotiable', negotiable)
         body.append('finance', finance)
-        body.append('int_material', int_material)
+        body.append('interior', interior)
         body.append('unique_owner', unique_owner)
         body.append('windows', windows)
         body.append('steer', steer)
         body.append('ac', ac)
-        body.append('time', time)
+        body.append('post_time', post_time)
         body.append('location', location)      
         fetch('/product/vehicle/new', {
             method: 'POST',
@@ -53,6 +57,9 @@ class SubmitVehicle extends Component{
         .then(response => response.json())
         .then(data => {
             console.log(data)
+        }).catch(err => {
+            alert('connection error')
+            console.log(err)
         })
     }
     render(){
@@ -79,19 +86,21 @@ class SubmitVehicle extends Component{
                         <Grid item xs={12} sm={5}>
                         <TextField
                         type="text"
-                        id="brand"
+                        name="brand"
                         label="Brand"
                         fullWidth
                         margin="normal"
+                        onChange={this.handleChange}
                         > </TextField>
                         </Grid>
                         <Grid item xs={12} sm={5}>
                         <TextField
                         type="text"
-                        id="model"
+                        name="model"
                         label="Model"
                         fullWidth
                         margin="normal"
+                        onChange={this.handleChange}
                         > </TextField>
                         </Grid>
                     </Grid>
@@ -99,19 +108,21 @@ class SubmitVehicle extends Component{
                         <Grid item xs={12} sm={5}>
                         <TextField
                         type="number"
-                        id="driven"
+                        name="distance"
                         label="Driven distance (Km)"
                         fullWidth
                         margin="normal"
+                        onChange={this.handleChange}
                         > </TextField>
                         </Grid>
                         <Grid item xs={12} sm={5}>
                         <TextField
                         type="number"
-                        id="year"
+                        name="year"
                         label="Year"
                         fullWidth
                         margin="normal"
+                        onChange={this.handleChange}
                         > </TextField>
                         </Grid>
                     </Grid>
@@ -169,9 +180,9 @@ class SubmitVehicle extends Component{
                                 <InputLabel >Interior material</InputLabel>
                                 <Select
                                 
-                                value={this.state.int_material}
+                                value={this.state.interior}
                                 onChange={this.handleChange}
-                                    input={<Input name="int_material" />}
+                                    input={<Input name="interior" />}
                                 >
                                     <MenuItem value={"leather"}>Leather</MenuItem>
                                     <MenuItem value={"semi-leather"}>Semi-Leather</MenuItem>
@@ -260,9 +271,9 @@ class SubmitVehicle extends Component{
                                     <InputLabel >Post time</InputLabel>
                                     <Select
                                     
-                                    value={this.state.time}
+                                    value={this.state.post_time}
                                     onChange={this.handleChange}
-                                        input={<Input name="time" />}
+                                        input={<Input name="post_time" />}
                                     >
                                         <MenuItem value={30}>30 days</MenuItem>
                                         <MenuItem value={60}>60 days</MenuItem>

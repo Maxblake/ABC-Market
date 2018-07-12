@@ -13,12 +13,20 @@ cloudinary.config({
   
 const upload = multer({dest: "./uploads/"});
 
-router.post('all', (req, res) => {
-    
+router.get('/all', (req, res) => {
+    vehicle.all().then(vehicles => {
+        res.send({ 
+            vehicles
+        })
+    }).catch(err => {
+        res.send({
+            status: 404
+        })
+    })
 })
 
 router.post('/new', upload.array('files[]'), async (req, res) => {
-    const { fuel, negotiable, finance, interior, onlyOwner, windows, steer, ac, time, location, description, title } = req.body
+    const { brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, time, location, description, post_time } = req.body
 
     multipleUpload = new Promise(async (res, rej) => {
         let arr = []
@@ -34,36 +42,71 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
 
     consume = await multipleUpload.then(data => {
         product.new(1, 'test', 'test', 'vehicle').then(async new_product => {
+            const { product_id } = new_product
             for (var i in data) {
-                await product.add_image(new_product[0].product_id, data[i]).then(success => {
-                    console.log(`Image #${i} has been added`)
+                await product.add_image(product_id, data[i]).then(success => {
                 }).catch(err => {
+                    console.log(err)
                     res.send({ status: 503 })
                 })
             }
-            vehicle.new(product_id, brand, model, fuel, negotiable, finance, int_material, unique_owner, post_time, origin,  windows, pilot_seat, air_cond).then(data => {
+            vehicle.new(product_id, brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, post_time, location, windows, steer, ac).then(data => {
                 res.send({ 
                     status: 200 
                 })
             }).catch(err => {
+                console.log(err)
                 res.send({ status: 501 })
             })
         }).catch(err => {
+            console.log(err)
             res.send({ status: 500 })
+        })
+    }).catch(err => {
+        console.log(err)
+        res.send({ status: 400})
+    })
+
+})
+
+router.post('/edit', (req, res) => {
+    const { brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner, post_time, location, windows, pilot_seat, air_cond, vehicle_id } = req.body
+    vehicle.edit(brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner, post_time, location, windows, pilot_seat, air_cond, vehicle_id).then(data => {
+        res.send({
+            status: 200
+        })
+    }).catch(err => {
+        res.send({
+            status: 403
         })
     })
 })
 
-router.post('/edit', (req, res) => {
-
-})
-
 router.post('/erase', (req, res) => {
-
+    const { id } = req.body
+    vehicle.delete(id).then(data => {
+        res.send({ 
+            status: 200
+        })
+    }).catch(err => {
+        res.send({ 
+            status: 404
+        })
+    })
 })
 
 router.get('/show/:id', (req, res) => {
-
+    const { id } = req.params
+    vehicle.show(id).then(details => {
+        res.send({ 
+            status: 200,
+            details
+        })
+    }).catch(err => {
+        res.send({
+            status: 404
+        })
+    })
 })
 
 module.exports = router;

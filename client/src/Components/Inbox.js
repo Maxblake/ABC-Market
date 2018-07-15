@@ -32,7 +32,9 @@ const queryString = require('query-string');
         const { name, id }= contact
         this.props.history.push({
             pathname:`/inbox/${contact.id}`,
-            state: { name }
+            state: { name,
+                     reciever: contact.id 
+                    }
         })
     }
 

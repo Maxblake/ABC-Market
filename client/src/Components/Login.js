@@ -27,8 +27,8 @@ class Login extends Component{
         .then(response => response.json())
         .then(data => {
             if (data.status == 200) {
-                this.props.logIn(data.user)
                 this.props.history.push('/home')
+                this.props.logIn(data.user)
             }
             console.log(data)
         })

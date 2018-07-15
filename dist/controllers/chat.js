@@ -1,10 +1,10 @@
 var io = require("socket.io");
 
-module.exports = function(io) {
+module.exports = (io) => {
   // Chatroom
   var numUsers = 0;
   
-  io.on('connection', function (socket) {
+  io.on('connection', (socket) => {
     let room_number = socket.handshake.query['trade']
     socket.on('joinroom', (room_number) => {
       socket.join(room_number);
@@ -12,7 +12,7 @@ module.exports = function(io) {
 
     var addedUser = false;
     // when the client emits 'new message', this listens and executes
-    socket.on('new message', function (data) {
+    socket.on('new message', (data) => {
       // we tell the client to execute 'new message'
       io.to(room_number).emit('new message', { message: data , id: socket.id});
     });
@@ -23,7 +23,7 @@ module.exports = function(io) {
 
 
     // when the client emits 'add user', this listens and executes
-    socket.on('add user', function (username) {
+    socket.on('add user', (username) => {
       if (addedUser) return;
 
       // we store the username in the socket session for this client
@@ -41,21 +41,21 @@ module.exports = function(io) {
     });
 
     // when the client emits 'typing', we broadcast it to others
-    socket.on('typing', function () {
+    socket.on('typing',  ()  =>{
       socket.broadcast.emit('typing', {
         username: socket.username
       });
     });
 
     // when the client emits 'stop typing', we broadcast it to others
-    socket.on('stop typing', function () {
+    socket.on('stop typing', ()  =>{
       socket.broadcast.emit('stop typing', {
         username: socket.username
       });
     });
 
     // when the user disconnects.. perform this
-    socket.on('disconnect', function () {
+    socket.on('disconnect', ()  =>{
       if (addedUser) {
         --numUsers;
 

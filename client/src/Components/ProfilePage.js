@@ -3,8 +3,10 @@ import { Grid, Typography } from '@material-ui/core';
 import GridListComp from './GridListComp'
 import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';
+import Auth, { Session } from '../Provider/Auth';
 
 export default class ProfilePage extends Component{
+
         state={
             editMode:true,
             uploads:[
@@ -28,7 +30,7 @@ export default class ProfilePage extends Component{
                 }
             ]
        }
-
+    
        toggleEdit=()=>{
            this.setState({editMode:!this.state.editMode})
            console.log(this.state.editMode)
@@ -42,6 +44,17 @@ export default class ProfilePage extends Component{
                         justify="center">
                         <h1>My Account</h1>
                     </Grid>
+
+                <Session.Consumer>
+                    {user => (
+                    <Typography variant="display2">
+                        {user}
+                    </Typography>
+                    )}
+                </Session.Consumer>
+
+
+
                     <Grid container direction="row"
                         justify="center">
                         {this.state.editMode ?

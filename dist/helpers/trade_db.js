@@ -1,4 +1,5 @@
-const db = require('./db');
+const db = require('./db')
+
 module.exports.show = (id)=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{

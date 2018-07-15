@@ -1,6 +1,7 @@
 import React from "react";
 import Sender from "./Sender";
 import io from 'socket.io-client';
+var ScrollArea = require('react-scrollbar');
 
 class Messages extends React.Component {
 
@@ -14,10 +15,14 @@ class Messages extends React.Component {
 
   render() {
     return (
-      <div className="messages">
+  
+      <div 
+        className="messages"
+        ref="iScroll">
         <div className="messages-content"></div>
-          <Sender history={this.props.history} socket={ this.props.socket }/>
+          <Sender emitter={ this.props.id } reciever = { this.props.reciever } history={this.props.history} socket={ this.props.socket }/>
       </div>
+
     )
 	}
 }

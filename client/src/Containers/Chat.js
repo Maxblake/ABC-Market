@@ -4,23 +4,31 @@ import Messages from '../Components/ChatComp/Messages'
 import MsgBox from '../Components/ChatComp/MsgBox'
 import { withRouter } from 'react-router';
 import io from 'socket.io-client';
+require('./chat.css');
 
 class Chat extends React.Component {
   
+
+  state = {
+      history: [],
+      user_id:0
+  };
   
   componentWillMount() {
     this.socket = io.connect(`${this.props.ip}:3000`,{ query: `trade=${this.props.match.params.id}` });
     this.initSocket();  
   }
 
-  
-  newMessage = (msg, id) => {
-    this.setState({ history:this.state.history.concat({ msg:msg, id:id }) });
+  componentDidMount() {
+    console.log(this.props.user)
+    this.setState({ 
+      user_id: this.props.user
+    })
   }
 
-  state = {
-      history: [],
-  };
+  newMessage = (msg, id) => {
+    this.setState({ history:this.state.history.concat({ msg, id }) });
+  }
 
   initSocket = () => {
     this.socket.on('connect', () => {
@@ -29,12 +37,13 @@ class Chat extends React.Component {
   }
 
   render () {
-    const { sendMessage, state } = this;
+    const { state, props } = this;
+    const { name, reciever } = props.location.state
     return (
       <div className="chat">
-        <ChatTitle name={this.props.location.state.name}/>
-        <Messages history={ state.history } newMessage={ this.newMessage } socket={ this.socket }/>
-        <MsgBox newMessage={ this.newMessage } socket={ this.socket } />
+        <ChatTitle name={name}/>
+        <Messages history={ state.history } newMessage={ this.newMessage } id={ state.user_id } reciever = { reciever } socket={ this.socket }/>
+        <MsgBox socket={ this.socket } />
       </div>
     )
   }

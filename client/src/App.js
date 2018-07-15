@@ -18,6 +18,11 @@ import SubmitSelect from "./Components/Submit/SubmitSelect"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
 import {fetching} from '../fetching/wrapper'
 import Chat from './Containers/Chat';
+
+import Auth, { Session } from './Provider/Auth';
+
+var auth = new Auth()
+
 class App extends Component {
   state={
     type:true,
@@ -169,11 +174,13 @@ class App extends Component {
 }
     updateUser=()=>{
         fetching({}, 'GET', './value', response => {
+            console.log(response.user)
             if (response.status == 200) {
                 this.toggleLog()
-                const { image, name, lastname, username, code, phonenumber, gender, type, birthdate } = response.user
+                const { person_id, image, name, lastname, username, code, phonenumber, gender, type, birthdate } = response.user
                 this.setState({ 
                     user:{
+                        person_id,
                         image,
                         name,
                         lastname,
@@ -220,13 +227,15 @@ class App extends Component {
     }
 
     header=()=>{
-        return(<Header 
-        {...this.props}
-        toggleUserType={this.toggleUserType}
-        toggleLog={this.toggleLog}
-        isLogged={this.state.isLogged}
-        user={this.state.user ? this.state.user:null}
-        />)
+        return  (
+            <Header 
+                {...this.props}
+                toggleUserType={this.toggleUserType}
+                toggleLog={this.toggleLog}
+                isLogged={this.state.isLogged}
+                user={this.state.user ? this.state.user:null}
+            />
+        )
     }
 
     showcase=(props)=>{
@@ -242,11 +251,13 @@ class App extends Component {
     }
     
     logingIn = () => {
-        return <Login logIn={this.toggleLog} logIn={(props)=>this.logIn(props)}/>
+        return (
+            <Login auth={auth} logIn={(props)=>this.logIn(props)}/>
+        )
     }
 
-    chatIp = () => {
-        return <Chat ip={this.state.ip} />
+    chat = () => {
+        return <Chat ip={this.state.ip} user={this.state.user.person_id} />
     }
 
     render() {
@@ -270,7 +281,7 @@ class App extends Component {
             <Route exact path="/profile" component={this.profilePage}/>
             <Route exact path="/inbox" component={this.inbox} />
             <Route exact path="/about" component={About}/>
-            <Route exact path="/inbox/:id" component={this.chatIp} />
+            <Route exact path="/inbox/:id" component={this.chat} />
             <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
             <Route exact path="/showcase/products/vehicles" component={this.category}/>
         </Switch>

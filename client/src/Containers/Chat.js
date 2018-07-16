@@ -10,8 +10,7 @@ class Chat extends React.Component {
   
 
   state = {
-      history: [],
-      user_id:0
+      history: []
   };
   
   componentWillMount() {
@@ -20,14 +19,24 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user)
-    this.setState({ 
-      user_id: this.props.user
+    fetch(`/trade/history/${this.props.match.params.id}`)
+    .then(response => response.json())
+    .then(data => {
+      let hist = []
+      const messages = data.messages
+      for (var i in messages) {
+        var { msg, id } = messages[i]
+        hist.push({ msg, id })
+      }
+      this.setState({ history:this.state.history.concat( hist )})
     })
   }
 
+  componentWillUnmount() {
+  }
+
   newMessage = (msg, id) => {
-    this.setState({ history:this.state.history.concat({ msg, id }) });
+      this.setState({ history:this.state.history.concat({ msg, id }) }); 
   }
 
   initSocket = () => {
@@ -38,11 +47,11 @@ class Chat extends React.Component {
 
   render () {
     const { state, props } = this;
-    const { name, reciever } = props.location.state
+    const { name } = props.location.state
     return (
       <div className="chat">
         <ChatTitle name={name}/>
-        <Messages history={ state.history } newMessage={ this.newMessage } id={ state.user_id } reciever = { reciever } socket={ this.socket }/>
+        <Messages history={ state.history } newMessage={ this.newMessage } id={ props.user } socket={ this.socket }/>
         <MsgBox socket={ this.socket } />
       </div>
     )

@@ -1,23 +1,32 @@
-var io = require("socket.io");
+const io = require("socket.io");
+const history = require("../helpers/chat_db")
 
-module.exports = (io) => {
+module.exports = io => {
   // Chatroom
   var numUsers = 0;
   
   io.on('connection', (socket) => {
     let room_number = socket.handshake.query['trade']
+    let user_id = null
     socket.on('joinroom', (room_number) => {
       socket.join(room_number);
       })
 
+    socket.on('login', data => {
+      user_id = (data != undefined) ? data.id : null
+    })
     var addedUser = false;
     // when the client emits 'new message', this listens and executes
     socket.on('new message', (data) => {
+      const date = new Date()
+      const time = date.toDateString() + " " + date.toLocaleTimeString()
       // we tell the client to execute 'new message'
-      io.to(room_number).emit('new message', { message: data , id: socket.id});
+      history.new(room_number, user_id, data, time).then(success => {
+        io.to(room_number).emit('new message', { message: data, user_id });
+      }).catch(err => {
+        console.log(err)
+      })
     });
-
-
 
 
 

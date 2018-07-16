@@ -6,7 +6,7 @@ class Sender extends React.Component {
     return (
       this.props.history.map((msgs, i) => {
         return (
-          <div key={i} className={(this.props.socket.id === msgs.id) ? 'message message-personal new' : 'message message new' }>
+          <div key={i} className={(msgs.id === this.props.sender) ? 'message message-personal new' : 'message message new' }>
             <h2 key={i}> {msgs.msg} </h2>
           </div>
         )

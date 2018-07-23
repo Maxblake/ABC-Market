@@ -46,10 +46,12 @@ export default class Showcase extends Component{
                         <Grid container direction="row"
                         justify="center"
                         spacing={40}>
-
+                                
                                 <Grid item xs={5}>
                                 <Grid container direction="row" justify="center">
                                 <Button 
+                                component={Link}
+                                to={`${this.props.location.pathname}/All`}
                                 fullWidth
                                 variant="outlined">
                                 Watch
@@ -62,27 +64,14 @@ export default class Showcase extends Component{
                                 <Button 
                                 fullWidth
                                 component={Link}
-                                to="/submit"
+                                to={`/submit/${this.props.match.params.type.replace(/s$/,"")}`}
                                 variant="outlined">Submit</Button>
                                 </Grid>
                                 </Grid>
                         </Grid>
                         <br/>
                         <br/>
-                        <Grid container direction="row"
-                        justify="center"
-                        spacing={40}>
-                                <Grid item xs={10}>
-                                <TextField
-                                    id="search"
-                                    label="Search "
-                                    fullWidth
-                                    color="secondary"
-                                    type="search"
-                                    margin="normal"
-                                    />
-                                    </Grid>
-                        </Grid>
+                        
                         <br/>
                         <br/>
                         <Grid container direction="row"
@@ -91,7 +80,10 @@ export default class Showcase extends Component{
                                    <Grid item xs={4}>
                                    <Grid container direction="row"
                                    justify="center">
-                                    <Button variant="outlined">
+                                    <Button 
+                                    component={Link}
+                                    to={`${this.props.location.pathname}/${category}`}
+                                    variant="outlined">
                                        {category}
                                    </Button>
                                    

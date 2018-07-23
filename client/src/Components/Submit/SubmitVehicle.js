@@ -289,6 +289,20 @@ class SubmitVehicle extends Component{
                                 </Grid>
                             
                             </Grid>
+
+                            <Grid container direction="row" justify="center">
+                    <Grid item xs={12}>
+                        <TextField
+                            id="description"
+                            label="Description"
+                            multiline
+                            fullWidth
+                            rows={4}
+                            margin="normal"
+                            placeholder="detail the vehicle the best way possible for better user understanding and to ease the sale "
+                        ></TextField>
+                    </Grid>
+                    </Grid>
                             </Grid>
                         
                     </Grid>
@@ -299,6 +313,8 @@ class SubmitVehicle extends Component{
                     </Grid>
                     </Grid>
                     </Grid>
+                    
+
 					<br/>																				
                 </Paper>
             

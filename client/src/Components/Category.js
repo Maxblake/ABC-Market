@@ -17,7 +17,7 @@ export default class Category extends Component{
                         <Grid item xs={12}>
                             <Grid container direction="row" justify="center">
                                     <Typography variant="display2">
-                                    Category
+                                    {this.props.match.params.category}
                                     </Typography>
                             </Grid>
                         </Grid>

@@ -13,8 +13,9 @@ import Inbox from './Components/Inbox'
 import About from './Components/About';
 import Showcase from './Components/Showcase';
 import Category from './Components/Category';
+import Watch from './Components/Watch';
+import Submit from './Components/Submit/Submit';
 import SubmitProduct from "./Components/Submit/SubmitProduct"
-import SubmitSelect from "./Components/Submit/SubmitSelect"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
 import {fetching} from '../fetching/wrapper'
 import Chat from './Containers/Chat';
@@ -237,8 +238,8 @@ class App extends Component {
         return (<ProductPage {...props}/>)
     }
 
-    category=()=>{
-        return( <Category products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
+    category=(props)=>{
+        return( <Category {...props} products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
     }
     
     logingIn = () => {
@@ -249,6 +250,13 @@ class App extends Component {
         return <Chat ip={this.state.ip} />
     }
 
+    watch=(props)=>{
+            return (<Watch {...props}  />)
+    }
+    submit=(props)=>{
+        return (<Submit {...props}  />)
+}
+
     render() {
         return (
         <Fragment>
@@ -258,9 +266,9 @@ class App extends Component {
             <div>
         <Route component={this.header}/>
         <Switch>
-            <Route exact path="/submit" component={SubmitSelect}/>
-            <Route exact path="/submit/product" component={SubmitProduct}/>
-            <Route exact path="/submit/vehicle" component={SubmitVehicle}/>
+            <Route exact path="/submit/:type" component={this.submit}/>
+            <Route exact path="/submit/product/product" component={SubmitProduct}/>
+            <Route exact path="/submit/product/vehicle" component={SubmitVehicle}/>
 
             <Route exact path="/" component={Welcome}/>
             <Route exact path="/login" component={this.logingIn}/>
@@ -272,7 +280,8 @@ class App extends Component {
             <Route exact path="/about" component={About}/>
             <Route exact path="/inbox/:id" component={this.chatIp} />
             <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
-            <Route exact path="/showcase/products/vehicles" component={this.category}/>
+            <Route exact path="/showcase/:type/:category" component={this.category}/>
+            <Route exact path="/showcase/:type/Search" component={this.watch}/>
         </Switch>
         </div>
         </BrowserRouter>

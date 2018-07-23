@@ -42,7 +42,7 @@ export default class ContactButton extends Component{
                             Edit
                             </Button>:<Button
                             variant="outlined"
-                            color="Secondary"
+                            color="secondary"
                             component={Link}
                             to={`/details/${this.props.product.name}
 `}

@@ -76,8 +76,8 @@ export default class Showcase extends Component{
                         <br/>
                         <Grid container direction="row"
                         justify="center"
-                        spacing={24}>  {this.props.showcase.categories.map((category)=>(
-                                   <Grid item xs={4}>
+                        spacing={24}>  {this.props.showcase.categories.map((category,index)=>(
+                                   <Grid item key={ index } xs={4}>
                                    <Grid container direction="row"
                                    justify="center">
                                     <Button 

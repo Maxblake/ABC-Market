@@ -44,4 +44,4 @@ class Submit extends Component{
     }
 }
 
-export default withRouter(Submit)
+export default Submit

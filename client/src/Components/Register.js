@@ -161,7 +161,7 @@ export default class Register extends Component{
               id="birthDate"
               label="Date of Birth"
               type="date"
-              defaultValue={new Date().toLocaleDateString}
+              
               InputLabelProps={{
                 shrink: true,
               }}

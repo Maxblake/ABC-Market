@@ -24,7 +24,6 @@ export default class HomePage extends Component{
                         >
                             <Grid item xs={12} >
                             <Typography
-                            fullWidth
                             variant="display2"
                             >{this.props.type ? "LOCAL":"TOURIST"}</Typography>
                             </Grid>
@@ -59,9 +58,11 @@ export default class HomePage extends Component{
                         justify="center"
                         spacing={40}
                         alignItems="flex-start">
+                        <Grid item xs={12} sm={6}>
+                        <Grid container direction="row" justify="center">
                             <Grid container
                             direction="column"
-                            xs={6}
+                            
                             spacing={40}>
                                 <Grid item >
                                 <Button fullWidth
@@ -114,7 +115,9 @@ export default class HomePage extends Component{
                                 >REMESAS</Button>
                                 </Grid>:""}
                                 </Grid>
-                                <Grid item xs={4}>
+                                </Grid>
+                                </Grid>
+                                <Grid item xs={12} sm={4}>
                                 <Paper>
                                     <Typography variant="caption">
                                     ADS:

@@ -27,11 +27,10 @@ class GridListComp extends Component{
                 cols={1}>
                 
                 {this.props.products.map((product,index)=>(
-                    <GridListTile  cols={1}>
+                    <GridListTile  key={ index} cols={1}>
                     
                     <ProductDisplay
                         {...this.props}
-                        key={index}
                             product={product}
                             edit={this.props.edit}
                             />

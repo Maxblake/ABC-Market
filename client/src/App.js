@@ -28,7 +28,7 @@ class App extends Component {
   showcase:{
         products:{
             title:"Products",
-            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","Other","All"],
+            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","Other","All","Other"],
             latest:[
                 {
                     image:"this is an image of the TV",
@@ -63,7 +63,7 @@ class App extends Component {
         },
         services:{
             title:"Services",
-            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer"],
+            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer","Other"],
             latest:[
                 {
                     image:"Plumber image",
@@ -93,7 +93,7 @@ class App extends Component {
         },
         places:{
             title:"Places",
-            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant"],
+            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant","Other"],
             latest:[
                 
                     {
@@ -254,7 +254,7 @@ class App extends Component {
             return (<Watch {...props}  />)
     }
     submit=(props)=>{
-        return (<Submit {...props}  />)
+        return (<Submit {...props} showcase={this.state.showcase[""+props.match.params.type+"s"]}  />)
 }
 
     render() {

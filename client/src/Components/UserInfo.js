@@ -15,18 +15,18 @@ export default class UserInfo extends Component{
                             <p>{this.props.user.image}</p>
                         </Grid> 
                         <Grid item xs={12} sm={6} >
-                            <Grid container 
+                            {this.props.toggleEdit ?<Grid container 
                             direction="row"
                             justify="flex-end">
                                 <Button mini variant="fab" color="secondary" onClick={this.props.toggleEdit}>
                                         <Icon>edit_icon</Icon>
                                 </Button>
-                            </Grid>
+                            </Grid>:""}
                             <Grid container direction="row"
                             justify="center">
-                            {Object.keys(this.props.user).map((key)=>(
+                            {Object.keys(this.props.user).map((key,index)=>(
                                 
-                                <Grid item xs={12}>
+                                <Grid key ={index}item xs={12}>
                                 {key!=="image" ? 
                                 <Typography
                                 variant="headline"

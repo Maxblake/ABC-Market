@@ -8,8 +8,8 @@ const queryString = require('query-string');
     class Inbox extends Component{
 
     state={
-            chat:false,
-            chatContactName:""
+        chat:false,
+        chatContactName:""
     }
 
 

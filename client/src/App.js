@@ -13,26 +13,27 @@ import Inbox from './Components/Product/Inbox'
 import About from './Components/Extra/About'
 import Showcase from './Components/Product/Showcase'
 import Category from './Components/Product/Category'
+import Watch from './Components/Product/Watch';
+import Submit from './Components/Submit/Submit';
 import SubmitProduct from "./Components/Submit/SubmitProduct"
-import SubmitSelect from "./Components/Submit/SubmitSelect"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
 import {fetching} from '../fetching/wrapper'
 import Chat from './Containers/Chat'
 
 import Auth, { Session } from './Provider/Auth'
+import { isLogged } from './Provider/Request';
 
-var auth = new Auth()
+const auth = new Auth()
 
 class App extends Component {
   state={
     type:true,
     isLogged:false,
-    user:{},
     ip: "",
   showcase:{
         products:{
             title:"Products",
-            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","Other","All"],
+            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","Other","All","Other"],
             latest:[
                 {
                     image:"this is an image of the TV",
@@ -67,7 +68,7 @@ class App extends Component {
         },
         services:{
             title:"Services",
-            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer"],
+            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer","Other"],
             latest:[
                 {
                     image:"Plumber image",
@@ -97,7 +98,7 @@ class App extends Component {
         },
         places:{
             title:"Places",
-            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant"],
+            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant","Other"],
             latest:[
                 
                     {
@@ -172,43 +173,7 @@ class App extends Component {
       }
   ]
 }
-    updateUser=()=>{
-        fetching({}, 'GET', './value', response => {
-            console.log(response.user)
-            if (response.status == 200) {
-                this.toggleLog()
-                const { person_id, image, name, lastname, username, code, phonenumber, gender, type, birthdate } = response.user
-                this.setState({ 
-                    user:{
-                        person_id,
-                        image,
-                        name,
-                        lastname,
-                        username,
-                        code,
-                        phonenumber,
-                        gender,
-                        type,
-                        birthdate,
-                    },
-                })
-            } 
-        })
-    }
-
-    componentWillMount() {
-        this.updateUser()
-    }
-
-    logIn=(user)=>{
-        this.setState({ user });
-        this.toggleLog()
-    }
-
-    toggleLog=()=>{
-        this.setState({ isLogged:!this.state.isLogged })
-    }
-
+ 
     toggleUserType=()=>{
         console.log(this.state.type)
         this.setState({ type:!this.state.type })
@@ -219,24 +184,57 @@ class App extends Component {
     }
 
     profilePage=()=>{
-        return(<ProfilePage updateUser={this.updateUser} user={this.state.user} contacts={this.state.contacts}/>)
+        return(
+            <Session.Consumer>
+                {session => (
+                    <ProfilePage 
+                        user={session.user} 
+                        contacts={this.state.contacts}
+                    />
+                )}
+            </Session.Consumer>
+        )
     }
 
     inbox=()=>{
-        return(<Inbox updateUser={this.updateUser} user={this.state.user} contacts={this.state.contacts} />)
-    }
-
-    header=()=>{
-        return  (
-            <Header 
-                {...this.props}
-                toggleUserType={this.toggleUserType}
-                toggleLog={this.toggleLog}
-                isLogged={this.state.isLogged}
-                user={this.state.user ? this.state.user:null}
-            />
+        return(
+            <Session.Consumer>
+                {session => (
+                    <Inbox
+                        user={session.user}
+                        contacts={this.state.contacts}
+                    /> 
+                )}
+            </Session.Consumer>
         )
     }
+    
+    header = () => {
+        return(
+            <Session.Consumer> 
+                {session => (
+                    <Header 
+                        session={session.refreshSession}
+                        user={session.user}
+                    />
+                )}
+            </Session.Consumer>
+        )
+    }
+    
+    chat = () => {
+        return(
+            <Session.Consumer>
+                {session => (
+                    <Chat 
+                        ip={this.state.ip} 
+                        user={session.user.person_id} 
+                    />
+                )}
+            </Session.Consumer>
+        ) 
+    }
+
 
     showcase=(props)=>{
         return (<Showcase {...props} showcase={this.state.showcase[props.match.params.type]}  />)
@@ -246,52 +244,47 @@ class App extends Component {
         return (<ProductPage {...props}/>)
     }
 
-    category=()=>{
-        return( <Category products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
-    }
-    
-    logingIn = () => {
-        return (
-            <Login auth={auth} logIn={(props)=>this.logIn(props)}/>
-        )
+    category=(props)=>{
+        return( <Category {...props} products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
     }
 
-    chat = () => {
-        return <Chat ip={this.state.ip} user={this.state.user.person_id} />
+
+    watch=(props)=>{
+            return (<Watch {...props}  />)
     }
+    submit=(props)=>{
+        return (<Submit {...props} showcase={this.state.showcase[""+props.match.params.type+"s"]}  />)
+}
 
     render() {
         return (
-        <Fragment>
-        <BrowserRouter>
-        </BrowserRouter>
-        <BrowserRouter>
-            <div>
-        <Route component={this.header}/>
-        <Switch>
-            <Route exact path="/submit" component={SubmitSelect}/>
-            <Route exact path="/submit/product" component={SubmitProduct}/>
-            <Route exact path="/submit/vehicle" component={SubmitVehicle}/>
-
-            <Route exact path="/" component={Welcome}/>
-            <Route exact path="/login" component={this.logingIn}/>
-            <Route exact path="/register" component={Register}/>
-            <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
-            <Route exact path="/home" component={this.homePage} type={this.state.type}/>
-            <Route exact path="/profile" component={this.profilePage}/>
-            <Route exact path="/inbox" component={this.inbox} />
-            <Route exact path="/about" component={About}/>
-            <Route exact path="/inbox/:id" component={this.chat} />
-            <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
-            <Route exact path="/showcase/products/vehicles" component={this.category}/>
-        </Switch>
-        </div>
-        </BrowserRouter>
-        <br/><br/><br/>
-        <Footer footer/>
-        </Fragment>
-        
-        );
+            <Fragment>
+                <BrowserRouter>
+                        <div>
+                    <Route component={this.header}/>
+                    <Switch>
+                        <Route exact path="/submit/:type" component={this.submit}/>
+                        <Route exact path="/submit/product/product" component={SubmitProduct}/>
+                        <Route exact path="/submit/product/vehicle" component={SubmitVehicle}/>
+                        <Route exact path="/" component={Welcome}/>
+                        <Route exact path="/login" component={Login}/>
+                        <Route exact path="/register" component={Register}/>
+                        <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
+                        <Route exact path="/home" component={this.homePage} type={this.state.type}/>
+                        <Route exact path="/profile" component={this.profilePage}/>
+                        <Route exact path="/inbox" component={this.inbox} />
+                        <Route exact path="/about" component={About}/>
+                        <Route exact path="/inbox/:id" component={this.chat} />
+                        <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
+                        <Route exact path="/showcase/:type/:category" component={this.category}/>
+                        <Route exact path="/showcase/:type/Search" component={this.watch}/>
+                    </Switch>
+                    </div>
+                </BrowserRouter>
+                <br/><br/><br/>
+                <Footer footer/>
+            </Fragment>
+        )
     }
 }
 

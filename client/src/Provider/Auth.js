@@ -1,28 +1,44 @@
 import React, { Component } from 'react'
+import { logIn, isLogged, logOut } from './Request';
+import { withRouter } from 'react-router';
 
-export let Session = React.createContext()
+export const Session = React.createContext()
 
-export default class Auth extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      user: ''
-    }  
- 
-    this.updateUser = (user) => {
-      this.state = {
-        user
-      }
+class Auth extends Component {
+    state = {
+        user: null,
+        setSession: (username, password) => {
+            logIn(username, password, user => {
+                if (user != null) {
+                    this.setState({ user })
+                    window.location.href = '/home'
+                }
+            })
+        },
+        refreshSession: () => {
+            isLogged(user => {
+                if (user != null) {
+                    this.setState({ user })
+                }
+            })
+        },
+        nullSession: () => {
+            logOut(user => {
+                if (user) {
+                    this.setState({ user: null })
+                    alert('Session closed')
+                }
+            })
+        }
     } 
- 
-  }
-
-
-  render() {
-    return (
-      <Session.Provider value={this.state.user}>
-        {this.props.children}
-      </Session.Provider>
-    )
-  }
+  
+    render() {
+        return (
+            <Session.Provider value={this.state}>
+                {this.props.children}
+            </Session.Provider>
+        )
+    }
 }
+
+export default Auth

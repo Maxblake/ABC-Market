@@ -49,12 +49,12 @@ export default class About extends Component{
                     </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                    <Typography align="justify" variant="heading">
+                    <Typography align="justify" variant="headline">
                        Email:  ABCMarket@gmail.com
                     </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                    <Typography align="justify" variant="heading">
+                    <Typography align="justify" variant="headline">
                         Phone Number: +297-0010001
                     </Typography><br/><br/>
                     </Grid>

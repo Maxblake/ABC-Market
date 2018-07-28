@@ -19,7 +19,7 @@ module.exports.new = (user_id, title, description, category)=>{
 module.exports.images = (id)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select image.url from products inner join image on product .product_id = image.product_id where products.product_id = $1', [id]).then(data=>{
+            obj.any('select image.url from product inner join image on product.product_id = image.product_id where product.product_id = $1', [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -28,6 +28,7 @@ module.exports.images = (id)=>{
                 obj.done();
             });
         }).catch(error=>{
+            console.log(error)
             rej(error);
         });
     });

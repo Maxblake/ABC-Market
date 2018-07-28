@@ -15,14 +15,15 @@ module.exports = io => {
     socket.on('login', data => {
       user_id = (data != undefined) ? data.id : null
     })
+
     var addedUser = false;
     // when the client emits 'new message', this listens and executes
-    socket.on('new message', (data) => {
+    socket.on('new message', message => {
       const date = new Date()
       const time = date.toDateString() + " " + date.toLocaleTimeString()
-      // we tell the client to execute 'new message'
-      history.new(room_number, user_id, data, time).then(success => {
-        io.to(room_number).emit('new message', { message: data, user_id });
+      history.new(room_number, user_id, message, time).then(success => {
+        // we tell the client to execute 'new message'
+        io.to(room_number).emit('new message', { message, user_id })
       }).catch(err => {
         console.log(err)
       })

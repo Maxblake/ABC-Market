@@ -29,7 +29,7 @@ class ContactButton extends Component{
                         </Typography>
                         </Grid>
                         <Grid item xs={4}>
-                            {Object.keys(this.props.contact.reason).map((key)=>(
+                            {Object.keys(this.props.contact.reason).map(key=>(
                                 <Typography 
                                 key={key}
                                 variant="subheading">

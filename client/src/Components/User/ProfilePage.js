@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import GridListComp from './GridListComp'
+import GridListComp from '../Product/GridListComp'
 import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';
-import Auth, { Session } from '../Provider/Auth';
+import Auth, { Session } from '../../Provider/Auth';
 
 export default class ProfilePage extends Component{
 

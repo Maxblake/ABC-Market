@@ -31,10 +31,7 @@ class Chat extends React.Component {
       this.setState({ history:this.state.history.concat( hist )})
     })
   }
-
-  componentWillUnmount() {
-  }
-
+  
   newMessage = (msg, id) => {
       this.setState({ history:this.state.history.concat({ msg, id }) }); 
   }

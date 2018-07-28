@@ -14,8 +14,13 @@ cloudinary.config({
 const upload = multer({dest: "./uploads/"});
 
 router.get('/all', (req, res) => {
-    service.all().then(services => {
+    service.all().then(async services => {
+        for (var i in services) {
+            const images = await product.images(services[i].product_id)
+            services[i]['img'] = images[0]
+        }
         res.send({ 
+            status: 200,
             services
         })
     }).catch(err => {

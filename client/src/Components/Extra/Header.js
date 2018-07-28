@@ -3,7 +3,7 @@ import {Button,Typography,Toolbar,AppBar} from '@material-ui/core'
 import{ Link } from 'react-router-dom'
 import { withRouter } from 'react-router';
 
-import Auth, { Session } from '../Provider/Auth';
+import Auth, { Session } from '../../Provider/Auth';
 
 const auth = new Auth()
 

@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
-import UploadForm from '../UploadForm'
+import UploadForm from '../Product/UploadForm'
 
 class SubmitVehicle extends Component{
     file = React.createRef();

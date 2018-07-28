@@ -1,25 +1,25 @@
-import React, { Component, Fragment } from 'react';
-import './App.css';
-import Header  from './Components/Header'
-import HomePage from'./Components/HomePage'
-import Register from './Components/Register';
-import ProductPage from './Components/ProductPage';
-import Footer from './Components/Footer'
+import React, { Component, Fragment } from 'react'
+import './App.css'
+import Header  from './Components/Extra/Header'
+import HomePage from './Containers/HomePage'
+import Register from './Components/Auth/Register'
+import ProductPage from './Components/Product/ProductPage'
+import Footer from './Components/Extra/Footer'
 import {Switch,Route,BrowserRouter} from 'react-router-dom'
-import Welcome from './Components/Welcome';
-import Login from './Components/Login'
-import ProfilePage from './Components/ProfilePage';
-import Inbox from './Components/Inbox'
-import About from './Components/About';
-import Showcase from './Components/Showcase';
-import Category from './Components/Category';
+import Welcome from './Components/Extra/Welcome'
+import Login from './Components/Auth/Login'
+import ProfilePage from './Components/User/ProfilePage'
+import Inbox from './Components/Product/Inbox'
+import About from './Components/Extra/About'
+import Showcase from './Components/Product/Showcase'
+import Category from './Components/Product/Category'
 import SubmitProduct from "./Components/Submit/SubmitProduct"
 import SubmitSelect from "./Components/Submit/SubmitSelect"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
 import {fetching} from '../fetching/wrapper'
-import Chat from './Containers/Chat';
+import Chat from './Containers/Chat'
 
-import Auth, { Session } from './Provider/Auth';
+import Auth, { Session } from './Provider/Auth'
 
 var auth = new Auth()
 

@@ -13,8 +13,7 @@ export default class ProductDetail extends Component{
                 justify="center"
                 >
                 <Grid item xs={12} sm={6}>
-                <img src="../logo.svg" alt=""/>
-                <p>image:{this.props.product.image}</p>
+                <img style={{width:300, height:200}} src='https://res.cloudinary.com/zingaring/image/upload/v1531348790/u1bqgnyze1imymwwtwkf.png'/>
                 <p>varias imagenes pequenas</p>
                 </Grid>
                 <Grid item xs={12} sm={6}>

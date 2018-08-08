@@ -1,17 +1,17 @@
 const db = require('./../db');
 
-module.exports.all = ()=>{
+module.exports.all = () =>{
     return new Promise((res,rej)=>{
-          db.connect().then(obj=>{
-              obj.any('select * from offer').then(data=>{
-                  res(data);
-                  obj.done();
-              }).catch(error=>{
-                  rej(error);
-                  obj.done();
-              });
-          }).catch(error=>{
-              rej(error);
+        db.connect().then(obj=>{
+            obj.any('select person.name, product.*, offer.offer_id from person inner join product on person.person_id = product.person_id inner join offer on product.product_id = offer.product_id').then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                rej(error);
+                obj.done();
+            })
+        }).catch(error=>{
+            rej(error);
         });
     });
 }

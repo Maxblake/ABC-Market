@@ -6,11 +6,8 @@ import GridListComp from './GridListComp'
 export default class Category extends Component{
 
     render(){
-
         return(
-
             <Grid container justify="center">
-            
                 <Grid item xs={12} sm={8}><br/>
                 <Paper>
                     <Grid direction="row" justify="center">
@@ -24,18 +21,18 @@ export default class Category extends Component{
                     </Grid>
                         <Grid direction="row" justify="center" >
                             <Grid item xs={12}>
-                            <Grid container direction="row" justify="center">
-                            <Grid item xs={10}>
-                                    <TextField
-                                    id="search"
-                                    label="Search "
-                                    fullWidth
-                                    color="secondary"
-                                    type="search"
-                                    margin="normal"
-                                    />
-                                    </Grid>
-                            </Grid>
+                                <Grid container direction="row" justify="center">
+                                <Grid item xs={10}>
+                                        <TextField
+                                        id="search"
+                                        label="Search "
+                                        fullWidth
+                                        color="secondary"
+                                        type="search"
+                                        margin="normal"
+                                        />
+                                        </Grid>
+                                </Grid>
                             </Grid>
                         
                         </Grid><br/><br/>
@@ -85,17 +82,11 @@ export default class Category extends Component{
                             <Grid container direction="row" justify="center">
                                 <GridListComp type="product" products={this.props.latest}/>
                                 </Grid>
-                            </Grid>
-                        
+                            </Grid>                     
                         </Grid><br/>
-                </Paper>
-                
+                    </Paper>   
                 </Grid>
-
-                
             </Grid>
-
         )
-
     }
 }

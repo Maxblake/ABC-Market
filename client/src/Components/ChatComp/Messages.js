@@ -1,22 +1,25 @@
 import React from "react";
 import Sender from "./Sender";
 import io from 'socket.io-client';
+var ScrollArea = require('react-scrollbar');
 
 class Messages extends React.Component {
 
   componentDidMount() {
-    const { socket, newMessage } = this.props;
-    socket.emit('login')
-    socket.on('new message', (data) => {
-      newMessage(data.message, data.id);
+    const { socket, newMessage, id } = this.props;
+    socket.emit('login', { id })
+    socket.on('new message', data => {
+      newMessage(data.message, data.user_id);
     })
   }
 
   render() {
+    const { id, history, socket } = this.props
     return (
-      <div className="messages">
+      <div 
+        className="messages">
         <div className="messages-content"></div>
-          <Sender history={this.props.history} socket={ this.props.socket }/>
+          <Sender sender={ id }  history={ history } socket={ socket }/>
       </div>
     )
 	}

@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import GridListComp from './GridListComp'
-import UserInfo from './UserInfo';
-import UserEdit from './UserEdit';
+import UserInfo from '../User/UserInfo';
+import UserEdit from '../User/UserEdit';
 
 export default class Watch extends Component{
         state={

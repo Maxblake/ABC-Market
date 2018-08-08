@@ -1,29 +1,39 @@
-var io = require("socket.io");
+const io = require("socket.io");
+const history = require("../helpers/chat_db")
 
-module.exports = function(io) {
+module.exports = io => {
   // Chatroom
   var numUsers = 0;
   
-  io.on('connection', function (socket) {
+  io.on('connection', (socket) => {
     let room_number = socket.handshake.query['trade']
+    let user_id = null
     socket.on('joinroom', (room_number) => {
       socket.join(room_number);
       })
 
+    socket.on('login', data => {
+      user_id = (data != undefined) ? data.id : null
+    })
+
     var addedUser = false;
     // when the client emits 'new message', this listens and executes
-    socket.on('new message', function (data) {
-      // we tell the client to execute 'new message'
-      io.to(room_number).emit('new message', { message: data , id: socket.id});
+    socket.on('new message', message => {
+      const date = new Date()
+      const time = date.toDateString() + " " + date.toLocaleTimeString()
+      history.new(room_number, user_id, message, time).then(success => {
+        // we tell the client to execute 'new message'
+        io.to(room_number).emit('new message', { message, user_id })
+      }).catch(err => {
+        console.log(err)
+      })
     });
 
 
 
 
-
-
     // when the client emits 'add user', this listens and executes
-    socket.on('add user', function (username) {
+    socket.on('add user', (username) => {
       if (addedUser) return;
 
       // we store the username in the socket session for this client
@@ -41,21 +51,21 @@ module.exports = function(io) {
     });
 
     // when the client emits 'typing', we broadcast it to others
-    socket.on('typing', function () {
+    socket.on('typing',  ()  =>{
       socket.broadcast.emit('typing', {
         username: socket.username
       });
     });
 
     // when the client emits 'stop typing', we broadcast it to others
-    socket.on('stop typing', function () {
+    socket.on('stop typing', ()  =>{
       socket.broadcast.emit('stop typing', {
         username: socket.username
       });
     });
 
     // when the user disconnects.. perform this
-    socket.on('disconnect', function () {
+    socket.on('disconnect', ()  =>{
       if (addedUser) {
         --numUsers;
 

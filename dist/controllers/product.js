@@ -49,49 +49,5 @@ router.post('/update/', (req, res)=> {
   });
 });
 
-cloudinary.config({
-  cloud_name: 'zingaring',
-  api_key: '195729922234217',
-  api_secret: 'rul2JCiaHBPULlxuKDd04N5zFJ8'
-})
-
-let upload = multer({dest: "./uploads/"});
-
-router.post('/new', upload.array('files[]'), async (req, res) => {
-//  const user_id = req.user.id
- multipleUpload = new Promise(async (res, rej) => {
-   let arr = []
-   for (var i in req.files) {
-     await cloudinary.uploader.upload(req.files[i].path, result => {
-         arr.push(result.secure_url);
-         if (arr.length === req.files.length) {
-             res(arr);
-         }
-       })
-     }
-   })
-   .then(result => result)
-   .catch(error =>  error)
- 
- consume = await multipleUpload.then(data => {
-   const { description, price, stock, name } = req.body
-   product.new(9, description, price, stock, name).then(async new_product => {
-       for (var i in data) {
-           await product.add_image(new_product[0].id, data[i]).then(success => {
-           }).catch(async err => {
-               res.send({ 
-                   status: 503 
-               })
-           })
-       }
-       res.send({ 
-           status: 200 
-       })
-   }).catch(err => {
-       console.log(err)
-   })
- })
-})
-
 
 module.exports = router;

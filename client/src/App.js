@@ -1,35 +1,36 @@
-import React, { Component, Fragment } from 'react';
-import './App.css';
-import Header  from './Components/Header'
-import HomePage from'./Components/HomePage'
-import Register from './Components/Register';
-import ProductPage from './Components/ProductPage';
-import Footer from './Components/Footer'
-import {Switch,Route,BrowserRouter} from 'react-router-dom'
-import Welcome from './Components/Welcome';
-import Login from './Components/Login'
-import ProfilePage from './Components/ProfilePage';
-import Inbox from './Components/Inbox'
-import About from './Components/About';
-import Showcase from './Components/Showcase';
-import Category from './Components/Category';
-import Watch from './Components/Watch';
+import React, { Component, Fragment } from 'react'
+import './App.css'
+import Header  from './Components/Extra/Header'
+import HomePage from './Containers/HomePage'
+import Register from './Components/Auth/Register'
+import ProductPage from './Components/Product/ProductPage'
+import Footer from './Components/Extra/Footer'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import Welcome from './Components/Extra/Welcome'
+import Login from './Components/Auth/Login'
+import ProfilePage from './Components/User/ProfilePage'
+import Inbox from './Components/Product/Inbox'
+import About from './Components/Extra/About'
+import Showcase from './Components/Product/Showcase'
+import Category from './Components/Product/Category'
+import Watch from './Components/Product/Watch';
 import Submit from './Components/Submit/Submit';
 import SubmitProduct from "./Components/Submit/SubmitProduct"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
-import {fetching} from '../fetching/wrapper'
-import Chat from './Containers/Chat';
+import { fetching } from '../fetching/wrapper'
+import Chat from './Containers/Chat'
 import Remesa from './Components/Remesa'
+import Auth,{ Session } from './Provider/Auth'
+
+const auth = new Auth()
+
 class App extends Component {
   state={
-    type:true,
-    isLogged:false,
-    user:{},
     ip: "",
   showcase:{
         products:{
             title:"Products",
-            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","Other","All","Other"],
+            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","All","Other"],
             latest:[
                 {
                     image:"this is an image of the TV",
@@ -64,7 +65,7 @@ class App extends Component {
         },
         services:{
             title:"Services",
-            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer","Other"],
+            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Other"],
             latest:[
                 {
                     image:"Plumber image",
@@ -94,7 +95,7 @@ class App extends Component {
         },
         places:{
             title:"Places",
-            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant","Other"],
+            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant"],
             latest:[
                 
                     {
@@ -169,67 +170,72 @@ class App extends Component {
       }
   ]
 }
-    updateUser=()=>{
-        fetching({}, 'GET', './value', response => {
-            if (response.status == 200) {
-                this.toggleLog()
-                const { image, name, lastname, username, code, phonenumber, gender, type, birthdate } = response.user
-                this.setState({ 
-                    user:{
-                        image,
-                        name,
-                        lastname,
-                        username,
-                        code,
-                        phonenumber,
-                        gender,
-                        type,
-                        birthdate,
-                    },
-                })
-            } 
-        })
+
+    header = () => {
+        return(
+            <Session.Consumer> 
+                {({user, refreshSession}) => (
+                    <Header 
+                        session={refreshSession}
+                        user={user}
+                    />
+                )}
+            </Session.Consumer>
+        )
     }
 
-    componentWillMount() {
-        this.updateUser()
-    }
-
-    logIn=(user)=>{
-        this.setState({ user });
-        this.toggleLog()
-    }
-
-    toggleLog=()=>{
-        this.setState({ isLogged:!this.state.isLogged })
-    }
-
-    toggleUserType=()=>{
-        console.log(this.state.type)
-        this.setState({ type:!this.state.type })
-    }
-
-    homePage=()=>{
-        return (<HomePage {...this.props} type={this.state.type}/>)
+    homePage=(props)=>{
+        return(
+            <Session.Consumer>
+                {session => (
+                    <HomePage 
+                        {...props}
+                        user={session} /> 
+                )}              
+            </Session.Consumer>
+        )
     }
 
     profilePage=()=>{
-        return(<ProfilePage updateUser={this.updateUser} user={this.state.user} contacts={this.state.contacts}/>)
+        return(
+            <Session.Consumer>
+                {session => (
+                    <ProfilePage 
+                        user={session.user} 
+                        contacts={this.state.contacts}
+                    />
+                )}
+            </Session.Consumer>
+        )
     }
 
     inbox=()=>{
-        return(<Inbox updateUser={this.updateUser} user={this.state.user} contacts={this.state.contacts} />)
+        return(
+            <Session.Consumer>
+                {session => (
+                    <Inbox
+                        user={session.user}
+                        contacts={this.state.contacts}
+                    /> 
+                )}
+            </Session.Consumer>
+        )
+    }
+    
+    
+    chat = () => {
+        return(
+            <Session.Consumer>
+                {session => (
+                    <Chat 
+                        ip={this.state.ip} 
+                        user={session.user.person_id} 
+                    />
+                )}
+            </Session.Consumer>
+        ) 
     }
 
-    header=()=>{
-        return(<Header 
-        {...this.props}
-        toggleUserType={this.toggleUserType}
-        toggleLog={this.toggleLog}
-        isLogged={this.state.isLogged}
-        user={this.state.user ? this.state.user:null}
-        />)
-    }
 
     showcase=(props)=>{
         return (<Showcase {...props} showcase={this.state.showcase[props.match.params.type]}  />)
@@ -242,14 +248,7 @@ class App extends Component {
     category=(props)=>{
         return( <Category {...props} products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
     }
-    
-    logingIn = () => {
-        return <Login logIn={this.toggleLog} logIn={(props)=>this.logIn(props)}/>
-    }
 
-    chatIp = () => {
-        return <Chat ip={this.state.ip} />
-    }
 
     watch=(props)=>{
             return (<Watch {...props}  />)

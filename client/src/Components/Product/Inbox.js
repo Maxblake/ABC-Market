@@ -1,15 +1,15 @@
 import React,{Component} from 'react'
 import { Grid, Button, Typography } from '@material-ui/core';
 import ContactButton from './ContactButton'
-import Chat from '../Containers/Chat'
+import Chat from '../../Containers/Chat'
 import { withRouter } from 'react-router'
 const queryString = require('query-string');
 
     class Inbox extends Component{
 
     state={
-            chat:false,
-            chatContactName:""
+        chat:false,
+        chatContactName:""
     }
 
 
@@ -29,9 +29,9 @@ const queryString = require('query-string');
     }
     
     chat = contact => {
-        const { name, id }= contact
+        const { name, id } = contact
         this.props.history.push({
-            pathname:`/inbox/${contact.id}`,
+            pathname:`/inbox/${id}`,
             state: { name }
         })
     }

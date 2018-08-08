@@ -46,28 +46,28 @@ export default class Showcase extends Component{
                         <Grid container direction="row"
                         justify="center"
                         spacing={40}>
-                                
-                                <Grid item xs={5}>
-                                <Grid container direction="row" justify="center">
-                                <Button 
-                                component={Link}
-                                to={`${this.props.location.pathname}/All`}
-                                fullWidth
-                                variant="outlined">
-                                Watch
-                                </Button>
-                                </Grid>
-                                </Grid>
-                                
-                                <Grid item xs={5}>
-                                <Grid container direction="row" justify="center">
-                                <Button 
-                                fullWidth
-                                component={Link}
-                                to={`/submit/${this.props.match.params.type.replace(/s$/,"")}`}
-                                variant="outlined">Submit</Button>
-                                </Grid>
-                                </Grid>
+                            
+                            <Grid item xs={5}>
+                            <Grid container direction="row" justify="center">
+                            <Button 
+                            component={Link}
+                            to={`${this.props.location.pathname}/All`}
+                            fullWidth
+                            variant="outlined">
+                            Watch
+                            </Button>
+                            </Grid>
+                            </Grid>
+                            
+                            <Grid item xs={5}>
+                            <Grid container direction="row" justify="center">
+                            <Button 
+                            fullWidth
+                            component={Link}
+                            to={`/submit/${this.props.match.params.type.replace(/s$/,"")}`}
+                            variant="outlined">Submit</Button>
+                            </Grid>
+                            </Grid>
                         </Grid>
                         <br/>
                         <br/>

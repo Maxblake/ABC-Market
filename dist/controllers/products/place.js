@@ -5,25 +5,113 @@ const multer = require('multer');
 const cloudinary = require('cloudinary');
 const router = express.Router();
 
-router.post('all', (req, res) => {
+cloudinary.config({
+    cloud_name: 'zingaring',
+    api_key: '195729922234217',
+    api_secret: 'rul2JCiaHBPULlxuKDd04N5zFJ8'
+})
+  
+const upload = multer({dest: "./uploads/"});
 
+router.get('/all', (req, res) => {
+    place.all().then(async places => {
+        console.log(places)
+        for (var i in places) {
+            const images = await product.images(places[i].product_id)
+            places[i]['img'] = images[0]
+        }
+        res.send({ 
+            status: 200,
+            places
+        })
+    }).catch(err => {
+        res.send({
+            status: 404
+        })
+    })
 })
 
-router.post('/new', (req, res) => {
+router.post('/new', upload.array('files[]'), async (req, res) => {
+    const { title, description, category, specialty, schedule, address, post_time, link, location } = req.body
+
+    multipleUpload = new Promise(async (res, rej) => {
+        let arr = []
+        for (var i in req.files) {
+            await cloudinary.uploader.upload(req.files[i].path, result => {
+                arr.push(result.secure_url);
+                if (arr.length === req.files.length) {
+                    res(arr);
+                }
+            })
+        }
+    })
+
+    consume = await multipleUpload.then(data => {
+        product.new(req.user.person_id, title, description, 'place', category).then(async new_product => {
+            const { product_id } = new_product
+            for (var i in data) {
+                try {
+                    await product.add_image(product_id, data[i])
+                } catch (e) {
+                    console.log(e)
+                    res.send({ status: 404 })
+                }
+            }
+            place.new(product_id, specialty, schedule, address, post_time, link, location).then(data => {
+                res.send({ status: 200 })
+            }).catch(err => {
+                console.log(err)
+                res.send({ status: 501 })
+            })
+        }).catch(err => {
+            console.log(err)
+            res.send({ status: 500 })
+        })
+    }).catch(err => {
+        console.log(err)
+        res.send({ status: 400 })
+    })
 
 })
 
 router.post('/edit', (req, res) => {
-
+    const {  } = req.body
+    place.edit().then(data => {
+        res.send({
+            status: 200
+        })
+    }).catch(err => {
+        res.send({
+            status: 403
+        })
+    })
 })
 
 router.post('/erase', (req, res) => {
-
+    const { id } = req.body
+    place.delete(id).then(data => {
+        res.send({ 
+            status: 200
+        })
+    }).catch(err => {
+        res.send({ 
+            status: 404
+        })
+    })
 })
 
 router.get('/show/:id', (req, res) => {
-    console.log('a')
-    res.send({ msg: 'working' })
+    const { id } = req.params
+    place.show(id).then(details => {
+        res.send({ 
+            status: 200,
+            details
+        })
+    }).catch(err => {
+        res.send({
+            status: 404
+        })
+    })
 })
 
 module.exports = router;

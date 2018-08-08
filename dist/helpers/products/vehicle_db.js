@@ -3,7 +3,7 @@ const db = require('./../db');
 module.exports.all = () =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select person.name, product.*, vehicle.vehicle_id from person inner join product on person.person_id = product.user_id inner join vehicle on product.product_id = vehicle.product_id').then(data=>{
+            obj.any('select person.name, product.*, vehicle.vehicle_id from person inner join product on person.person_id = product.person_id inner join vehicle on product.product_id = vehicle.product_id').then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

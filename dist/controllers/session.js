@@ -30,15 +30,25 @@ router.post('/login', auth.isLogged, (req, res, next) => {
 });
 
 router.post('/signup',auth.isLogged, (req, res, next) => {
-    const { name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address } = req.body
+    var { name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address } = req.body
     User.new(name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address).then(data => {
-        res.send({
-            status:200
-        })
-    }).catch(err => {
-        res.send({
-            status:500
-        })
+        passport.authenticate('local',(err, user, info) => {
+            if (err) {
+                console.log(err);
+                res.send({status:403})
+            }
+            if (!user) {
+                res.send({status:400})
+            }
+            req.logIn(user, (err) => {
+                if (!err) {
+                    res.send({status:200})
+                }
+            })
+        })(req, res, next)
+        }).catch((err) => {
+            console.log(err);
+        res.send({status:404})
     })
 })
 

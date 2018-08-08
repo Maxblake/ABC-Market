@@ -8,12 +8,8 @@ export const logIn = (username, password, cb) => {
         body: JSON.stringify({ username, password })
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.status == 200) {
-            cb(data.user)
-        } else {
-            cb(null)
-        }
+    .then(result => {
+        (result.status == 200) ? cb(result.user) : cb(null)
     })
 }
 
@@ -23,24 +19,30 @@ export const isLogged = cb => {
     })
     .then(response => response.json())
     .then(result => {
-        if (result.status == 200) {
-            cb(result.user)      
-        } else {
-            cb(null)
-        }
+        (result.status == 200) ? cb(result.user) : cb(null)
     })
 }
 
 export const logOut = cb => {
-    fetch('logout', {
+    fetch('/logout', {
         credentials: 'include'
+    })
+    .then(result => {
+        (result.status == 200) ? cb(true) : cb(false)
+    })
+}
+
+export const signUp = (name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address, cb) => {
+    fetch('/signup', {
+        method: 'POST',
+        headers: {
+        'Content-Type':'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address })
     })
     .then(response => response.json())
     .then(result => {
-        if (result.status == 200) {
-            cb(true)      
-        } else {
-            cb(false)
-        }
+        (result.status == 200) ? cb(result.user) : cb(null)
     })
 }

@@ -3,9 +3,10 @@ import {Button,Typography,Toolbar,AppBar} from '@material-ui/core'
 import{ Link } from 'react-router-dom'
 import { withRouter } from 'react-router';
 
-import { Session } from '../../Provider/Auth';
+import Auth, { Session } from '../../Provider/Auth';
 import { isLogged } from '../../Provider/Request';
 
+const auth = new Auth()
 
 class Header extends React.Component{
   
@@ -26,8 +27,16 @@ class Header extends React.Component{
                         <Typography variant="title" color="inherit">
                             ABCMarket
                         </Typography>
-                        
-                        <Button component={ Link }to="/home" onClick={this.props.toggleUserType}color="inherit" >  Home</Button>
+                        <Session.Consumer>
+                            {session => (
+                                <Button 
+                                    component={ Link } to={(session.user == null) ?  '/' : `/home/${session.user.type}`}
+                                    color="inherit">
+                                        Home
+                                </Button>
+                            )}
+                        </Session.Consumer>
+                       
                         { (user != null) ?
                         <Fragment>
                             <Typography variant="button" color="inherit">
@@ -39,7 +48,7 @@ class Header extends React.Component{
                                         style={{display:"block",float:"left"}}
                                         color="inherit"
                                         onClick={session.nullSession}
-                                        component={ Link } to="/home" 
+                                        component={ Link } to="/" 
                                         >Logout
                                     </Button>
                                 )}

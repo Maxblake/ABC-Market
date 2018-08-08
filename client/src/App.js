@@ -5,7 +5,7 @@ import HomePage from './Containers/HomePage'
 import Register from './Components/Auth/Register'
 import ProductPage from './Components/Product/ProductPage'
 import Footer from './Components/Extra/Footer'
-import {Switch,Route,BrowserRouter} from 'react-router-dom'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import Welcome from './Components/Extra/Welcome'
 import Login from './Components/Auth/Login'
 import ProfilePage from './Components/User/ProfilePage'
@@ -17,23 +17,20 @@ import Watch from './Components/Product/Watch';
 import Submit from './Components/Submit/Submit';
 import SubmitProduct from "./Components/Submit/SubmitProduct"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
-import {fetching} from '../fetching/wrapper'
+import { fetching } from '../fetching/wrapper'
 import Chat from './Containers/Chat'
 
 import Auth, { Session } from './Provider/Auth'
-import { isLogged } from './Provider/Request';
 
 const auth = new Auth()
 
 class App extends Component {
   state={
-    type:true,
-    isLogged:false,
     ip: "",
   showcase:{
         products:{
             title:"Products",
-            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","Other","All","Other"],
+            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","All","Other"],
             latest:[
                 {
                     image:"this is an image of the TV",
@@ -68,7 +65,7 @@ class App extends Component {
         },
         services:{
             title:"Services",
-            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Programmer","Other"],
+            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Other"],
             latest:[
                 {
                     image:"Plumber image",
@@ -98,7 +95,7 @@ class App extends Component {
         },
         places:{
             title:"Places",
-            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant","Other"],
+            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant"],
             latest:[
                 
                     {
@@ -173,14 +170,30 @@ class App extends Component {
       }
   ]
 }
- 
-    toggleUserType=()=>{
-        console.log(this.state.type)
-        this.setState({ type:!this.state.type })
+
+    header = () => {
+        return(
+            <Session.Consumer> 
+                {({user, refreshSession}) => (
+                    <Header 
+                        session={refreshSession}
+                        user={user}
+                    />
+                )}
+            </Session.Consumer>
+        )
     }
 
-    homePage=()=>{
-        return (<HomePage {...this.props} type={this.state.type}/>)
+    homePage=(props)=>{
+        return(
+            <Session.Consumer>
+                {session => (
+                    <HomePage 
+                        {...props}
+                        user={session} /> 
+                )}              
+            </Session.Consumer>
+        )
     }
 
     profilePage=()=>{
@@ -209,18 +222,6 @@ class App extends Component {
         )
     }
     
-    header = () => {
-        return(
-            <Session.Consumer> 
-                {session => (
-                    <Header 
-                        session={session.refreshSession}
-                        user={session.user}
-                    />
-                )}
-            </Session.Consumer>
-        )
-    }
     
     chat = () => {
         return(
@@ -270,7 +271,7 @@ class App extends Component {
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/register" component={Register}/>
                         <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
-                        <Route exact path="/home" component={this.homePage} type={this.state.type}/>
+                        <Route exact path="/home/:userType" component={this.homePage}/>
                         <Route exact path="/profile" component={this.profilePage}/>
                         <Route exact path="/inbox" component={this.inbox} />
                         <Route exact path="/about" component={About}/>

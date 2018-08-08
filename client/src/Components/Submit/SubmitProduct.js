@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,FormLabel,RadioGroup,FormControlLabel,Radio,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
+import Auth, { Session } from '../../Provider/Auth';
 
+const auth = new Auth()
 
 class SubmitProduct extends Component{
     file = React.createRef();
@@ -21,10 +23,8 @@ class SubmitProduct extends Component{
         this.setState({[event.target.name]:event.target.value});
     }
 
-    create = (e) => {
-        console.log('creating product')
+    create = (user) => {
         const { description, title, stock, price, used, link, post_time, location } = this.state
-        e.preventDefault()
         const body = new FormData();
         const { files } = this.file.current;
         for (var i = 0; i < files.length; i++) {
@@ -41,6 +41,7 @@ class SubmitProduct extends Component{
         body.append('location', location)      
         fetch('/product/article/new', {
             method: 'POST',
+            credentials: 'include',
             body
         })
         .then(response => response.json())
@@ -197,6 +198,7 @@ class SubmitProduct extends Component{
 						color="secondary"
                         onClick={this.create}
 						> Submit </Button>
+                 
                     </Grid>
 					<br/>																				
                 </Paper>

@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { logIn, isLogged, logOut } from './Request';
+import { logIn, isLogged, logOut, signUp } from './Request';
 import { withRouter } from 'react-router';
 
-export const Session = React.createContext()
+export const Session = React.createContext({
+    user: null,
+    setSession: () => {},
+    refreshSession: () => {},
+    nullSession: () => {},
+    createUserAndSession: () => {}
+})
 
 class Auth extends Component {
     state = {
@@ -11,7 +17,7 @@ class Auth extends Component {
             logIn(username, password, user => {
                 if (user != null) {
                     this.setState({ user })
-                    window.location.href = '/home'
+                    window.location.href = `/home/${user.type}`
                 }
             })
         },
@@ -27,6 +33,14 @@ class Auth extends Component {
                 if (user) {
                     this.setState({ user: null })
                     alert('Session closed')
+                }
+            })
+        },
+        createUserAndSession: (name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address) => {
+            signUp(name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address, user => {
+                if (user != null) {
+                    this.setState({ user })
+                    window.location.href = `/home/${user.type}`
                 }
             })
         }

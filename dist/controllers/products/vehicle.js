@@ -24,6 +24,7 @@ router.get('/all', (req, res) => {
             vehicles
         })
     }).catch(err => {
+        console.log(err)
         res.send({
             status: 404
         })
@@ -46,14 +47,15 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
     })
 
     consume = await multipleUpload.then(data => {
-        product.new(1, 'test', 'test', 'vehicle').then(async new_product => {
+        product.new(req.user.person_id, null, description, 'vehicle', null ).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
-                await product.add_image(product_id, data[i]).then(success => {
-                }).catch(err => {
-                    console.log(err)
-                    res.send({ status: 503 })
-                })
+                try {
+                    await product.add_image(product_id, data[i])
+                } catch (e) {
+                    console.log(e)
+                    res.send({ status: 404 })
+                }
             }
             vehicle.new(product_id, brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, post_time, location, windows, steer, ac).then(data => {
                 res.send({ 

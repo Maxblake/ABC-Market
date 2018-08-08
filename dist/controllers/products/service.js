@@ -1,24 +1,10 @@
 const express = require ('express');
 const product = require('./../../helpers/product_db');
 const service = require('./../../helpers/products/service_db');
-const multer = require('multer');
-const cloudinary = require('cloudinary');
 const router = express.Router();
 
-cloudinary.config({
-    cloud_name: 'zingaring',
-    api_key: '195729922234217',
-    api_secret: 'rul2JCiaHBPULlxuKDd04N5zFJ8'
-})
-  
-const upload = multer({dest: "./uploads/"});
-
 router.get('/all', (req, res) => {
-    service.all().then(async services => {
-        for (var i in services) {
-            const images = await product.images(services[i].product_id)
-            services[i]['img'] = images[0]
-        }
+    service.all().then( services => {
         res.send({ 
             status: 200,
             services
@@ -30,46 +16,21 @@ router.get('/all', (req, res) => {
     })
 })
 
-router.post('/new', upload.array('files[]'), async (req, res) => {
+router.post('/new', (req, res) => {
+    console.log(req.body)
     const { title, description, category, post_time } = req.body
-
-    multipleUpload = new Promise(async (res, rej) => {
-        let arr = []
-        for (var i in req.files) {
-            await cloudinary.uploader.upload(req.files[i].path, result => {
-                arr.push(result.secure_url);
-                if (arr.length === req.files.length) {
-                    res(arr);
-                }
-            })
-        }
-    })
-
-    consume = await multipleUpload.then(data => {
-        product.new(1, title, description, category).then(async new_product => {
-            const { product_id } = new_product
-            for (var i in data) {
-                await product.add_image(product_id, data[i]).then(success => {
-                }).catch(err => {
-                    console.log(err)
-                    res.send({ status: 503 })
-                })
-            }
-            service.new(product_id, category).then(data => {
-                res.send({ status: 200 })
-            }).catch(err => {
-                console.log(err)
-                res.send({ status: 501 })
-            })
+    product.new(req.user.person_id, title, description, 'service', category).then(new_product => {
+        const { product_id } = new_product
+        service.new(product_id, post_time).then(data => {
+            res.send({ status: 200 })
         }).catch(err => {
             console.log(err)
-            res.send({ status: 500 })
+            res.send({ status: 501 })
         })
     }).catch(err => {
         console.log(err)
-        res.send({ status: 400 })
+        res.send({ status: 500 })
     })
-
 })
 
 router.post('/edit', (req, res) => {

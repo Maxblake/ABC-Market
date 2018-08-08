@@ -32,7 +32,7 @@ router.get('/all', (req, res) => {
 })
 
 router.post('/new', upload.array('files[]'), async (req, res) => {
-    const { title, description, category, specification, schedule, address, link } = req.body
+    const { title, description, category, specialty, schedule, address, post_time, link, location } = req.body
 
     multipleUpload = new Promise(async (res, rej) => {
         let arr = []
@@ -47,16 +47,17 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
     })
 
     consume = await multipleUpload.then(data => {
-        product.new(1, title, description, category).then(async new_product => {
+        product.new(req.user.person_id, title, description, 'place', category).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
-                await product.add_image(product_id, data[i]).then(success => {
-                }).catch(err => {
-                    console.log(err)
-                    res.send({ status: 503 })
-                })
+                try {
+                    await product.add_image(product_id, data[i])
+                } catch (e) {
+                    console.log(e)
+                    res.send({ status: 404 })
+                }
             }
-            place.new(product_id, specification, schedule, address, link).then(data => {
+            place.new(product_id, specialty, schedule, address, post_time, link, location).then(data => {
                 res.send({ status: 200 })
             }).catch(err => {
                 console.log(err)

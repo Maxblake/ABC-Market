@@ -19,7 +19,8 @@ class SubmitVehicle extends Component{
         steer:"",
         ac:"",
         post_time:0,
-        location:""
+        location:"",
+        description:""
     }
 
     handleChange=(event)=>{
@@ -28,7 +29,7 @@ class SubmitVehicle extends Component{
     }
 
     create = (e) => {
-        const {brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, post_time, location } = this.state
+        const { brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, post_time, location, description } = this.state
         e.preventDefault()
         const body = new FormData();
         const { files } = this.file.current;
@@ -50,8 +51,10 @@ class SubmitVehicle extends Component{
         body.append('ac', ac)
         body.append('post_time', post_time)
         body.append('location', location)      
+        body.append('description', description)      
         fetch('/product/vehicle/new', {
             method: 'POST',
+            credentials: 'include',
             body
         })
         .then(response => response.json())
@@ -304,14 +307,15 @@ class SubmitVehicle extends Component{
                             <Grid container direction="row" justify="center">
                     <Grid item xs={12}>
                         <TextField
-                            id="description"
+                            name="description"
                             label="Description"
                             multiline
                             fullWidth
                             rows={4}
                             margin="normal"
                             placeholder="detail the vehicle the best way possible for better user understanding and to ease the sale "
-                        ></TextField>
+                            onChange={this.handleChange}
+                      ></TextField>
                     </Grid>
                     </Grid>
                             </Grid>

@@ -6,6 +6,7 @@ module.exports = new localStrategy({
   usernameField: 'username',
   passwordField: 'password'
 }, (username, password, done) => {
+    console.log(username, password)
     User.getUserByUsername(username).then((user)=>{
         if (user.error) {
             return done(null, false, {message: "email not found"});

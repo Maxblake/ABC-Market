@@ -34,7 +34,6 @@ class Submit extends Component{
 
     render(){
             let returned = this.typeSubmit(this.props.match.params.type)
-            console.log(returned)
         return (
              <Fragment>
                 {returned}

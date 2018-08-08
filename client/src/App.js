@@ -19,6 +19,7 @@ import SubmitProduct from "./Components/Submit/SubmitProduct"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
 import {fetching} from '../fetching/wrapper'
 import Chat from './Containers/Chat';
+import Remesa from './Components/Remesa'
 class App extends Component {
   state={
     type:true,
@@ -282,6 +283,7 @@ class App extends Component {
             <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
             <Route exact path="/showcase/:type/:category" component={this.category}/>
             <Route exact path="/showcase/:type/Search" component={this.watch}/>
+            <Route exact path="/remesas" component={Remesa}/>
         </Switch>
         </div>
         </BrowserRouter>

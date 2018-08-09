@@ -19,8 +19,8 @@ import SubmitProduct from "./Components/Submit/SubmitProduct"
 import SubmitVehicle from "./Components/Submit/SubmitVehicle"
 import { fetching } from '../fetching/wrapper'
 import Chat from './Containers/Chat'
-
-import Auth, { Session } from './Provider/Auth'
+import Remesa from './Components/Remesa'
+import Auth,{ Session } from './Provider/Auth'
 
 const auth = new Auth()
 
@@ -227,33 +227,38 @@ class App extends Component {
 
     render() {
         return (
-            <Fragment>
-                <BrowserRouter>
-                        <div>
-                    <Route component={this.header}/>
-                    <Switch>
-                        <Route exact path="/submit/:type" component={this.submit}/>
-                        <Route exact path="/submit/product/product" component={SubmitProduct}/>
-                        <Route exact path="/submit/product/vehicle" component={SubmitVehicle}/>
-                        <Route exact path="/" component={Welcome}/>
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/register" component={Register}/>
-                        <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
-                        <Route exact path="/home/:userType" component={this.homePage}/>
-                        <Route exact path="/profile" component={this.profilePage}/>
-                        <Route exact path="/inbox" component={this.inbox} />
-                        <Route exact path="/about" component={About}/>
-                        <Route exact path="/inbox/:id" component={this.chat} />
-                        <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
-                        <Route exact path="/showcase/:type/:category" component={this.category}/>
-                        <Route exact path="/showcase/:type/Search" component={this.watch}/>
-                    </Switch>
-                    </div>
-                </BrowserRouter>
-                <br/><br/><br/>
-                <Footer footer/>
-            </Fragment>
-        )
+        <Fragment>
+        <BrowserRouter>
+        </BrowserRouter>
+        <BrowserRouter>
+            <div>
+        <Route component={this.header}/>
+        <Switch>
+            <Route exact path="/submit/:type" component={this.submit}/>
+            <Route exact path="/submit/product/product" component={SubmitProduct}/>
+            <Route exact path="/submit/product/vehicle" component={SubmitVehicle}/>
+
+            <Route exact path="/" component={Welcome}/>
+            <Route exact path="/login" component={this.logingIn}/>
+            <Route exact path="/register" component={Register}/>
+            <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
+            <Route exact path="/home" component={this.homePage} type={this.state.type}/>
+            <Route exact path="/profile" component={this.profilePage}/>
+            <Route exact path="/inbox" component={this.inbox} />
+            <Route exact path="/about" component={About}/>
+            <Route exact path="/inbox/:id" component={this.chatIp} />
+            <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
+            <Route exact path="/showcase/:type/:category" component={this.category}/>
+            <Route exact path="/showcase/:type/Search" component={this.watch}/>
+            <Route exact path="/remesas" component={Remesa}/>
+        </Switch>
+        </div>
+        </BrowserRouter>
+        <br/><br/><br/>
+        <Footer footer/>
+        </Fragment>
+        
+        );
     }
 }
 

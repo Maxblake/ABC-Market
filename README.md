@@ -1,13 +1,7 @@
 
 # ABC Market
 
-Express Web Application for a cloud mining service.
-
-## Getting Started
-
-```
-git clone https://github.com/eduardogz94/Sim-libre.git
-```
+ Web Application for an international Marketplace.
 
 ## Built With
 
@@ -21,8 +15,8 @@ git clone https://github.com/eduardogz94/Sim-libre.git
 
 ## Authors
 
-* **Eduardo Gonzalez** - *Initial work* - [Freelance](https://github.com/eduardogz94)
-* **Cesar Brazon** - *Initial work* - [Freelance](https://github.com/cbrzn)
-* **Carlos Di Matteo** - *Initial work* - [Freelance](https://github.com/carlosdimatteo)
+* [**Eduardo Gonzalez**](https://github.com/eduardogz94)
+* [**Cesar Brazon**](https://github.com/cbrzn)
+* [**Carlos Di Matteo**](https://github.com/carlosdimatteo)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.

@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/history/:id', async (req, res) => {
     try {
-        const messages = history.show(req.params.id)
+        const messages = await history.show(req.params.id)
         res.send({ 
             status: 200,
             messages

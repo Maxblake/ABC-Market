@@ -16,6 +16,20 @@ router.get('/all', (req, res) => {
     })
 })
 
+router.get('/latest', (req, res) => {
+    service.latest().then(products => {
+        res.send({ 
+            status: 200,
+            products
+        })
+    }).catch(err => {
+        console.log(err)
+        res.send({
+            status: 404
+        })
+    })
+})
+
 router.post('/new', (req, res) => {
     console.log(req.body)
     const { title, description, category, post_time } = req.body

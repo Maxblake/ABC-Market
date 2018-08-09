@@ -30,6 +30,28 @@ router.get('/all', (req, res) => {
     })
 })
 
+
+router.get('/latest', (req, res) => {
+    article.latest().then(products => {
+        for (var i in products) {
+            if (i.condition == false) {
+                products[i]['condition'] = 'Used'
+            } else {
+                products[i]['condition'] = 'New'    
+            }
+        }
+        res.send({ 
+            status: 200,
+            products
+        })
+    }).catch(err => {
+        console.log(err)
+        res.send({
+            status: 404
+        })
+    })
+})
+
 router.post('/new', upload.array('files[]'), async (req, res) => {
     const { category, description, title, stock, price, used, link, post_time, location } = req.body
     multipleUpload = new Promise(async (res, rej) => {

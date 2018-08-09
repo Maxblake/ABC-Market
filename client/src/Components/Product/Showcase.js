@@ -9,10 +9,6 @@ export default class Showcase extends Component{
         places:["Aruba","Bonaire","Curacao","All"]
     }
 
-    componentDidMount(){
-        
-    }
-
     render(){
         return(
             <Grid container justify="center">
@@ -24,7 +20,7 @@ export default class Showcase extends Component{
                             <Grid item xs={12} sm={12}>
                                 <Grid container direction="row" justify="center">
                                 <Typography  variant="display2">
-                                    {this.props.showcase.title}
+                                    {/* {this.props.showcase.title} */}
                                 </Typography>
                                 </Grid>
                             </Grid>
@@ -50,10 +46,10 @@ export default class Showcase extends Component{
                             <Grid item xs={5}>
                             <Grid container direction="row" justify="center">
                             <Button 
-                            component={Link}
-                            to={`${this.props.location.pathname}/All`}
-                            fullWidth
-                            variant="outlined">
+                                component={Link}
+                                to={`${this.props.location.pathname}/all`}
+                                fullWidth
+                                variant="outlined">
                             Watch
                             </Button>
                             </Grid>
@@ -74,56 +70,52 @@ export default class Showcase extends Component{
                         
                         <br/>
                         <br/>
-                        <Grid container direction="row"
-                        justify="center"
-                        spacing={24}>  {this.props.showcase.categories.map((category,index)=>(
-                                   <Grid item key={ index } xs={4}>
-                                   <Grid container direction="row"
-                                   justify="center">
-                                    <Button 
-                                    component={Link}
-                                    to={`${this.props.location.pathname}/${category}`}
-                                    variant="outlined">
-                                       {category}
-                                   </Button>
-                                   
+                        <Grid 
+                            container 
+                            direction="row"
+                            justify="center"
+                            spacing={24}>  
+                            {this.props.showcase.categories.map((category,index)=>(
+                                <Grid item key={ index } xs={4}>
+                                   <Grid 
+                                        container
+                                        direction="row"
+                                        justify="center">
+                                        <Button 
+                                            component={Link}
+                                            to={`${this.props.location.pathname}/${category}`}
+                                            variant="outlined">
+                                            {category}
+                                        </Button>
                                    </Grid>
-                                   
-                                   </Grid>
-                                   
-                               
-                                ))}
-                             
+                                </Grid>
+                            ))}
                         </Grid>
                         <br/>
                         <br/>
-                        <Grid container direction="row"
-                        justify="center">
-                        <Typography variant="display1" >
-                            Latest
+                        <Grid 
+                            container 
+                            direction="row"
+                            justify="center">
+                            <Typography 
+                                variant="display1" >
+                                Latest
                             </Typography>
-                            </Grid>
-                        <Grid container direction="row"
-                        justify="center">
-
-                            
-                            
+                        </Grid>
+                        <Grid 
+                            container 
+                            direction="row"
+                            justify="center">
                             <Grid item xs={12} sm ={10}>
-                            <Paper>
-                            <GridListComp 
-                            {...this.props}
-                            type="product" products={this.props.showcase.latest} />
-                            </Paper>
-                                
+                                <Paper>
+                                    <GridListComp />
+                                </Paper>        
                             </Grid>
                         </Grid>
-                        <br/><br/>
-
-
+                        <br/>
+                        <br/>
                     </Paper>
-
                 </Grid>
-            
             </Grid>
 
         )

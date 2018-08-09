@@ -67,7 +67,7 @@ export default class ProfilePage extends Component {
                     <GridListComp 
                         type="product" 
                         edit={true} 
-                        products={this.state.uploads}
+                        product={this.state.uploads}
                     />
                 </Grid>
                 <br/>

@@ -16,6 +16,24 @@ module.exports.all = () =>{
     });
 }
 
+module.exports.latest = () =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.any('select distinct on (product.product_id) product.description as name, article.used as condition, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id;').then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                console.log(error)
+                rej(error);
+                obj.done();
+            })
+        }).catch(error=>{
+            console.log(error)
+            rej(error);
+        });
+    });
+}
+
 module.exports.show = (id)=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{

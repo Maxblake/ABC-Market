@@ -29,39 +29,7 @@ class App extends Component {
     ip: "",
   showcase:{
         products:{
-            title:"Products",
             categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","All","Other"],
-            latest:[
-                {
-                    image:"this is an image of the TV",
-                    name:"Televisor 4k",
-                    brand:"Samsung",
-                    condition:"New",
-                    price:3000,
-                    description:"this is a fucking great TV"
-                },
-                {
-                    image:"T-shirt Image",
-                    name:"black T-Shirt",
-                    condition:"New",
-                    price:20,
-                    description:"this is a black t-shirt"
-                },
-                {
-                    image:"TV image",
-                    name:"Samsung 4K TV ",
-                    condition:"New",
-                    price:2000,
-                    description:"this is a great TV"
-                },
-                {
-                    image:"Soccer Cleats image",
-                    name:"green soccer cleats",
-                    condition:"New",
-                    price:200,
-                    description:"Very nice cleats"
-                }
-            ]
         },
         services:{
             title:"Services",

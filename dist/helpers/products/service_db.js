@@ -19,7 +19,7 @@ module.exports.all = () =>{
 module.exports.latest = () =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select person.name, product.title, product.description, person.profile_img as image from person inner join product on person.person_id = product.person_id inner join service on product.product_id = service.product_id').then(data=>{
+            obj.any('select person.name, product.title, product.description, person.profile_img as image from person inner join product on person.person_id = product.person_id inner join service on product.product_id = service.product_id order by product.product_id desc').then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

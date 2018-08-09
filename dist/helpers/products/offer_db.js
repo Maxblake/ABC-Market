@@ -16,6 +16,22 @@ module.exports.all = () =>{
     });
 }
 
+module.exports.latest = () =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.any('select distinct on (product.product_id)  product.title,  product.description, offer.price , image.url as image from person inner join product on person.person_id = product.person_id inner join offer on product.product_id = offer.product_id inner join image on product.product_id = image.product_id order by product.product_id desc').then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                rej(error);
+                obj.done();
+            })
+        }).catch(error=>{
+            rej(error);
+        });
+    });
+}
+
 module.exports.show = (id)=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
@@ -33,10 +49,10 @@ module.exports.show = (id)=>{
 }
 
 
-module.exports.new = (product_id, start, finish, address)=>{
+module.exports.new = (product_id, start, finish, address, price)=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
-              obj.none('insert into offer (product_id, start, finish, address) values ($1, $2, $3, $4)',[product_id, start, finish, address]).then(data=>{
+              obj.none('insert into offer (product_id, start, finish, address, price) values ($1, $2, $3, $4, $5)',[product_id, start, finish, address, price]).then(data=>{
                   res(data);
                   obj.done();
               }).catch(error=>{

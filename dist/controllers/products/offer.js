@@ -30,8 +30,22 @@ router.get('/all', (req, res) => {
     })
 })
 
+router.get('/latest', (req, res) => {
+    offer.latest().then(products => {
+        res.send({ 
+            status: 200,
+            products
+        })
+    }).catch(err => {
+        console.log(err)
+        res.send({
+            status: 404
+        })
+    })
+})
+
 router.post('/new', upload.array('files[]'), async (req, res) => {
-    const { category, title, description, start, finish, address } = req.body
+    const { category, title, description, start, finish, address, price } = req.body
 
     multipleUpload = new Promise(async (res, rej) => {
         let arr = []
@@ -56,7 +70,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
                     res.send({ status: 404 })
                 }
             }
-            offer.new(product_id, start, finish, address).then(data => {
+            offer.new(product_id, start, finish, address, price).then(data => {
                 res.send({ status: 200 })
             }).catch(err => {
                 console.log(err)

@@ -1,9 +1,9 @@
 const db = require('./db');
 
-module.exports.new = (user_id, title, description, type, category)=>{
+module.exports.new = (user_id, title, description, type, category, location)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.one('insert into product (person_id, title, description, type, category) values ($1, $2, $3, $4, $5) returning product_id', [user_id, title, description, type, category]).then(data=>{
+            obj.one('insert into product (person_id, title, description, type, category, location) values ($1, $2, $3, $4, $5, $6) returning product_id', [user_id, title, description, type, category, location]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

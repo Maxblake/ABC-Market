@@ -19,8 +19,7 @@ module.exports.all = () =>{
 module.exports.latest = () =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select distinct on (product.product_id) product.title, product.description, place.specification, image.url as image, place.schedule from person inner join product on person.person_id = product.person_id inner join place on product.product_id = place.product_id inner join image on place.product_id = image.product_id'
-        ).then(data=>{
+            obj.any('select distinct on (product.product_id) product.title, product.description, place.specification, image.url as image, place.schedule from person inner join product on person.person_id = product.person_id inner join place on product.product_id = place.product_id inner join image on place.product_id = image.product_id order by product.product_id desc').then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -34,9 +33,6 @@ module.exports.latest = () =>{
         });
     });
 }
-
-
-'select distinct on (product.product_id) product.title, product.description, place.specification, image.url as image, place.schedule from person inner join product on person.person_id = product.person_id inner join place on product.product_id = place.product_id inner join image on place.product_id = image.product_id'
 
 module.exports.show = (id)=>{
     return new Promise((res,rej)=>{
@@ -55,10 +51,10 @@ module.exports.show = (id)=>{
 }
 
 
-module.exports.new = (product_id, specification, schedule, address, post_time, link, location)=>{
+module.exports.new = (product_id, specification, schedule, address, post_time, link)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('insert into place (product_id, specification, schedule, address, post_time, link, location) values ($1, $2, $3, $4, $5, $6, $7)',[product_id, specification, schedule, address, post_time, link, location]).then(data=>{
+            obj.none('insert into place (product_id, specification, schedule, address, post_time, link) values ($1, $2, $3, $4, $5, $6)',[product_id, specification, schedule, address, post_time, link]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

@@ -3,7 +3,7 @@ import ContactButton from './ContactButton'
 import ProductDisplay from './ProductDisplay'
 import { GridList,GridListTile } from '@material-ui/core';
 import { withRouter } from 'react-router';
-import { latestArticle, latestService, latestPlace } from './Request';
+import { latestArticle, latestService, latestPlace, latestOffer } from './Request';
 
 
 
@@ -35,9 +35,9 @@ class GridListComp extends Component{
                     })
                 break
                 case 'sales':
-                    // latestService(products => {
-                    //     this.setState({ products })
-                    // })
+                    latestOffer(products => {
+                        this.setState({ products })
+                    })
                 break
             }
         }

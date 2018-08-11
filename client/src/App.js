@@ -32,84 +32,19 @@ class App extends Component {
             categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","All","Other"],
         },
         services:{
-            title:"Services",
             categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Other"],
-            latest:[
-                {
-                    image:"Plumber image",
-                    name:"Jose",
-                    service:"Plumber",
-                    price:"20 per hour",
-                    phoneNumber:"+297-0020304",
-                    description:"Covering all your plumbing needs!"
-                },
-                {
-                    image:"Cleaning image",
-                    name:"Maria",
-                    service:"Cleaning",
-                    price:"20 per hour",
-                    phoneNumber:"+297-0030405",
-                    description:"I'll leave everything as tidy as possible"
-                },
-                {
-                    image:"Programmer image",
-                    name:"Carlos",
-                    service:"Programmer",
-                    price:"20 per hour",
-                    phoneNumber:"+297-0040506",
-                    description:"Any language , any app, I gotcha!"
-                }
-            ]
         },
         places:{
-            title:"Places",
             categories:["Pizza","Sushi","Ice cream","Spa","Restaurant"],
-            latest:[
-                
-                    {
-                        image:"Pizza Hut image",
-                        name:"Pizza Hut",
-                        contactNumber:"+297-01020304",
-                        description:"Best pizza in Aruba"
-                    },
-                    {
-                        image:"Sushi image",
-                        name:"Sushi House",
-                        contactNumber:"+298-09080700",
-                        description:"From the sea to your plate"
-                    },
-                    {
-                        image:"Spa image",
-                        name:"Lesbia Wong Spa",
-                        contactNumber:"+297-09040503",
-                        description:"come relax "
-                    }
-                
-            ]
         },
         sales:{
-            title:"On Sale",
             categories:["Supermarket","Ice cream","General Store","Other"],
-            latest:[
-                {
-                    image:"Sale image",
-                    name:"Zara",
-                    contactNumber:"+298-08070605",
-                    description:"40% off all menswear"
-                },
-                {
-                    image:"Sale image",
-                    name:"FootLocker",
-                    contactNumber:"+299-03070201",
-                    description:"90% off if you buy just one shoe"
-                }
-            ]
         } 
     },
   contacts:[{
           image:"Ernesto's Image",
           name:"Ernesto Gonzalez",
-          id:1,
+          id:25,
           phone:"+297-000000",
           reason:{
                   name:"Tacos de futbol negros",

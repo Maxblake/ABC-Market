@@ -19,7 +19,7 @@ module.exports.all = () =>{
 module.exports.latest = () =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select distinct on (product.product_id) product.description as name, article.used as condition, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id order by product.product_id desc').then(data=>{
+            obj.any('select distinct on (product.product_id) product.description as name, article.used as condition, product.product_id, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id order by product.product_id desc').then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -33,23 +33,6 @@ module.exports.latest = () =>{
         });
     });
 }
-
-module.exports.show = (id)=>{
-    return new Promise((res,rej)=>{
-          db.connect().then(obj=>{
-              obj.one('select * from article where article_id = $1',[id]).then(data=>{
-                  res(data);
-                  obj.done();
-              }).catch(error=>{
-                  rej(error);
-                  obj.done();
-              });
-          }).catch(error=>{
-              rej(error);
-        });
-    });
-}
-
 
 module.exports.new = (product_id, stock, price, used, link, post_time)=>{
     return new Promise((res,rej)=>{

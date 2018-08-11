@@ -18,8 +18,8 @@ module.exports.new = (user_id, title, description, type, category, location)=>{
 
 module.exports.images = (id)=>{
     return new Promise((res,rej)=>{
-        db.connect().then(obj=>{
-            obj.any('select image.url from product inner join image on product.product_id = image.product_id where product.product_id = $1', [id]).then(data=>{
+        db.connect().then(obj => {
+           obj.one("select array(select url from image where product_id=$1) as product_images", [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -45,6 +45,22 @@ module.exports.add_image = (product_id, url)=>{
                 rej(error);
                 obj.done();
             });
+        }).catch(error=>{
+            rej(error);
+        });
+    });
+}
+
+module.exports.show = (category, id) =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.one(`select person.name, product.*, ${category}.* from person inner join product on person.person_id = product.person_id inner join ${category} on product.product_id = ${category}.product_id where product.product_id = $1`, [id]).then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                rej(error);
+                obj.done();
+            })
         }).catch(error=>{
             rej(error);
         });

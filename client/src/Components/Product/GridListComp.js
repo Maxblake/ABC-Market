@@ -5,8 +5,6 @@ import { GridList,GridListTile } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import { latestArticle, latestService, latestPlace, latestOffer } from './Request';
 
-
-
 class GridListComp extends Component{
 
     state = {

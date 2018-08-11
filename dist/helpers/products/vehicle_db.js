@@ -16,22 +16,6 @@ module.exports.all = () =>{
     });
 }
 
-module.exports.show = (id)=>{
-    return new Promise((res,rej)=>{
-        db.connect().then(obj=>{
-            obj.one('select * from vehicle where vehicle_id = $1',[id]).then(data=>{
-                res(data);
-                obj.done();
-            }).catch(error=>{
-                rej(error);
-                obj.done();
-            });
-        }).catch(error=>{
-              rej(error);
-        });
-    });
-}
-
 module.exports.new = (product_id, brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner, post_time,  windows, pilot_seat, air_cond)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{

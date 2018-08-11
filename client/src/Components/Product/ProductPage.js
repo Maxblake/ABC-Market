@@ -81,8 +81,8 @@ export default class ProductPage extends Component{
             <br/>
             {this.state.editMode  ?
             
-            <ProductEdit  handleEdit={this.handleEdit} product={this.state.product} updateProduct={this.updateProduct}/>:
-            <ProductDetail handleEdit={this.handleEdit} contactSeller={this.contactSeller} product={this.state.product}/>}
+            <ProductEdit  id={this.props.match.params.item} handleEdit={this.handleEdit} product={this.state.product} updateProduct={this.updateProduct}/>:
+            <ProductDetail id={this.props.match.params.item} handleEdit={this.handleEdit} contactSeller={this.contactSeller} product={this.state.product}/>}
                     
                    <Collapse in={this.state.contact}><ContactDetail msg={this.state.msg} sendMessage={this.sendMessage}contact={this.state.contact}messageToggle={this.messageToggle}seller={this.state.seller}/></Collapse>
                     

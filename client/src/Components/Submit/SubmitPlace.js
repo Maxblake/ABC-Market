@@ -3,6 +3,7 @@ import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabe
 import UserInfo from '../User/UserInfo';
 
 import { Link } from 'react-router-dom';
+import { newPlace } from './helpers/Request';
 
 class SubmitPlace extends Component{
     file = React.createRef();
@@ -41,17 +42,10 @@ class SubmitPlace extends Component{
         body.append('link', link)
         body.append('post_time', post_time)
         body.append('location', location)      
-        fetch('/product/place/new', {
-            method: 'POST',
-            credentials: 'include',
-            body
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        }).catch(err => {
-            alert('connection error')
-            console.log(err)
+        newPlace(body, response => {
+            if (response) {
+                alert('New place added!')
+            }
         })
     }
     render(){

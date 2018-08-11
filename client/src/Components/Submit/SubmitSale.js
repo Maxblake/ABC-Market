@@ -56,9 +56,10 @@ class SubmitSale extends Component{
                 Submit/Sale
                 </Typography><br/>
                     <Paper>
-                        <Grid container direction="row"
-                        justify="center"
-                        >
+                        <Grid 
+                            container 
+                            direction="row"
+                            justify="center">
                             {/* <Grid item xs={8}>
                             <UserInfo user={this.state.user} key={this.state.user.id} /> 
                             </Grid> */}

@@ -44,7 +44,7 @@ class SubmitSale extends Component{
         body.append('location', location) 
         body.append('price', price) 
         newOffer(body, response => {
-            console.log(response)
+            alert('New sale added!')
         })
     }
     render(){

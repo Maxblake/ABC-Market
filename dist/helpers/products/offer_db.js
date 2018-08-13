@@ -32,10 +32,10 @@ module.exports.latest = () =>{
     });
 }
 
-module.exports.new = (product_id, start, finish, address, price)=>{
+module.exports.new = (product_id, address, price)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('insert into offer (product_id, start, finish, address, price) values ($1, $2, $3, $4, $5)',[product_id, start, finish, address, price]).then(data=>{
+            obj.none('insert into offer (product_id, address, price) values ($1, $2, $3)',[product_id, address, price]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

@@ -34,10 +34,10 @@ module.exports.latest = () =>{
     });
 }
 
-module.exports.new = (product_id, specification, schedule, address, post_time, link)=>{
+module.exports.new = (product_id, specification, schedule, address, link)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('insert into place (product_id, specification, schedule, address, post_time, link) values ($1, $2, $3, $4, $5, $6)',[product_id, specification, schedule, address, post_time, link]).then(data=>{
+            obj.none('insert into place (product_id, specification, schedule, address, link) values ($1, $2, $3, $4, $5)',[product_id, specification, schedule, address, link]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

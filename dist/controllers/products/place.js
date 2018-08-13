@@ -56,7 +56,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
     })
 
     consume = await multipleUpload.then(data => {
-        product.new(req.user.person_id, title, description, 'place', category, location).then(async new_product => {
+        product.new(req.user.person_id, title, description, 'place', category, location, post_time).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
                 try {
@@ -66,7 +66,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
                     res.send({ status: 404 })
                 }
             }
-            place.new(product_id, specialty, schedule, address, post_time, link).then(data => {
+            place.new(product_id, specialty, schedule, address, link).then(data => {
                 res.send({ status: 200 })
             }).catch(err => {
                 console.log(err)

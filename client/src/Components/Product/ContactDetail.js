@@ -18,67 +18,62 @@ export default class ContactDetail extends Component{
     render(){
         return (
             <Fragment>
-             <Paper>
-                <Grid container
-                    direction="row"
-                    alignItems="center"
-                    >
-                    <Grid item xs={6} sm={3}><img src="../logo.svg" alt=""/>
-                    image: {this.props.seller.image}
+                <Paper>
+                    <Grid 
+                        container
+                        direction="row"
+                        alignItems="center">
+                        <Grid item xs={6} sm={3}>
+                            <img src="" alt=""/>
+                            image:
+
+                        </Grid>
+                        <Grid item xs={6} sm={6}>
+                        
+                            <Typography variant="subheading">
+                                name: {this.props.seller.name}   lastName: {this.props.seller.lastname}
+                            </Typography>
+                            <Typography variant="subheading">
+                                gender: {this.props.seller.gender}
+                            </Typography>
+                            <Typography variant="subheading">
+                                phone number: {this.props.seller.code}-{this.props.seller.phoneNumber}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <Button variant="raised" color="secondary" 
+                            onClick={this.props.messageToggle}
+                            >
+                                Send Message
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} sm={6}>
-                    
-                    <Typography variant="subheading">
-                        name: {this.props.seller.name}   lastName: {this.props.seller.lastName}
-                    </Typography>
-                    <Typography variant="subheading">
-                        gender: {this.props.seller.gender}
-                    </Typography>
-                    <Typography variant="subheading">
-                        phone number: {this.props.seller.code}-{this.props.seller.phoneNumber}
-                    </Typography>
-                    <Typography variant="subheading">
-                       userType: {this.props.seller.userType}
-                    </Typography>
-                    <Typography variant="subheading">
-                        dateOfBirth: {this.props.seller.dateOfBirth}
-                    </Typography>
-                    <Typography variant="subheading">
-                        email: {this.props.seller.email}
-                    </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={3}>
-                    <Button variant="raised" color="secondary" 
-                    onClick={this.props.messageToggle}
-                    >
-                        Send Message
-                    </Button>
-                    </Grid>
-                    </Grid>
-                    </Paper>
-                    <Collapse in={this.props.msg}>
+                </Paper>
+                <Collapse in={this.props.msg}>
                     <Paper>
-                    <Grid  container
-                    direction="row"
-                    justify="center"
-                    > 
-                    <Grid item xs={12} sm={9}>
-                    <TextField
-                    label="Message"
-                    multiline
-                    fullWidth
-                    rows="4"/>
-                    </Grid> 
-                    <Grid item xs={12} sm={3}>
-                    <Button variant="raised" 
-                    color="secondary"
-                    onClick={this.props.sendMessage}
-                    >Send</Button>
-                    </Grid>
-                    </Grid>
+                        <Grid  container
+                        direction="row"
+                        justify="center"
+                        > 
+                            <Grid item xs={12} sm={9}>
+                                <TextField
+                                label="Message"
+                                multiline
+                                fullWidth
+                                rows="4"/>
+                            </Grid> 
+                            <Grid item xs={12} sm={3}>
+                                <Button 
+                                    variant="raised" 
+                                    color="secondary"
+                                    onClick={this.props.sendMessage}
+                                >Send
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Paper>
-                    </Collapse>
-                    </Fragment>
+                </Collapse>
+            </Fragment>
         )
     }
 }

@@ -31,11 +31,10 @@ router.get('/latest', (req, res) => {
 })
 
 router.post('/new', (req, res) => {
-    console.log(req.body)
-    const { title, description, category, post_time } = req.body
-    product.new(req.user.person_id, title, description, 'service', category).then(new_product => {
+    const { title, description, category, post_time, location } = req.body
+    product.new(req.user.person_id, title, description, 'service', category, location, post_time).then(new_product => {
         const { product_id } = new_product
-        service.new(product_id, post_time).then(data => {
+        service.new(product_id).then(data => {
             res.send({ status: 200 })
         }).catch(err => {
             console.log(err)

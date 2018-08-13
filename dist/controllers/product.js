@@ -1,16 +1,28 @@
 const express = require('express');
 const Product = require('./../helpers/product_db');
+const Contact = require('./../helpers/user_db');
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 const router = express.Router();
 
-router.get('/detail/:category/:id', async (req,res)=> {
-    const { category, id } = req.params
+router.get('/detail/:id', async (req,res)=> {
+    const { id } = req.params
+    const general = {}
+    const type = {}
     try {
-        const product = await Product.show(category, id)
+        const { kind } = await Product.type(id)
+        const product = await Product.show(kind, id)
+        let count = 0
+        for (var i in product) {
+            (count < 7) ? general[i] = product[i] : type[i] = product[i]
+            count++
+        }
         res.send({ 
-           status: 200,
-           product
+            status: 200,
+            product: {
+                general,
+                type
+            }
         })
     } catch (e) {
         console.log(e)
@@ -27,6 +39,24 @@ router.get('/images/:id', async (req, res) => {
         res.send({ 
             status: 200,
             images
+        })
+    } catch (e) {
+        console.log(e)
+        res.send({
+            status: 404
+        })
+    }
+})
+
+router.get('/contact/:id', async (req, res) => {
+    try {
+        const contact = await Contact.id(req.params.id)
+        delete contact['person_id']
+        delete contact['password']
+        delete contact['email']
+        res.send({ 
+            status: 200,
+            contact
         })
     } catch (e) {
         console.log(e)

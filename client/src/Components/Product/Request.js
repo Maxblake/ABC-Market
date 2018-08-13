@@ -38,10 +38,11 @@ export const productImages = (id, cb) => {
     })
 }
 
-export const productDetail = (category, id, cb) => {
-    fetch(`/product/detail/${category}/${id}`)
+export const productDetail = (id, cb) => {
+    fetch(`/product/detail/${id}`)
     .then(response => response.json()) 
     .then(result => {
         (result.status === 200) ? cb(result.product) : cb(false) 
     })
 }
+

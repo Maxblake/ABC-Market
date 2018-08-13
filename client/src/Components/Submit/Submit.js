@@ -12,33 +12,24 @@ import SubmitPlace from "./SubmitPlace"
 class Submit extends Component{
 
     typeSubmit=(type)=>{
-
-            switch(type){
-                
-                case "product":
-                    return(<SubmitSelect {...this.props}/>);
-                    
-                case "service":
-                    return(<SubmitService {...this.props} />)
-                
-                case "place":
-                    return(<SubmitPlace {...this.props} />)
-
-                case "sale":
-                    return(<SubmitSale {...this.props} />)
-
-            }
-
+        switch(type){
+            case "product":
+                return(<SubmitSelect {...this.props}/>);
+            case "service":
+                return(<SubmitService {...this.props} />)
+            case "place":
+                return(<SubmitPlace {...this.props} />)
+            case "sale":
+                return(<SubmitSale {...this.props} />)
+        }
     }
     
-
     render(){
-            let returned = this.typeSubmit(this.props.match.params.type)
+        let returned = this.typeSubmit(this.props.match.params.type)
         return (
              <Fragment>
                 {returned}
             </Fragment>
-
         )
     }
 }

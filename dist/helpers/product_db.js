@@ -1,9 +1,9 @@
 const db = require('./db');
 
-module.exports.new = (user_id, title, description, type, category, location)=>{
+module.exports.new = (user_id, title, description, type, category, location, post_time)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.one('insert into product (person_id, title, description, type, category, location) values ($1, $2, $3, $4, $5, $6) returning product_id', [user_id, title, description, type, category, location]).then(data=>{
+            obj.one('insert into product (person_id, title, description, type, category, location, post_time) values ($1, $2, $3, $4, $5, $6, $7) returning product_id', [user_id, title, description, type, category, location, post_time]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -51,10 +51,26 @@ module.exports.add_image = (product_id, url)=>{
     });
 }
 
+module.exports.type = (id) =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.one('select type as kind from product where product_id = $1', [id]).then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                rej(error);
+                obj.done();
+            })
+        }).catch(error=>{
+            rej(error);
+        });
+    });
+}
+
 module.exports.show = (category, id) =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.one(`select person.name, product.*, ${category}.* from person inner join product on person.person_id = product.person_id inner join ${category} on product.product_id = ${category}.product_id where product.product_id = $1`, [id]).then(data=>{
+            obj.one(`select product.*, ${category}.* from person inner join product on person.person_id = product.person_id inner join ${category} on product.product_id = ${category}.product_id where product.product_id = $1`, [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

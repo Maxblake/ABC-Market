@@ -10,7 +10,8 @@ class SubmitService extends Component{
         title:'',
         category:'',
         post_time:'',
-        description:''
+        description:'',
+        location:null
     }
 
     handleChange=(event)=>{
@@ -19,14 +20,14 @@ class SubmitService extends Component{
     }
 
     create = () => {
-        const { title, category, post_time, description } = this.state
+        const { title, category, post_time, description, location } = this.state
         fetch('/product/service/new', {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify({ title, category, post_time, description })
+            body: JSON.stringify({ title, category, post_time, description, location })
         })
         .then(response => response.json())
         .then(data => {

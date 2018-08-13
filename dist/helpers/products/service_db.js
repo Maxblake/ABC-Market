@@ -18,10 +18,10 @@ module.exports.latest = () =>{
     });
 }
 
-module.exports.new = (product_id, post_time)=>{
+module.exports.new = (product_id)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('insert into service (product_id, post_time) values ($1, $2)',[product_id, post_time]).then(data=>{
+            obj.none('insert into service (product_id) values ($1)',[product_id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

@@ -34,10 +34,10 @@ module.exports.latest = () =>{
     });
 }
 
-module.exports.new = (product_id, stock, price, used, link, post_time)=>{
+module.exports.new = (product_id, stock, price, used, link)=>{
     return new Promise((res,rej)=>{
           db.connect().then(obj=>{
-              obj.none('insert into article (product_id, stock, price, used, link, post_time) values ($1, $2, $3, $4, $5, $6)',[product_id, stock, price, used, link, post_time]).then(data=>{
+              obj.none('insert into article (product_id, stock, price, used, link) values ($1, $2, $3, $4, $5)',[product_id, stock, price, used, link]).then(data=>{
                   res(data);
                   obj.done();
               }).catch(error=>{

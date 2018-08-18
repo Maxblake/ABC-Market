@@ -1,347 +1,388 @@
-import React,{Component} from 'react'
-import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
-import UploadForm from '../Product/UploadForm'
+import React, { Component } from "react";
+import {
+  Grid,
+  Paper,
+  Typography,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+  Input,
+  FormHelperText,
+  Button
+} from "@material-ui/core";
+import UploadForm from "../Product/UploadForm";
+import {handleChange} from '../../../Helpers/Helpers'
 
-class SubmitVehicle extends Component{
-    file = React.createRef();
-    
-    state={
-        brand:"",
-        model:"",
-        distance:"",
-        year:"",
-        fuel:"",
-        negotiable:"",
-        finance:"",
-        interior:"",
-        unique_owner:"",
-        windows:"",
-        steer:"",
-        ac:"",
-        post_time:0,
-        location:"",
-        description:""
+class SubmitVehicle extends Component {
+  file = React.createRef();
+
+  state = {
+    brand: false,
+    model: false,
+    distance: false,
+    year: false,
+    fuel: false,
+    negotiable: false,
+    finance: false,
+    interior: false,
+    unique_owner: false,
+    windows: false,
+    steer: false,
+    ac: false,
+    post_time: false,
+    location: false,
+    description: false,
+    errors : {
+      brand: false,
+    model: false,
+    distance: false,
+    year: false,
+    fuel: false,
+    negotiable: false,
+    finance: false,
+    interior: false,
+    unique_owner: false,
+    windows: false,
+    steer: false,
+    ac: false,
+    post_time: false,
+    location: false,
+    description: false
     }
+  };
 
-    handleChange=(event)=>{
-        console.log(event.target.name+"//"+event.target.value)
-            this.setState({[event.target.name]:event.target.value});
+
+  create = e => {
+    const {
+      brand,
+      model,
+      distance,
+      year,
+      fuel,
+      negotiable,
+      finance,
+      interior,
+      unique_owner,
+      windows,
+      steer,
+      ac,
+      post_time,
+      location,
+      description
+    } = this.state;
+    e.preventDefault();
+    const body = new FormData();
+    const { files } = this.file.current;
+    for (var i = 0; i < files.length; i++) {
+      var filing = files[i];
+      body.append("files[]", filing, filing.name);
     }
-
-    create = (e) => {
-        const { brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, post_time, location, description } = this.state
-        e.preventDefault()
-        const body = new FormData();
-        const { files } = this.file.current;
-        for (var i = 0; i < files.length; i++) {
-            var filing = files[i];
-            body.append('files[]', filing, filing.name);
-        }
-        body.append('brand', brand)
-        body.append('model', model)
-        body.append('distance', distance)
-        body.append('year', year)
-        body.append('fuel', fuel)
-        body.append('negotiable', negotiable)
-        body.append('finance', finance)
-        body.append('interior', interior)
-        body.append('unique_owner', unique_owner)
-        body.append('windows', windows)
-        body.append('steer', steer)
-        body.append('ac', ac)
-        body.append('post_time', post_time)
-        body.append('location', location)      
-        body.append('description', description)      
-        fetch('/product/vehicle/new', {
-            method: 'POST',
-            credentials: 'include',
-            body
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        }).catch(err => {
-            alert('connection error')
-            console.log(err)
-        })
-    }
-    render(){
-        return(
-            <Grid container justify='center'>
-            
-            <Grid item xs={12} sm={8}><br/>
-            <Typography variant="headline">
-            Submit/Vehicle
-            </Typography><br/>
-                <Paper>
-                    <Grid container direction="row"
-                    justify="center"
-                    >
-                        <Grid item xs={12}>
-                        <input
-                            type="file"
-                            multiple
-                            ref={this.file}>
-                        </input>    
-                    </Grid>
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                        <Grid item xs={12} sm={5}>
-                        <TextField
-                        type="text"
-                        name="brand"
-                        label="Brand"
-                        fullWidth
-                        margin="normal"
-                        onChange={this.handleChange}
-                        > </TextField>
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                        <TextField
-                        type="text"
-                        name="model"
-                        label="Model"
-                        fullWidth
-                        margin="normal"
-                        onChange={this.handleChange}
-                        > </TextField>
-                        </Grid>
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                        <Grid item xs={12} sm={5}>
-                        <TextField
-                        type="number"
-                        name="distance"
-                        label="Driven distance (Km)"
-                        fullWidth
-                        margin="normal"
-                        onChange={this.handleChange}
-                        > </TextField>
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                        <TextField
-                        type="number"
-                        name="year"
-                        label="Year"
-                        fullWidth
-                        margin="normal"
-                        onChange={this.handleChange}
-                        > </TextField>
-                        </Grid>
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                    <Grid item xs={12} sm={5}>
-                    <FormControl fullWidth margin="normal">
-                            <InputLabel >Fuel type</InputLabel>
-                            <Select
-                            
-                            value={this.state.fuel}
-                            onChange={this.handleChange}
-                                input={<Input name="fuel" />}
-                            >
-                                <MenuItem value={"diesel"}>Diesel</MenuItem>
-                                <MenuItem value={"gasoline"}>Gasoline</MenuItem>
-                            </Select>
-                            <FormHelperText></FormHelperText>
-                                </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={5}>
-                    <FormControl fullWidth margin="normal">
-                            <InputLabel >Negotiable</InputLabel>
-                            <Select
-                            
-                            value={this.state.negotiable}
-                            onChange={this.handleChange}
-                                input={<Input name="negotiable" />}
-                            >
-                                <MenuItem value={"Yes"}>Yes</MenuItem>
-                                <MenuItem value={"No"}>No</MenuItem>
-                            </Select>
-                            <FormHelperText>Is the stated price negotiabe?</FormHelperText>
-                                </FormControl>
-                    </Grid>
-                    
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                        <Grid item xs={12} sm={5}>
-                        <FormControl fullWidth margin="normal">
-                                <InputLabel >finance</InputLabel>
-                                <Select
-                                
-                                value={this.state.finance}
-                                onChange={this.handleChange}
-                                    input={<Input name="finance" />}
-                                >
-                                    <MenuItem value={"Yes"}>Yes</MenuItem>
-                                    <MenuItem value={"No"}>No</MenuItem>
-                                </Select>
-                                <FormHelperText>Do you offer any kind of finance?</FormHelperText>
-                                    </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                        <FormControl fullWidth margin="normal">
-                                <InputLabel >Interior material</InputLabel>
-                                <Select
-                                
-                                value={this.state.interior}
-                                onChange={this.handleChange}
-                                    input={<Input name="interior" />}
-                                >
-                                    <MenuItem value={"leather"}>Leather</MenuItem>
-                                    <MenuItem value={"semi-leather"}>Semi-Leather</MenuItem>
-                                    <MenuItem value={"fabric"}>Cotton Fabric</MenuItem>
-                                </Select>
-                                <FormHelperText></FormHelperText>
-                                    </FormControl>
-                        </Grid>
-                    
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                        <Grid item xs={12} sm={5}>
-                        <FormControl fullWidth margin="normal">
-                                <InputLabel >Unique Owner</InputLabel>
-                                <Select
-                                
-                                value={this.state.unique_owner}
-                                onChange={this.handleChange}
-                                    input={<Input name="unique_owner" />}
-                                >
-                                    <MenuItem value={"Yes"}>Yes</MenuItem>
-                                    <MenuItem value={"No"}>No</MenuItem>
-                                </Select>
-                                <FormHelperText>have you been the only owner of the vehicle</FormHelperText>
-                                    </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                        <FormControl fullWidth margin="normal">
-                                <InputLabel >Windows</InputLabel>
-                                <Select
-                                
-                                value={this.state.windows}
-                                onChange={this.handleChange}
-                                    input={<Input name="windows" />}
-                                >
-                                    <MenuItem value={"electric"}>Electric</MenuItem>
-                                    <MenuItem value={"manual"}>Manual</MenuItem>
-                                </Select>
-                                <FormHelperText></FormHelperText>
-                                    </FormControl>
-                        </Grid>
-                    
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                        <Grid item xs={12} sm={5}>
-                        <FormControl fullWidth margin="normal">
-                                <InputLabel >Pilot seat position</InputLabel>
-                                <Select
-                                
-                                value={this.state.steer}
-                                onChange={this.handleChange}
-                                    input={<Input name="steer" />}
-                                >
-                                    <MenuItem value={"left"}>Left</MenuItem>
-                                    <MenuItem value={"right"}>Right</MenuItem>
-                                </Select>
-                                <FormHelperText></FormHelperText>
-                                    </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={5}>
-                        <FormControl fullWidth margin="normal">
-                                <InputLabel >Air conditioning </InputLabel>
-                                <Select
-                                
-                                value={this.state.ac}
-                                onChange={this.handleChange}
-                                    input={<Input name="ac" />}
-                                >
-                                    <MenuItem value={"works"}>Working Perfectly</MenuItem>
-                                    <MenuItem value={"regular"}>Works regularly</MenuItem>
-                                    <MenuItem value={"notWork"}>Does not work</MenuItem>
-                                    <MenuItem value={"not"}>Is not included</MenuItem>
-                                </Select>
-                                <FormHelperText></FormHelperText>
-                                    </FormControl>
-                        </Grid>
-                    
-                    </Grid>
-                    <Grid container direction="row" justify="center" spacing={8}>
-                            <Grid item xs={10}>
-                            <Grid container direction="row" justify="center" spacing={8}
-                            alignItems="center"
-                            >
-                            <Grid item xs={12} sm={6} >
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel >Post time</InputLabel>
-                                    <Select
-                                    
-                                    value={this.state.post_time}
-                                    onChange={this.handleChange}
-                                        input={<Input name="post_time" />}
-                                    >
-                                        <MenuItem value={30}>30 days</MenuItem>
-                                        <MenuItem value={60}>60 days</MenuItem>
-                                        <MenuItem value={90}>90 days</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Period that the post will be visible to users</FormHelperText>
-                                </FormControl>
-                                </Grid>
-                                <Grid item xs={12} sm={6} >
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel >Location</InputLabel>
-                                    <Select
-                                    
-                                    value={this.state.location}
-                                    onChange={this.handleChange}
-                                        input={<Input name="location" />}
-                                    >
-                                        <MenuItem value={"Aruba"}>Aruba</MenuItem>
-                                        <MenuItem value={"Bonaire"}>Bonaire</MenuItem>
-                                        <MenuItem value={"Curacao"}>Curacao</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Product origin </FormHelperText>
-                                </FormControl>
-                                </Grid>
-                            
-                            </Grid>
-
-                            <Grid container direction="row" justify="center">
-                    <Grid item xs={12}>
-                        <TextField
-                            name="description"
-                            label="Description"
-                            multiline
-                            fullWidth
-                            rows={4}
-                            margin="normal"
-                            placeholder="detail the vehicle the best way possible for better user understanding and to ease the sale "
-                            onChange={this.handleChange}
-                      ></TextField>
-                    </Grid>
-                    </Grid>
-                            </Grid>
-                        
-                    </Grid>
-                    <Grid container direction="row" justify="center">
-                    <Grid item xs={12} sm={10}>
-                    <Grid container direction="row" justify="center">
-                    <Button variant="raised" color="secondary" onClick={this.create}>Submit</Button>
-                    </Grid>
-                    </Grid>
-                    </Grid>
-                    
-
-					<br/>																				
-                </Paper>
-            
-            
+    body.append("brand", brand);
+    body.append("model", model);
+    body.append("distance", distance);
+    body.append("year", year);
+    body.append("fuel", fuel);
+    body.append("negotiable", negotiable);
+    body.append("finance", finance);
+    body.append("interior", interior);
+    body.append("unique_owner", unique_owner);
+    body.append("windows", windows);
+    body.append("steer", steer);
+    body.append("ac", ac);
+    body.append("post_time", post_time);
+    body.append("location", location);
+    body.append("description", description);
+    fetch("/product/vehicle/new", {
+      method: "POST",
+      credentials: "include",
+      body
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        alert("connection error");
+        console.log(err);
+      });
+  };
+  render() {
+    return (
+      <Grid container justify="center">
+        <Grid item xs={12} sm={8}>
+          <br />
+          <Typography variant="headline">Submit/Vehicle</Typography>
+          <br />
+          <Paper>
+            <Grid container direction="row" justify="center">
+              <Grid item xs={12}>
+                <input type="file" multiple ref={this.file} />
+              </Grid>
             </Grid>
-        
-        
-        </Grid>
-        
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  type="text"
+                  name="brand"
+                  label="Brand"
+                  fullWidth
+                  margin="normal"
+                  onChange={handleChange}
+                >
+                  {" "}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  type="text"
+                  name="model"
+                  label="Model"
+                  fullWidth
+                  margin="normal"
+                  onChange={handleChange}
+                >
+                  {" "}
+                </TextField>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  type="number"
+                  InputProps={{ inputProps: { min: 0, max: 1000000 } }}
+                  name="distance"
+                  label="Driven distance (Km)"
+                  fullWidth
+                  margin="normal"
+                  onChange={handleChange}
+                >
+                  {" "}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  type="number"
+                  InputProps={{ inputProps: { min: 0, max: 1000000 } }}
+                  name="year"
+                  label="Year"
+                  fullWidth
+                  margin="normal"
+                  onChange={handleChange}
+                >
+                  {" "}
+                </TextField>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Fuel type</InputLabel>
+                  <Select
+                    value={this.state.fuel}
+                    onChange={handleChange}
+                    input={<Input name="fuel" />}
+                  >
+                    <MenuItem value={"diesel"}>Diesel</MenuItem>
+                    <MenuItem value={"gasoline"}>Gasoline</MenuItem>
+                  </Select>
+                  <FormHelperText />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Negotiable</InputLabel>
+                  <Select
+                    value={this.state.negotiable}
+                    onChange={handleChange}
+                    input={<Input name="negotiable" />}
+                  >
+                    <MenuItem value={"Yes"}>Yes</MenuItem>
+                    <MenuItem value={"No"}>No</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Is the stated price negotiabe?
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>finance</InputLabel>
+                  <Select
+                    value={this.state.finance}
+                    onChange={handleChange}
+                    input={<Input name="finance" />}
+                  >
+                    <MenuItem value={"Yes"}>Yes</MenuItem>
+                    <MenuItem value={"No"}>No</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    Do you offer any kind of finance?
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Interior material</InputLabel>
+                  <Select
+                    value={this.state.interior}
+                    onChange={handleChange}
+                    input={<Input name="interior" />}
+                  >
+                    <MenuItem value={"leather"}>Leather</MenuItem>
+                    <MenuItem value={"semi-leather"}>Semi-Leather</MenuItem>
+                    <MenuItem value={"fabric"}>Cotton Fabric</MenuItem>
+                  </Select>
+                  <FormHelperText />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Unique Owner</InputLabel>
+                  <Select
+                    value={this.state.unique_owner}
+                    onChange={handleChange}
+                    input={<Input name="unique_owner" />}
+                  >
+                    <MenuItem value={"Yes"}>Yes</MenuItem>
+                    <MenuItem value={"No"}>No</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    have you been the only owner of the vehicle
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Windows</InputLabel>
+                  <Select
+                    value={this.state.windows}
+                    onChange={handleChange}
+                    input={<Input name="windows" />}
+                  >
+                    <MenuItem value={"electric"}>Electric</MenuItem>
+                    <MenuItem value={"manual"}>Manual</MenuItem>
+                  </Select>
+                  <FormHelperText />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Pilot seat position</InputLabel>
+                  <Select
+                    value={this.state.steer}
+                    onChange={handleChange}
+                    input={<Input name="steer" />}
+                  >
+                    <MenuItem value={"left"}>Left</MenuItem>
+                    <MenuItem value={"right"}>Right</MenuItem>
+                  </Select>
+                  <FormHelperText />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Air conditioning </InputLabel>
+                  <Select
+                    value={this.state.ac}
+                    onChange={handleChange}
+                    input={<Input name="ac" />}
+                  >
+                    <MenuItem value={"works"}>Working Perfectly</MenuItem>
+                    <MenuItem value={"regular"}>Works regularly</MenuItem>
+                    <MenuItem value={"notWork"}>Does not work</MenuItem>
+                    <MenuItem value={"not"}>Is not included</MenuItem>
+                  </Select>
+                  <FormHelperText />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center" spacing={8}>
+              <Grid item xs={10}>
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  spacing={8}
+                  alignItems="center"
+                >
+                  <Grid item xs={12} sm={6}>
+                    <FormControl fullWidth margin="normal">
+                      <InputLabel>Post time</InputLabel>
+                      <Select
+                        value={this.state.post_time}
+                        onChange={handleChange}
+                        input={<Input name="post_time" />}
+                      >
+                        <MenuItem value={30}>30 days</MenuItem>
+                        <MenuItem value={60}>60 days</MenuItem>
+                        <MenuItem value={90}>90 days</MenuItem>
+                      </Select>
+                      <FormHelperText>
+                        Period that the post will be visible to users
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl fullWidth margin="normal">
+                      <InputLabel>Location</InputLabel>
+                      <Select
+                        value={this.state.location}
+                        onChange={handleChange}
+                        input={<Input name="location" />}
+                      >
+                        <MenuItem value={"Aruba"}>Aruba</MenuItem>
+                        <MenuItem value={"Bonaire"}>Bonaire</MenuItem>
+                        <MenuItem value={"Curacao"}>Curacao</MenuItem>
+                      </Select>
+                      <FormHelperText>Product origin </FormHelperText>
+                    </FormControl>
+                  </Grid>
+                </Grid>
 
-        )
-    }
+                <Grid container direction="row" justify="center">
+                  <Grid item xs={12}>
+                    <TextField
+                      name="description"
+                      label="Description"
+                      multiline
+                      fullWidth
+                      rows={4}
+                      margin="normal"
+                      placeholder="detail the vehicle the best way possible for better user understanding and to ease the sale "
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid container direction="row" justify="center">
+              <Grid item xs={12} sm={10}>
+                <Grid container direction="row" justify="center">
+                  <Button
+                    variant="raised"
+                    color="secondary"
+                    onClick={this.create}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <br />
+          </Paper>
+        </Grid>
+      </Grid>
+    );
+  }
 }
 
-export default SubmitVehicle
+export default SubmitVehicle;

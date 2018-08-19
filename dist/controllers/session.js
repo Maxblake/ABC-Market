@@ -61,6 +61,15 @@ router.get('/ip', (req,res,next) => {
     res.send({ ip: ip.address()})
 })
 
+router.get('/user/contacts', auth.isAuth, async (req,res) => {
+    const { person_id } = req.user
+    const contacts = await User.contacts_details(person_id)
+    res.send({ 
+        status: 200,
+        contacts
+    })
+})
+
 router.get('/logout', auth.isAuth, (req, res) => {
     req.logout();
     res.send({

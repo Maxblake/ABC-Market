@@ -145,12 +145,7 @@ render(){
                     </Paper>
                 </Grid>
             </Grid>
-            </div>
-
-                
-
-            )
-        }
-
-
+        </div>
+        )
+    }
 }

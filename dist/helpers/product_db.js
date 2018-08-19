@@ -82,3 +82,19 @@ module.exports.show = (category, id) =>{
         });
     });
 }
+
+module.exports.user_uploads = (seller_id) =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.any(`select distinct on (product.product_id) product.title, product.type, image.url as image from product inner join trade on product.product_id = trade.product_id inner join image on trade.product_id = image.product_id where trade.seller_id = $1`, [seller_id]).then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                rej(error);
+                obj.done();
+            })
+        }).catch(error=>{
+            rej(error);
+        });
+    });
+}

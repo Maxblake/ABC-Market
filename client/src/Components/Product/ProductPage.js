@@ -3,8 +3,10 @@ import ProductDetail from './ProductDetail';
 import ProductEdit from './ProductEdit';
 import ContactDetail from './ContactDetail';
 import {Collapse,Grid, Zoom} from '@material-ui/core'
+import { newMessageFromProduct, getSeller } from './Request';
+import { withRouter } from 'react-router';
 
-export default class ProductPage extends Component{
+class ProductPage extends Component{
    
     state={
         opened:true,
@@ -15,24 +17,23 @@ export default class ProductPage extends Component{
 }
     
     contactSeller = id => {
-        fetch(`/product/contact/${id}`)
-        .then(response => response.json())
-        .then(result => {
-            this.setState({
-                contact:!this.state.contact,
-                seller: result.contact
-            })
+        getSeller(id, seller => {
+            if(seller != false) {
+                this.setState({
+                    contact:!this.state.contact,
+                    seller
+                })
+            }
         })
     }
 
     messageToggle=()=>{
-        console.log("toggle message tab")
         this.setState({msg:!this.state.msg});
     }
     updateProduct= product => {
         this.setState({
-            product,
-            editMode:false
+            editMode:false,
+            product
         });
     }
     
@@ -44,6 +45,18 @@ export default class ProductPage extends Component{
         });
     }
     
+    sendMessage = (message) => {
+        const product_id = this.props.match.params.item
+        const { name, person_id } = this.state.seller
+        newMessageFromProduct(message, product_id, person_id, id => {
+            if (id != null) {
+                this.props.history.push({
+                    pathname:`/inbox/${id}`,
+                    state: { name }
+                })
+            }
+        })
+    }
 
     render(){
         return (
@@ -75,3 +88,6 @@ export default class ProductPage extends Component{
         )
     }
 }
+
+
+export default withRouter(ProductPage)

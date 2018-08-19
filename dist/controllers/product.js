@@ -51,7 +51,6 @@ router.get('/images/:id', async (req, res) => {
 router.get('/contact/:id', async (req, res) => {
     try {
         const contact = await Contact.id(req.params.id)
-        delete contact['person_id']
         delete contact['password']
         delete contact['email']
         res.send({ 
@@ -83,6 +82,20 @@ router.post('/update/', (req, res)=> {
             throw err;
     });
 });
+
+router.get('/by_user', async (req, res) => {
+    try {    
+        const products =  await Product.user_uploads(req.user.person_id)
+        res.send({ 
+            status: 200,
+            products 
+        })
+    } catch (e) {
+        res.send({ 
+            status: 404,
+        })
+    }
+})
 
 
 module.exports = router;

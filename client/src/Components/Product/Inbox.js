@@ -16,17 +16,6 @@ const queryString = require('query-string');
     componentDidMount(){
         console.log(this.props)
     }
-
-
-    handleClick=(contact)=>{
-        // if(contact){
-        // this.setState({chat:!this.state.chat,
-        // chatContactName:contact.name});
-        // }else{
-        //     this.setState({chat:!this.state.chat,
-        //         chatContactName:""});
-        // }
-    }
     
     chat = contact => {
         const { name, id } = contact

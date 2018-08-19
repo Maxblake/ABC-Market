@@ -13,7 +13,7 @@ class GridListComp extends Component{
 
     componentDidMount() {
         if (this.props.product != undefined) {
-            this.setState({ products: this.props.product})
+            this.setState({ products: this.state.products.concat(this.props.product)})
         } else {
             const { type } = this.props.match.params
             switch(type) {
@@ -42,9 +42,9 @@ class GridListComp extends Component{
     }
 
     chat = contact => {
-        const { name, id }= contact
+        const { name, trade_id }= contact
         this.props.history.push({
-            pathname:`/inbox/${contact.id}`,
+            pathname:`/inbox/${trade_id}`,
             state: { name }
         })
     }

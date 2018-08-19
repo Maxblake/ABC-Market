@@ -46,3 +46,26 @@ export const productDetail = (id, cb) => {
     })
 }
 
+export const getSeller = (id, cb) => {
+    fetch(`/product/contact/${id}`)
+    .then(response => response.json())
+    .then(result => {
+        (result.status === 200) ? cb(result.contact) : cb(false)
+    })
+}
+
+export const newMessageFromProduct = (message, product_id, seller_id, cb) => {
+    fetch('/trade/new_message_from_product', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ message, product_id, seller_id })
+    })
+    .then(response => response.json())
+    .then(result => {
+        (result.status == 200) ? cb(result.id) : cb(null)
+    })
+}
+

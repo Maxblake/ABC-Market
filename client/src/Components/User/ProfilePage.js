@@ -4,30 +4,37 @@ import GridListComp from '../Product/GridListComp'
 import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';
 import Auth, { Session } from '../../Provider/Auth';
+import { userProduct, userContacts } from './Request';
 
 export default class ProfilePage extends Component {
     state={
         editMode:true,
-        uploads:[
-            {
-                image:"image",
-                name:"Franela manga corta",
-                condition:"New",
-                price:"200"
-            },
-            {
-                image:"TV image",
-                name:"Televisor Samsung 4K",
-                condition:"New",
-                price:"3000"
-            },
-            {
-                image:"TV image",
-                name:"Televisor Samsung 4K",
-                condition:"New",
-                price:"3000"
+        products:[],
+        contacts:[],
+        loadedProd: false,
+        loadedContacts: false
+    }
+
+    componentWillMount() {
+       userProduct(response => {
+            if(response != null) {
+                this.setState({
+                    products: this.state.products.concat(response),
+                    loadedProd: true 
+                })
             }
-        ]
+        })
+
+        userContacts(response => {
+            if(response != null) {
+                this.setState({
+                    contacts: this.state.contacts.concat(response),
+                    loadedContacts: true
+                })
+            }
+        })
+
+
     }
 
     toggleEdit=()=>{
@@ -64,11 +71,14 @@ export default class ProfilePage extends Component {
                     direction="row"
                     justify="center">
                     <br/>
-                    <GridListComp 
-                        type="product" 
-                        edit={true} 
-                        product={this.state.uploads}
-                    />
+                    {this.state.loadedProd ?
+                        <GridListComp 
+                            type="product" 
+                            edit={true} 
+                            product={this.state.products}
+                        />
+                        : null
+                    }
                 </Grid>
                 <br/>
                 <Typography variant="display2">
@@ -78,11 +88,14 @@ export default class ProfilePage extends Component {
                     container 
                     direction="row"
                     justify="center">
-                    <GridListComp 
-                        type="contact"
-                        sendMsg={true} 
-                        contacts={this.props.contacts}
-                    />
+                    {this.state.loadedContacts ?
+                        <GridListComp 
+                            type="contact"
+                            sendMsg={true} 
+                            contacts={this.state.contacts}
+                        />
+                        : null
+                    }
                 </Grid>
 
                     

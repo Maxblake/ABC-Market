@@ -18,7 +18,7 @@ module.exports.show = (trade_id)=>{
     });
 }
 
-module.exports.new = (trade_id, sender_id, message, time)=>{
+module.exports.new_message = (trade_id, sender_id, message, time)=>{
     return new Promise((res,rej)=>{
         db.connect().then((obj)=>{
             obj.none('INSERT INTO chat_hist (trade_id, sender_id, message, time) VALUES ($1, $2, $3, $4)',[trade_id, sender_id, message, time]).then((data)=>{

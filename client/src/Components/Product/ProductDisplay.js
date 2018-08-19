@@ -16,7 +16,7 @@ export default class ProductDisplay extends Component{
                         <Grid item xs={6}>
                             {Object.keys(this.props.product).map(key => (
                                 key !== "image" ?
-                                    key !== "product_id" ?
+                                key !== "product_id" ?
                                     <Typography 
                                         key={key}
                                         variant="subheading">

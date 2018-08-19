@@ -4,6 +4,14 @@ import {Button,Grid,Collapse,TextField,Typography,Paper} from '@material-ui/core
 
 export default class ContactDetail extends Component{
 
+    state = {
+        message: "",
+    }    
+
+    handleChange = (event) => {
+        this.setState({ [event.target.name]:event.target.value })
+    }
+
     componentDidMount=()=>{
         let toRender=[];
         let i = 0;
@@ -59,14 +67,16 @@ export default class ContactDetail extends Component{
                                 <TextField
                                 label="Message"
                                 multiline
+                                name="message"
                                 fullWidth
+                                onChange={this.handleChange} 
                                 rows="4"/>
                             </Grid> 
                             <Grid item xs={12} sm={3}>
                                 <Button 
                                     variant="raised" 
                                     color="secondary"
-                                    onClick={this.props.sendMessage}
+                                    onClick={() => this.props.sendMessage(this.state.message)}
                                 >Send
                                 </Button>
                             </Grid>

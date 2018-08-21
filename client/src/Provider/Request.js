@@ -46,3 +46,13 @@ export const signUp = (name, lastname, username, code, phoneNumber, password, ge
         (result.status == 200) ? cb(result.user) : cb(null)
     })
 }
+
+export const getSession = (cb) => {
+    fetch('/checkSession', {
+        'credentials': 'include'
+    })
+    .then(response => response.json())
+    .then(result => {
+        (result.status == 200) ? cb(result.user) : cb(null)
+    })
+}

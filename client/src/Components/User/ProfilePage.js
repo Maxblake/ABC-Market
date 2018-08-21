@@ -5,9 +5,11 @@ import UserInfo from './UserInfo';
 import UserEdit from './UserEdit';
 import Auth, { Session } from '../../Provider/Auth';
 import { userProduct, userContacts } from './Request';
+import { getSession } from '../../Provider/Request';
 
 export default class ProfilePage extends Component {
     state={
+        user:'',
         editMode:true,
         products:[],
         contacts:[],
@@ -16,7 +18,12 @@ export default class ProfilePage extends Component {
     }
 
     componentWillMount() {
-       userProduct(response => {
+        getSession(user => {
+            if (user != null) {
+                this.setState({ user })
+            }
+        })
+        userProduct(response => {
             if(response != null) {
                 this.setState({
                     products: this.state.products.concat(response),
@@ -24,7 +31,6 @@ export default class ProfilePage extends Component {
                 })
             }
         })
-
         userContacts(response => {
             if(response != null) {
                 this.setState({
@@ -33,8 +39,6 @@ export default class ProfilePage extends Component {
                 })
             }
         })
-
-
     }
 
     toggleEdit=()=>{
@@ -44,6 +48,7 @@ export default class ProfilePage extends Component {
 
     
     render(){
+        const { user } = this.state
         return(
             <Grid container justify="center">
                 <Grid 
@@ -52,17 +57,16 @@ export default class ProfilePage extends Component {
                     justify="center">
                     <h1>My Account</h1>
                 </Grid>
-
-
                 <Grid 
                     container 
                     direction="row"
                     justify="center">
                     {this.state.editMode ?
-                        <UserInfo user={this.props.user} key={this.props.user.person_id} toggleEdit={this.toggleEdit}/> :
-                        <UserEdit user={this.props.user} updateUser={this.props.updateUser} toggleEdit={this.toggleEdit} />
+                        <UserInfo user={user} key={user.person_id} toggleEdit={this.toggleEdit}/> :
+                        <UserEdit user={user} updateUser={this.props.updateUser} toggleEdit={this.toggleEdit} />
                     }
                 </Grid>
+      
                 <Typography variant="display2" >
                     Uploads
                 </Typography>

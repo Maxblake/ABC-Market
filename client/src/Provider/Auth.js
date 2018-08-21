@@ -46,6 +46,10 @@ class Auth extends Component {
         }
     } 
   
+    getSession = () => {
+        return this.state.user
+    }
+
     render() {
         return (
             <Session.Provider value={this.state}>

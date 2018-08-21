@@ -128,14 +128,9 @@ class App extends Component {
     
     chat = () => {
         return(
-            <Session.Consumer>
-                {session => (
-                    <Chat 
-                        ip={this.state.ip} 
-                        user={session.user.person_id} 
-                    />
-                )}
-            </Session.Consumer>
+            <Chat 
+                ip={this.state.ip} 
+            />
         ) 
     }
 

@@ -14,7 +14,7 @@ const queryString = require('query-string');
 
 
     componentDidMount(){
-        console.log(this.props)
+
     }
     
     chat = contact => {
@@ -28,18 +28,20 @@ const queryString = require('query-string');
     render(){
         return (
             <Grid container justify="center">
-                <Grid container direction="row"
-                justify="center">
-                <Typography variant="display2">
-                {this.props.user.name[this.props.user.name.length-1]==="s" ? this.props.user.name+"'":
-                this.props.user.name+"'s"} Inbox
-                </Typography>
-                
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center">
+                    <Typography variant="display2">
+                        Inbox
+                    </Typography>
                 </Grid>
                 <br/><br/>
-                <Grid container direction="row"
-                justify="center">
-                <Grid item xs={12} sm={8}>
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center">
+                    <Grid item xs={12} sm={8}>
                         <Grid item xs={12}>
                         {this.props.contacts.map((contact)=>(
                             <div>
@@ -55,18 +57,10 @@ const queryString = require('query-string');
                             </div>
                         ))}
                         </Grid>
-                </Grid>
-
-                    
-                
-                </Grid>
-            
+                    </Grid>
+                </Grid>    
             </Grid>
-
         )
-
-
-
     }
 }
 

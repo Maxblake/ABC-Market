@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {Button, Grid} from '@material-ui/core';
+import{ Link } from 'react-router-dom'
 
 export default class Welcome extends Component{
 
@@ -16,21 +17,25 @@ export default class Welcome extends Component{
                             <h1>ABCMarket</h1>
                             <h2> Are you a...?</h2>
                             </Grid>
-                            <Grid item xs={12} spacing={40}>
+                            <Grid 
+                                item xs={12} 
+                            >
                                 <Button 
                                 variant="raised"
-                                color="secondary" >
+                                color="secondary"
+                                component={ Link } to="/home/tourist" 
+                                 >
                                 Turist</Button>
                                 <Button 
                                 variant="raised"
-                                color="secondary" >
+                                color="secondary" 
+                                component={ Link } to="/home/local"
+                                >
                                 Local</Button>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-                
-                
             </div>
         )
     }

@@ -26,7 +26,11 @@ module.exports = {
             {
               test: /\.styl$/,
               loader: "style-loader"
-            }
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2|gif|png|jpe?g|svg|json)$/,
+                loader: 'file-loader'
+            },
         ]
     },
 };

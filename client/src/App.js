@@ -40,38 +40,7 @@ class App extends Component {
         sales:{
             categories:["Supermarket","Ice cream","General Store","Other"],
         } 
-    },
-  contacts:[{
-          image:"Ernesto's Image",
-          name:"Ernesto Gonzalez",
-          id:25,
-          phone:"+297-000000",
-          reason:{
-                  name:"Tacos de futbol negros",
-                  condition:"Used",
-                  price:"AWG 20"
-          }
-      },{
-          image:"Manuel's Image",
-          name:"Manuel Gonzalez",
-          id:3,
-          phone:"+297-000000",
-          reason:{
-                  name:"gomas de basket verdes",
-                  condition:"Used",
-                  price:"AWG 20"
-          }
-      },
-      {   
-          image:"Marta's Image",
-          id:4,
-          name:"Marta Sanchez",
-          phone:"+297-0010101",
-          reason:{
-              name:"Masajista"
-          }
-      }
-  ]
+    }
 }
 
     header = () => {
@@ -139,8 +108,8 @@ class App extends Component {
         return (<Showcase {...props} showcase={this.state.showcase[props.match.params.type]}  />)
     }
 
-    productPage=(props)=>{
-        return (<ProductPage {...props}/>)
+    productPage=()=>{
+        return (<ProductPage />)
     }
 
     category=(props)=>{
@@ -168,7 +137,7 @@ class App extends Component {
                             <Route exact path="/" component={Welcome}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/register" component={Register}/>
-                            <Route exact path="/details/:item" component={(props)=>this.productPage(props)}/>
+                            <Route path="/details/:item" component={ProductPage}/>
                             <Route exact path="/home/:userType" component={this.homePage}/>
                             <Route exact path="/profile" component={this.profilePage}/>
                             <Route exact path="/inbox" component={this.inbox} />

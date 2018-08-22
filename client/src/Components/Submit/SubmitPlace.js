@@ -43,8 +43,10 @@ class SubmitPlace extends Component{
         body.append('post_time', post_time)
         body.append('location', location)      
         newPlace(body, response => {
-            if (response) {
+            if (response != false) {
                 alert('New place added!')
+            } else {
+                alert('An error has occured')
             }
         })
     }

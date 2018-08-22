@@ -123,7 +123,7 @@ class SubmitSale extends Component{
                             <Grid item xs={12} sm={6}>
                             <TextField 
                                     fullWidth
-                                    name="location"
+                                    name="address"
                                     margin="normal"
                                     label="Add Geolocation"
                                     onChange={this.handleChange}

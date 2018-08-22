@@ -3,18 +3,26 @@ import { Grid, Button, Typography } from '@material-ui/core';
 import ContactButton from './ContactButton'
 import Chat from '../../Containers/Chat'
 import { withRouter } from 'react-router'
+import { userContacts } from '../User/Request';
 const queryString = require('query-string');
 
     class Inbox extends Component{
 
     state={
+        contacts:[],
         chat:false,
         chatContactName:""
     }
 
-
     componentDidMount(){
-
+        userContacts(response => {
+            if(response != null) {
+                this.setState({
+                    contacts: this.state.contacts.concat(response),
+                    loadedContacts: true
+                })
+            }
+        })
     }
     
     chat = contact => {
@@ -43,19 +51,22 @@ const queryString = require('query-string');
                     justify="center">
                     <Grid item xs={12} sm={8}>
                         <Grid item xs={12}>
-                        {this.props.contacts.map((contact)=>(
-                            <div>
-                            <ContactButton 
-                                style={{height:120}}
-                                key={contact.id}
-                                id={contact.id}
-                                type="contact" 
-                                sendMsg={true}
-                                chat={()=>this.chat(contact)}
-                                contact={contact}/>
-                            <br/>
-                            </div>
-                        ))}
+                        {this.state.loadedContacts == true ? 
+                            this.state.contacts.map(contact=>(
+                                <div>
+                                <ContactButton 
+                                    style={{height:120}}
+                                    key={contact.id}
+                                    id={contact.id}
+                                    type="contact" 
+                                    sendMsg={true}
+                                    chat={()=>this.chat(contact)}
+                                    contact={contact}/>
+                                <br/>
+                                </div>
+                            ))
+                            : null
+                        }
                         </Grid>
                     </Grid>
                 </Grid>    

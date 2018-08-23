@@ -4,16 +4,7 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Connection Type" value="PostgreSQL" />
    <property key="Logical" value="PlayPen Database" />
-   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/Sim" />
-   <property key="UID" value="postgres" />
-   <property key="PWD" value="cesar420" />
-   <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.repos.login" value="" />
-   <property key="ca.sqlpower.architect.etl.kettle.repos.password" value="" />
   </data-source>
  </project-data-sources>
  <source-databases>
@@ -147,7 +138,7 @@
     <column id="COL36" populated="true" UUID="8284f2bd-32b9-45b1-b736-486d08e4d859" autoIncrement="false" autoIncrementSequenceName="place_schedule_seq" defaultValue="" name="schedule" nullable="1" physicalName="schedule" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL37" populated="true" UUID="f43ca8b7-97d7-41f8-ae7a-934428983746" autoIncrement="false" autoIncrementSequenceName="place_address_seq" defaultValue="" name="address" nullable="0" physicalName="address" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL37" populated="true" UUID="91d23875-bd54-472c-82c5-ac15e3fa43ec" autoIncrement="false" autoIncrementSequenceName="offer_address_seq" defaultValue="" name="address" nullable="0" physicalName="address" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1111" userDefinedTypeUUID="d9e42a14-4d15-4b55-b176-ecbba383bbdd" >
      <remarks></remarks>
     </column>
     <column id="COL38" populated="true" UUID="281fd961-dbff-4620-9075-9aba9abce486" autoIncrement="false" autoIncrementSequenceName="place_link_seq" defaultValue="" name="link" nullable="0" physicalName="link" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -176,7 +167,7 @@
     <column id="COL44" populated="true" UUID="6117d36c-f6f6-4dc3-88c5-cfa660eea031" autoIncrement="false" autoIncrementSequenceName="offer_price_seq" defaultValue="" name="price" nullable="0" physicalName="price" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
-    <column id="COL45" populated="true" UUID="6077e327-78fc-4343-8003-bb9a97d8964e" autoIncrement="false" autoIncrementSequenceName="offer_address_seq" defaultValue="" name="address" nullable="0" physicalName="address" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL45" populated="true" UUID="aee4010d-9c67-4992-94be-306bb73a1da4" autoIncrement="false" autoIncrementSequenceName="offer_address_seq_1" defaultValue="" name="address" nullable="0" physicalName="address" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1111" userDefinedTypeUUID="d9e42a14-4d15-4b55-b176-ecbba383bbdd" >
      <remarks></remarks>
     </column>
     </folder>
@@ -416,7 +407,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.7071067811865475" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

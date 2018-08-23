@@ -1,6 +1,6 @@
 const express = require ('express');
 const product = require('./../../helpers/product_db');
-const offer = require('./../../helpers/products/offer_db');
+const article = require('./../../helpers/products/article_db');
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 const router = express.Router();
@@ -13,25 +13,11 @@ cloudinary.config({
   
 const upload = multer({dest: "./uploads/"});
 
-router.get('/all', (req, res) => {
-    offer.all().then(async offers => {
-        for (var i in offers) {
-            const images = await product.images(offers[i].product_id)
-            offers[i]['img'] = images[0]
-        }
-        res.send({ 
-            status: 200,
-            offers
-        })
-    }).catch(err => {
-        res.send({
-            status: 404
-        })
-    })
-})
-
 router.get('/latest', (req, res) => {
-    offer.latest().then(products => {
+    article.latest().then(products => {
+        for (var i in products) {
+            products[i]['condition'] = (i.condition == false) ? 'Used' : 'New'
+        }
         res.send({ 
             status: 200,
             products
@@ -45,12 +31,12 @@ router.get('/latest', (req, res) => {
 })
 
 router.post('/new', upload.array('files[]'), async (req, res) => {
-    const { category, title, description, start, finish, address, price, location } = req.body
-
+    const { category, description, title, stock, price, used, link, post_time, location } = req.body
     multipleUpload = new Promise(async (res, rej) => {
         let arr = []
         for (var i in req.files) {
             await cloudinary.uploader.upload(req.files[i].path, result => {
+                if (result.error) return rej(result.error)
                 arr.push(result.secure_url);
                 if (arr.length === req.files.length) {
                     res(arr);
@@ -60,23 +46,17 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
     })
 
     consume = await multipleUpload.then(data => {
-        const post_time = (new Date (finish) - new Date(start))/(1000*60*60*24)
-        product.new(req.user.person_id, title, description, 'offer', category, location, post_time).then(async new_product => {
+        article.new(req.user.person_id, title, description, 'article', category, location, post_time, stock, price, used, link).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
                 try {
                     await product.add_image(product_id, data[i])
-                } catch (e) {
-                    console.log(e)
+                } catch (err) {
+                    console.log(err)
                     res.send({ status: 404 })
                 }
             }
-            offer.new(product_id, address, price).then(data => {
-                res.send({ status: 200 })
-            }).catch(err => {
-                console.log(err)
-                res.send({ status: 501 })
-            })
+            res.send({ status: 200 })
         }).catch(err => {
             console.log(err)
             res.send({ status: 500 })
@@ -89,8 +69,8 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
 })
 
 router.post('/edit', (req, res) => {
-    const {  } = req.body
-    offer.edit().then(data => {
+    const {   } = req.body
+    article.edit( ).then(data => {
         res.send({
             status: 200
         })
@@ -103,26 +83,12 @@ router.post('/edit', (req, res) => {
 
 router.post('/erase', (req, res) => {
     const { id } = req.body
-    offer.delete(id).then(data => {
+    article.delete(id).then(data => {
         res.send({ 
             status: 200
         })
     }).catch(err => {
         res.send({ 
-            status: 404
-        })
-    })
-})
-
-router.get('/show/:id', (req, res) => {
-    const { id } = req.params
-    offer.show(id).then(details => {
-        res.send({ 
-            status: 200,
-            details
-        })
-    }).catch(err => {
-        res.send({
             status: 404
         })
     })

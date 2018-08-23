@@ -51,8 +51,7 @@ export default class ProductDetail extends Component{
                         </Grid>
                         {  
                             (this.state.loaded == true) ?
-                                Object.keys(product.general).map((prod, i) => {
-                                    return (
+                                Object.keys(product.general).map((prod, i) => (
                                         <Typography key={i} variant="display1">
                                             {(prod == 'title' && product.general[prod] != null) ?
                                                 product.general[prod]
@@ -60,13 +59,12 @@ export default class ProductDetail extends Component{
                                             }
                                         </Typography>
                                     )
-                                })
+                                )
                             : null 
                         }
                         { 
                             (this.state.loaded == true) ?
-                                Object.keys(product.type).map((prod, i) => { 
-                                    return (
+                                Object.keys(product.type).map((prod, i) =>  (
                                         <Typography key={i} variant="headline">
                                             {
                                                 (prod != `${product.general.type}_id`) ?
@@ -79,7 +77,7 @@ export default class ProductDetail extends Component{
                                             }
                                         </Typography>
                                     )
-                                })
+                                )
                             : null 
                         }
                         <Button variant="raised" color="secondary" onClick={() => this.props.contactSeller(product.general.person_id)}>Contact Seller</Button>

@@ -1,9 +1,10 @@
 const db = require('./../db');
+const vehicle = require('../queryfile').vehicle
 
 module.exports.all = () =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select person.name, product.*, article.article_id from person inner join product on person.person_id = product.person_id inner join article on product.product_id = article.product_id').then(data=>{
+            obj.any(vehicle.all).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -16,28 +17,10 @@ module.exports.all = () =>{
     });
 }
 
-module.exports.latest = () =>{
+module.exports.new = (user_id, title, description, type, category, location, post_time, brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner,  windows, pilot_seat, air_cond)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select distinct on (product.product_id) product.title, product.product_id, product.description, place.specification, image.url as image, place.schedule from person inner join product on person.person_id = product.person_id inner join place on product.product_id = place.product_id inner join image on place.product_id = image.product_id order by product.product_id desc').then(data=>{
-                res(data);
-                obj.done();
-            }).catch(error=>{
-                console.log(error)
-                rej(error);
-                obj.done();
-            })
-        }).catch(error=>{
-            console.log(error)
-            rej(error);
-        });
-    });
-}
-
-module.exports.new = (product_id, specification, schedule, address, link)=>{
-    return new Promise((res,rej)=>{
-        db.connect().then(obj=>{
-            obj.none('insert into place (product_id, specification, schedule, address, link) values ($1, $2, $3, $4, $5)',[product_id, specification, schedule, address, link]).then(data=>{
+            obj.one(vehicle.new, [user_id, title, description, type, category, location, post_time, brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner, windows, pilot_seat, air_cond]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -53,7 +36,24 @@ module.exports.new = (product_id, specification, schedule, address, link)=>{
 module.exports.delete = (id)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('delete from place where place_id = $1',[id]).then(data=>{
+            obj.none(vehicle.delete,[id]).then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                rej(error);
+                obj.done();
+            });
+        }).catch(error=>{
+            rej(error);
+        });
+    });
+}
+
+module.exports.edit = (brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner, windows, pilot_seat, air_cond, vehicle_id)=>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            obj.none('update vehicle set brand = $1, model = $2, distance = $3, year = $4, fuel = $5, negotiable = $6, finance = $7, int_material = $8, unique_owner = $9, windows = $10, pilot_seat = $11, air_cond = $12 where vehicle_id = $13',
+                [brand, model, distance, year, fuel, negotiable, finance, int_material, unique_owner, windows, pilot_seat, air_cond, vehicle_id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

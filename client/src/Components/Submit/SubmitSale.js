@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { newOffer } from './helpers/Request';
 import { fixDate } from './helpers';
 import GetLocation from '../Map/GetLocation'
+import loading from '../../images/loading.svg'
 
 class SubmitSale extends Component{
     date = React.createRef()
@@ -17,7 +18,8 @@ class SubmitSale extends Component{
         geolocation:{ lat:0, long:0 },
         price:"",
         location:"",
-        description:""
+        description:"",
+        uploading: false
     }
 
     handleChange=(event)=>{
@@ -33,6 +35,7 @@ class SubmitSale extends Component{
     }
 
     create = () => {
+        this.setState({uploading: true})
         const date = this.date.current.state.selectedDates
         const { category, title, geolocation, price, location, description } = this.state
         const { files } = this.file.current
@@ -52,9 +55,11 @@ class SubmitSale extends Component{
         body.append('location', location) 
         body.append('price', price) 
         newOffer(body, response => {
-            alert('New sale added!')
+            this.setState({uploading: false})
+            alert(response)
         })
     }
+    
     render(){
         return(
           <Grid container justify='center'>
@@ -63,7 +68,8 @@ class SubmitSale extends Component{
                 <Typography variant="headline">
                 Submit/Sale
                 </Typography><br/>
-                    <Paper>
+                {this.state.uploading == false ? 
+                        <Paper>
                         <Grid 
                             container 
                             direction="row"
@@ -197,6 +203,13 @@ class SubmitSale extends Component{
                             > Submit </Button>
                         </Grid>
                     </Paper>
+                : 
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center">
+                <img src={loading} />
+                 </Grid> }
                 </Grid>
             </Grid>
         )

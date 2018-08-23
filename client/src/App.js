@@ -27,7 +27,7 @@ const auth = new Auth()
 class App extends Component {
   state={
     ip: "",
-  showcase:{
+    showcase:{
         products:{
             categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","All","Other"],
         },
@@ -113,7 +113,7 @@ class App extends Component {
     }
 
     category=(props)=>{
-        return( <Category {...props} products={this.state.showcase.products.latest} latest={this.state.showcase.products.latest} />)
+        return( <Category  />)
     }
 
 
@@ -145,7 +145,7 @@ class App extends Component {
                             <Route exact path="/about" component={About}/>
                             <Route exact path="/inbox/:id" component={this.chat} />
                             <Route exact path="/showcase/:type" component={(props)=>this.showcase(props)}/>
-                            <Route exact path="/showcase/:type/:category" component={this.category}/>
+                            <Route exact path="/showcase/:type/:category" component={Category}/>
                             <Route exact path="/showcase/:type/Search" component={this.watch}/>
                             <Route exact path="/remesas" component={Remesa}/>
                         </Switch>

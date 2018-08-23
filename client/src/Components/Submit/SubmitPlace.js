@@ -4,6 +4,8 @@ import UserInfo from '../User/UserInfo';
 import { Link } from 'react-router-dom';
 import { newPlace } from './helpers/Request';
 import GetLocation  from '../Map/GetLocation';
+import loading from '../../images/loading.svg'
+import { DEFAULT_POSTER_OPTIONS } from 'cloudinary/lib/utils';
 
 class SubmitPlace extends Component{
     file = React.createRef();
@@ -18,6 +20,7 @@ class SubmitPlace extends Component{
         post_time:'',
         location:'',
         description:'',
+        uploading: false
     }
 
     handleChange=(event)=>{
@@ -32,6 +35,7 @@ class SubmitPlace extends Component{
     }
     
     create = () => {
+        this.setState({ uploading: true })
         const { title, category, specialty, schedule, geolocation, link, post_time, location, description } = this.state
         const body = new FormData();
         const { files } = this.file.current;
@@ -49,11 +53,8 @@ class SubmitPlace extends Component{
         body.append('post_time', post_time)
         body.append('location', location)      
         newPlace(body, response => {
-            if (response != false) {
-                alert('New place added!')
-            } else {
-                alert('An error has occured')
-            }
+            this.setState({ uploading: false })
+            alert(response)
         })
     }
     render(){
@@ -64,6 +65,7 @@ class SubmitPlace extends Component{
                 <Typography variant="headline">
                 Submit/Place
                 </Typography><br/>
+                {this.state.uploading == false ? 
                     <Paper>
                     <Grid container direction="row" justify="center" spacing={24}>
                             <Grid item xs={12} sm={3}>
@@ -212,7 +214,14 @@ class SubmitPlace extends Component{
                     
                                                                                                 
                     </Paper>
-                
+                    :
+                        <Grid 
+                            container 
+                            direction="row"
+                            justify="center">
+                            <img src={loading} />
+                        </Grid> 
+                    }
                 
                 </Grid>
             

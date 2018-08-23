@@ -1,10 +1,10 @@
 const db = require('./db')
+const chat = require('./queryfile').chat
 
-module.exports.new = (product_id, seller_id, buyer_id)=>{
+module.exports.show = trade_id=>{
     return new Promise((res,rej)=>{
         db.connect().then((obj)=>{
-            obj.one('INSERT INTO trade (product_id, seller_id, buyer_id) VALUES ($1, $2, $3) returning trade_id',[product_id, seller_id, buyer_id]).then((data)=>{
-                console.log(data)
+            obj.any(chat.show, [trade_id]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -16,16 +16,17 @@ module.exports.new = (product_id, seller_id, buyer_id)=>{
             console.log(error);
             rej(error);
         });
-      });
+    });
 }
 
-module.exports.check = (product_id, seller_id, buyer_id)=>{
+module.exports.new_message = (trade_id, sender_id, message, time)=>{
     return new Promise((res,rej)=>{
         db.connect().then((obj)=>{
-            obj.one('select * from trade where product_id = $1 and seller_id = $2 and buyer_id = $3',[product_id, seller_id, buyer_id]).then((data)=>{
+            obj.none(chat.new_message, [trade_id, sender_id, message, time]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
+                console.log(error);
                 rej(error);
                 obj.done();
             });
@@ -33,5 +34,6 @@ module.exports.check = (product_id, seller_id, buyer_id)=>{
             console.log(error);
             rej(error);
         });
-      });
+    });
 }
+

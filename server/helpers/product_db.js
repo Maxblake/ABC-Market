@@ -1,25 +1,10 @@
 const db = require('./db');
+const product = require('./queryfile').product
 
-module.exports.new = (user_id, title, description, type, category, location, post_time)=>{
-    return new Promise((res,rej)=>{
-        db.connect().then(obj=>{
-            obj.one('insert into product (person_id, title, description, type, category, location, post_time) values ($1, $2, $3, $4, $5, $6, $7) returning product_id', [user_id, title, description, type, category, location, post_time]).then(data=>{
-                res(data);
-                obj.done();
-            }).catch(error=>{
-                rej(error);
-                obj.done();
-            });
-        }).catch(error=>{
-            rej(error);
-        });
-    });
-}
-
-module.exports.images = (id)=>{
+module.exports.images = id => {
     return new Promise((res,rej)=>{
         db.connect().then(obj => {
-           obj.one("select array(select url from image where product_id=$1) as product_images", [id]).then(data=>{
+           obj.one(product.images, [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -37,7 +22,7 @@ module.exports.images = (id)=>{
 module.exports.add_image = (product_id, url)=>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('insert into image (product_id, url) values ($1, $2)', [product_id, url]).then(data=>{
+            obj.none(product.add_images, [product_id, url]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -54,7 +39,7 @@ module.exports.add_image = (product_id, url)=>{
 module.exports.type = (id) =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.one('select type as kind from product where product_id = $1', [id]).then(data=>{
+            obj.one(product.type, [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -70,7 +55,7 @@ module.exports.type = (id) =>{
 module.exports.show = (category, id) =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.one(`select product.*, ${category}.* from person inner join product on person.person_id = product.person_id inner join ${category} on product.product_id = ${category}.product_id where product.product_id = $1`, [id]).then(data=>{
+            obj.one((category == 'article') ? product.show_article : (category == 'offer') ? product.show_offer : (category == 'place') ? product.show_place : (category == 'service') ? product.show_service :  product.show_vehicle, [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

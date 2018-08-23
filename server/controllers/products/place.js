@@ -13,19 +13,6 @@ cloudinary.config({
   
 const upload = multer({dest: "./uploads/"});
 
-router.get('/all', (req, res) => {
-    place.all().then(async places => {
-        res.send({ 
-            status: 200,
-            places
-        })
-    }).catch(err => {
-        res.send({
-            status: 404
-        })
-    })
-})
-
 router.get('/latest', (req, res) => {
     place.latest().then(products => {
         res.send({ 
@@ -46,6 +33,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
         let arr = []
         for (var i in req.files) {
             await cloudinary.uploader.upload(req.files[i].path, result => {
+                if (result.error) return rej(result.error)
                 arr.push(result.secure_url);
                 if (arr.length === req.files.length) {
                     res(arr);
@@ -55,7 +43,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
     })
 
     consume = await multipleUpload.then(data => {
-        product.new(req.user.person_id, title, description, 'place', category, location, post_time).then(async new_product => {
+        place.new(req.user.person_id, title, description, 'place', category, location, post_time, specialty, schedule, address, link).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
                 try {
@@ -65,12 +53,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
                     res.send({ status: 404 })
                 }
             }
-            place.new(product_id, specialty, schedule, address, link).then(data => {
-                res.send({ status: 200 })
-            }).catch(err => {
-                console.log(err)
-                res.send({ status: 501 })
-            })
+            res.send({ status: 200 })
         }).catch(err => {
             console.log(err)
             res.send({ status: 500 })

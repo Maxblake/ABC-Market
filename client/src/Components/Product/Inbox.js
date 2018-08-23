@@ -26,9 +26,9 @@ const queryString = require('query-string');
     }
     
     chat = contact => {
-        const { name, id } = contact
+        const { name, trade_id } = contact
         this.props.history.push({
-            pathname:`/inbox/${id}`,
+            pathname:`/inbox/${trade_id}`,
             state: { name }
         })
     }
@@ -56,8 +56,7 @@ const queryString = require('query-string');
                                 <div>
                                 <ContactButton 
                                     style={{height:120}}
-                                    key={contact.id}
-                                    id={contact.id}
+                                    key={contact.trade_id}
                                     type="contact" 
                                     sendMsg={true}
                                     chat={()=>this.chat(contact)}

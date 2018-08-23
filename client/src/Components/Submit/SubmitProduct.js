@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,FormLabel,RadioGroup,FormControlLabel,Radio,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
 import Auth, { Session } from '../../Provider/Auth';
-
+import loading from '../../images/loading.svg'
+import { newArticle } from './helpers/Request';
 const auth = new Auth()
 
 class SubmitProduct extends Component{
@@ -15,7 +16,8 @@ class SubmitProduct extends Component{
         used:null,
         link:null,
         post_time:'',
-        location:''
+        location:'',
+        uploading: false
     }
 
     handleChange=(event)=>{
@@ -23,7 +25,8 @@ class SubmitProduct extends Component{
         this.setState({[event.target.name]:event.target.value});
     }
 
-    create = (user) => {
+    create = () => {
+        this.setState({uploading: true})
         const { description, title, stock, price, used, link, post_time, location } = this.state
         const body = new FormData();
         const { files } = this.file.current;
@@ -39,17 +42,9 @@ class SubmitProduct extends Component{
         body.append('link', link)
         body.append('post_time', post_time)
         body.append('location', location)      
-        fetch('/product/article/new', {
-            method: 'POST',
-            credentials: 'include',
-            body
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        }).catch(err => {
-            alert('connection error')
-            console.log(err)
+        newArticle(body, response => {
+            this.setState({uploading: false})
+            alert(response)
         })
     }
 
@@ -61,6 +56,7 @@ class SubmitProduct extends Component{
             <Typography variant="headline">
             Submit/Product
             </Typography><br/>
+            {this.state.uploading == false ? 
                 <Paper>
                     <Grid container direction="row"
                     justify="center"
@@ -202,7 +198,13 @@ class SubmitProduct extends Component{
                     </Grid>
 					<br/>																				
                 </Paper>
-            
+                : 
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center">
+                <img src={loading} />
+             </Grid> }
             
             </Grid>
         

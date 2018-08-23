@@ -25,6 +25,10 @@ class Chat extends React.Component {
         this.initSocket();  
     }
 
+    componentWillUnmount() {
+        this.socket.disconnect()
+    }
+
     componentDidMount() {
         fetch(`/trade/history/${this.props.match.params.id}`)
         .then(response => response.json())

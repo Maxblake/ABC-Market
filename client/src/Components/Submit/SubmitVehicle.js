@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
 import UploadForm from '../Product/UploadForm'
+import loading from '../../images/loading.svg'
+import { newVehicle } from './helpers/Request';
 
 class SubmitVehicle extends Component{
     file = React.createRef();
@@ -20,17 +22,17 @@ class SubmitVehicle extends Component{
         ac:"",
         post_time:0,
         location:"",
-        description:""
+        description:"",
+        uploading: false
     }
 
     handleChange=(event)=>{
-        console.log(event.target.name+"//"+event.target.value)
-            this.setState({[event.target.name]:event.target.value});
+        this.setState({[event.target.name]:event.target.value});
     }
 
-    create = (e) => {
+    create = () => {
+        this.setState({uploading: true})
         const { brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, post_time, location, description } = this.state
-        e.preventDefault()
         const body = new FormData();
         const { files } = this.file.current;
         for (var i = 0; i < files.length; i++) {
@@ -52,17 +54,9 @@ class SubmitVehicle extends Component{
         body.append('post_time', post_time)
         body.append('location', location)      
         body.append('description', description)      
-        fetch('/product/vehicle/new', {
-            method: 'POST',
-            credentials: 'include',
-            body
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        }).catch(err => {
-            alert('connection error')
-            console.log(err)
+        newVehicle(body, response => {
+            this.setState({uploading: false})
+            alert(response)
         })
     }
     render(){
@@ -73,6 +67,7 @@ class SubmitVehicle extends Component{
             <Typography variant="headline">
             Submit/Vehicle
             </Typography><br/>
+            {this.state.uploading == false ? 
                 <Paper>
                     <Grid container direction="row"
                     justify="center"
@@ -332,7 +327,13 @@ class SubmitVehicle extends Component{
 
 					<br/>																				
                 </Paper>
-            
+                : 
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center">
+                    <img src={loading} />
+                 </Grid> }
             
             </Grid>
         

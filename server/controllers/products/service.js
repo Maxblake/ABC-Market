@@ -3,18 +3,6 @@ const product = require('./../../helpers/product_db');
 const service = require('./../../helpers/products/service_db');
 const router = express.Router();
 
-router.get('/all', (req, res) => {
-    service.all().then( services => {
-        res.send({ 
-            status: 200,
-            services
-        })
-    }).catch(err => {
-        res.send({
-            status: 404
-        })
-    })
-})
 
 router.get('/latest', (req, res) => {
     service.latest().then(products => {
@@ -32,14 +20,8 @@ router.get('/latest', (req, res) => {
 
 router.post('/new', (req, res) => {
     const { title, description, category, post_time, location } = req.body
-    product.new(req.user.person_id, title, description, 'service', category, location, post_time).then(new_product => {
-        const { product_id } = new_product
-        service.new(product_id).then(data => {
-            res.send({ status: 200 })
-        }).catch(err => {
-            console.log(err)
-            res.send({ status: 501 })
-        })
+    service.new(req.user.person_id, title, description, 'service', category, location, post_time).then(new_product => {
+        res.send({ status: 200 })        
     }).catch(err => {
         console.log(err)
         res.send({ status: 500 })

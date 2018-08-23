@@ -53,8 +53,10 @@ router.post('/signup',auth.isLogged, (req, res, next) => {
 })
 
 router.get('/checkSession', auth.isAuth, async (req, res) => {
-    const user = await User.id(req.user.person_id)
-    res.send({ status: 200, user })
+
+        const user = await User.id(req.user.person_id)
+        res.send({ status: 200, user })
+  
 })
 
 router.get('/ip', (req,res,next) => {
@@ -62,12 +64,16 @@ router.get('/ip', (req,res,next) => {
 })
 
 router.get('/user/contacts', auth.isAuth, async (req,res) => {
-    const { person_id } = req.user
-    const contacts = await User.contacts_details(person_id)
-    res.send({ 
-        status: 200,
-        contacts
-    })
+    try {
+        const { person_id } = req.user
+        const contacts = await User.contacts_details(person_id)
+        res.send({ 
+            status: 200,
+            contacts
+        })
+    } catch (e) {
+        console.log(e)
+    }
 })
 
 router.get('/logout', auth.isAuth, (req, res) => {

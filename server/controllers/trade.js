@@ -11,7 +11,7 @@ router.get('/history/:id', async (req, res) => {
             messages
         })
     } catch(e) {
-        console.log(err)
+        console.log(e)
         res.send({ status: 500 })
     }
 })

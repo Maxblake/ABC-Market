@@ -6,19 +6,42 @@ export const newOffer = (body, cb) => {
     })
     .then(response => response.json())
     .then(result => {
-        (result.status == 200) ? cb(true) : cb(false)
+        switch(result.status) {
+            case 200:
+                cb('Sale uploaded')
+            break
+            case 400:
+                cb('Problem uploading pictures, check your internet conection')
+            break
+            case 404:
+                cb('Problem adding picture img to database')
+            break
+            case 500:
+                cb('Problem creating sale')
+            break
+        }
     })
 }
 
-export const newService = (body, cb) => {
+export const newService = (title, category, post_time, description, location, cb) => {
     fetch('/product/service/new', {
         method: 'POST',
         credentials: 'include',
-        body
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({ title, category, post_time, description, location })
     })
     .then(response => response.json())
     .then(result => {
-        (result.status == 200) ? cb(true) : cb(false)
+        switch(result.status) {
+            case 200:
+                cb('Service uploaded')
+            break
+            case 500:
+                cb('Problem creating service')
+            break
+        }    
     })
 }
 
@@ -30,7 +53,20 @@ export const newPlace = (body, cb) => {
     })
     .then(response => response.json())
     .then(result => {
-        (result.status == 200) ? cb(true) : cb(false)
+        switch(result.status) {
+            case 200:
+                cb('Place uploaded')
+            break
+            case 400:
+                cb('Problem uploading pictures, check your internet conection')
+            break
+            case 404:
+                cb('Problem adding picture img to database')
+            break
+            case 500:
+                cb('Problem creating place')
+            break
+        }    
     })
 }
 
@@ -42,7 +78,20 @@ export const newVehicle = (body, cb) => {
     })
     .then(response => response.json())
     .then(result => {
-        (result.status == 200) ? cb(true) : cb(false)
+        switch(result.status) {
+            case 200:
+                cb('Vehicle uploaded')
+            break
+            case 400:
+                cb('Problem uploading pictures, check your internet conection')
+            break
+            case 404:
+                cb('Problem adding picture img to database')
+            break
+            case 500:
+                cb('Problem creating vehicle')
+            break
+        }    
     })
 }
 
@@ -54,6 +103,19 @@ export const newArticle = (body, cb) => {
     })
     .then(response => response.json())
     .then(result => {
-        (result.status == 200) ? cb(true) : cb(false)
+        switch(result.status) {
+            case 200:
+                cb('Article uploaded')
+            break
+            case 400:
+                cb('Problem uploading pictures, check your internet conection')
+            break
+            case 404:
+                cb('Problem adding picture img to database')
+            break
+            case 500:
+                cb('Problem creating article')
+            break
+        }
     })
 }

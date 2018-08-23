@@ -1,10 +1,11 @@
 const db = require('./db');
 const bcrypt = require('bcryptjs');
+const user = require('./queryfile').user
 
-module.exports.getUserByUsername = (username)=>{
+module.exports.getUserByUsername = username=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
-              obj.one('SELECT * FROM person where username = $1',[username]).then((data)=>{
+              obj.one(user.by_username,[username]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -17,10 +18,10 @@ module.exports.getUserByUsername = (username)=>{
     });
 }
 
-module.exports.id = (id)=>{
+module.exports.id = id=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
-              obj.one('SELECT * FROM person where person_id = $1',[id]).then((data)=>{
+              obj.one(user.by_id, [id]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -46,7 +47,7 @@ module.exports.new = (name, lastname, code, phoneNumber, username, password, gen
     return new Promise((res,rej)=>{
       let hashedPass = bcrypt.hashSync(password, 10)
         db.connect().then((obj)=>{
-            obj.any('INSERT INTO person (name, lastname, code, phonenumber, username, password, gender, type, birthDate, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) returning username, password',[name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address]).then((data)=>{
+            obj.any(user.new, [name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{
@@ -64,7 +65,7 @@ module.exports.new = (name, lastname, code, phoneNumber, username, password, gen
 module.exports.contacts_details = (id)=>{
     return new Promise((res,rej)=>{
         db.connect().then((obj)=>{
-            obj.any(`select product.title, product.type, person.name, person.code, person.phonenumber, person.profile_img, trade.trade_id from product inner join trade on trade.product_id = product.product_id inner join person on trade.buyer_id = person.person_id or trade.seller_id = person.person_id where person.person_id = $1`,[id]).then((data)=>{
+            obj.any(user.contacts_detail, [id]).then((data)=>{
                 res(data);
                 obj.done();
             }).catch((error)=>{

@@ -3,6 +3,8 @@ import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabe
 import { Link } from 'react-router-dom';
 import UserInfo from '../User/UserInfo';
 import {Breadcrumbs} from 'react-breadcrumbs'
+import loading from '../../images/loading.svg'
+import { newService } from './helpers/Request';
 
 class SubmitService extends Component{
     
@@ -11,7 +13,8 @@ class SubmitService extends Component{
         category:'',
         post_time:'',
         description:'',
-        location:null
+        location:null,
+        uploading: false
     }
 
     handleChange=(event)=>{
@@ -20,21 +23,11 @@ class SubmitService extends Component{
     }
 
     create = () => {
+        this.setState({uploading: true})
         const { title, category, post_time, description, location } = this.state
-        fetch('/product/service/new', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({ title, category, post_time, description, location })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        }).catch(err => {
-            alert('connection error')
-            console.log(err)
+        newService(title, category, post_time, description, location, response => {
+            this.setState({uploading: false})
+            alert(response)
         })
     }
 
@@ -45,7 +38,8 @@ class SubmitService extends Component{
             <Typography variant="headline">
             Submit/Service
             </Typography><br/>
-                <Paper>
+            {this.state.uploading == false ? 
+                    <Paper>
        
                     <Grid container direction="row" justify="center">
                             <Typography
@@ -124,7 +118,13 @@ class SubmitService extends Component{
                     
                   																			
                 </Paper>
-            
+                : 
+                <Grid 
+                    container 
+                    direction="row"
+                    justify="center">
+                    <img src={loading} />
+                </Grid> }
             
             </Grid>
         

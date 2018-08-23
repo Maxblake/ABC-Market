@@ -1,9 +1,10 @@
 const db = require('./../db');
+const service = require('../queryfile').service
 
 module.exports.latest = () =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any('select person.name, product.product_id, product.title, product.description, person.profile_img as image from person inner join product on person.person_id = product.person_id inner join service on product.product_id = service.product_id order by product.product_id desc').then(data=>{
+            obj.any(service.latest).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -18,10 +19,10 @@ module.exports.latest = () =>{
     });
 }
 
-module.exports.new = (product_id)=>{
+module.exports.new = (user_id, title, description, type, category, location, post_time) => {
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('insert into service (product_id) values ($1)',[product_id]).then(data=>{
+            obj.none(service.new, [user_id, title, description, type, category, location, post_time]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{
@@ -34,10 +35,10 @@ module.exports.new = (product_id)=>{
     });
 }
 
-module.exports.delete = (id)=>{
+module.exports.delete = id =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.none('delete from service where service_id = $1',[id]).then(data=>{
+            obj.none(service.delete, [id]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

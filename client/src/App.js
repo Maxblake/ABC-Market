@@ -120,9 +120,10 @@ class App extends Component {
     watch=(props)=>{
             return (<Watch {...props}  />)
     }
+    
     submit=(props)=>{
         return (<Submit {...props} showcase={this.state.showcase[""+props.match.params.type+"s"]}  />)
-}
+    }   
 
     render() {
         return (
@@ -137,7 +138,7 @@ class App extends Component {
                             <Route exact path="/" component={Welcome}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/register" component={Register}/>
-                            <Route path="/details/:item" component={ProductPage}/>
+                            <Route exact path="/details/:item" component={ProductPage}/>
                             <Route exact path="/home/:userType" component={this.homePage}/>
                             <Route exact path="/profile" component={this.profilePage}/>
                             <Route exact path="/inbox" component={this.inbox} />

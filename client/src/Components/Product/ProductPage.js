@@ -14,7 +14,7 @@ class ProductPage extends Component{
         msg:false,
         editMode:false,
         seller: {}
-}
+    }
     
     contactSeller = id => {
         getSeller(id, seller => {
@@ -30,11 +30,12 @@ class ProductPage extends Component{
     messageToggle=()=>{
         this.setState({msg:!this.state.msg});
     }
+
     updateProduct= product => {
         this.setState({
             editMode:false,
             product
-        });
+        })
     }
     
     handleEdit=()=>{
@@ -42,7 +43,7 @@ class ProductPage extends Component{
             msg:false,
             contact:false,
             editMode:!this.state.editMode
-        });
+        })
     }
     
     sendMessage = (message) => {
@@ -67,24 +68,22 @@ class ProductPage extends Component{
                     <Grid
                         item 
                         sm={8}>
-                    <br/>
-                    {this.state.editMode  ?
-                    <ProductEdit  id={this.props.match.params.item} handleEdit={this.handleEdit} updateProduct={this.updateProduct}/>:
-                    <ProductDetail id={this.props.match.params.item} handleEdit={this.handleEdit} contactSeller={this.contactSeller}/>}
-                            
-                    <Collapse in={this.state.contact}>
-                        <ContactDetail 
-                            msg={this.state.msg} 
-                            sendMessage={this.sendMessage}
-                            contact={this.state.contact}
-                            messageToggle={this.messageToggle}
-                            seller={this.state.seller}/>
-                    </Collapse>
+                        <br/>
+                        {this.state.editMode  ?
+                        <ProductEdit  id={this.props.match.params.item} handleEdit={this.handleEdit} updateProduct={this.updateProduct}/>:
+                        <ProductDetail id={this.props.match.params.item} handleEdit={this.handleEdit} contactSeller={this.contactSeller}/>}
+                                
+                        <Collapse in={this.state.contact}>
+                            <ContactDetail 
+                                msg={this.state.msg} 
+                                sendMessage={this.sendMessage}
+                                contact={this.state.contact}
+                                messageToggle={this.messageToggle}
+                                seller={this.state.seller}/>
+                        </Collapse>
                     </Grid>
                 </Grid>
-            </Zoom>
-               
-            
+            </Zoom>            
         )
     }
 }

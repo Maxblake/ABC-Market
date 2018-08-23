@@ -1,3 +1,0 @@
-removed 27 packages and audited 22303 packages in 15.845s
-found 8 vulnerabilities (4 moderate, 4 high)
-  run `npm audit fix` to fix them, or `npm audit` for details

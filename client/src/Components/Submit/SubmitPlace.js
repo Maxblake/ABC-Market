@@ -1,9 +1,9 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
 import UserInfo from '../User/UserInfo';
-
 import { Link } from 'react-router-dom';
 import { newPlace } from './helpers/Request';
+import GetLocation  from '../Map/GetLocation';
 
 class SubmitPlace extends Component{
     file = React.createRef();
@@ -13,17 +13,23 @@ class SubmitPlace extends Component{
         title:'',
         specialty:'',
         schedule:'',
-        geolocation:'',
+        geolocation: { lat:0, long:0 },
         link:'',
         post_time:'',
         location:'',
-        description:''
+        description:'',
     }
 
     handleChange=(event)=>{
         this.setState({[event.target.name]:event.target.value});
     }
 
+    getLocation = (lat, long) => {
+        const  { geolocation } = this.state
+        geolocation.lat = lat
+        geolocation.long = long
+        this.setState({ geolocation })
+    }
     
     create = () => {
         const { title, category, specialty, schedule, geolocation, link, post_time, location, description } = this.state
@@ -38,7 +44,7 @@ class SubmitPlace extends Component{
         body.append('title', title)
         body.append('specialty', specialty)
         body.append('schedule', schedule)
-        body.append('address', geolocation)
+        body.append('address', JSON.stringify(geolocation))
         body.append('link', link)
         body.append('post_time', post_time)
         body.append('location', location)      
@@ -59,17 +65,6 @@ class SubmitPlace extends Component{
                 Submit/Place
                 </Typography><br/>
                     <Paper>
-                    <Grid container direction="row"
-                    justify="center"
-                    >
-                        <Grid item xs={12}>
-                           <input
-                            type="file"
-                            multiple
-                            ref={this.file}>
-                           </input> 
-                        </Grid>
-                    </Grid>
                     <Grid container direction="row" justify="center" spacing={24}>
                             <Grid item xs={12} sm={3}>
                             <FormControl fullWidth margin="normal">
@@ -126,93 +121,95 @@ class SubmitPlace extends Component{
                             />
                         </Grid>
                         <Grid item xs={12} sm={5}>
-                        <TextField 
-                                fullWidth
-                                name="geolocation"
-                                margin="normal"
-                                label="Add Geolocation"                                       
-                                onChange={this.handleChange}
-
+                            <GetLocation fullWidth
+                                    name="geolocation"
+                                    margin="normal"
+                                    label="Add Geolocation"                                       
+                                    getLocation={this.getLocation}
                             />
                         </Grid>
                         </Grid>
                         <Grid container direction="row" justify="center">
+                            <Grid item xs={10}>
+                                <TextField
+                                fullWidth
+                                name="link"
+                                label="Youtube Link"
+                                defaultValue="http://"
+                                onChange={this.handleChange}
+                                margin="normal"></TextField>
+                            </Grid>
+                        </Grid>
+                        <Grid container direction="row" justify="center" spacing={8}>
+                            <Grid item xs={10}>
+                                <Grid container direction="row" justify="center" spacing={8}
+                                alignItems="center">
+                                <Grid item xs={12} sm={6} >
+                                    <FormControl fullWidth margin="normal">
+                                        <InputLabel >Post time</InputLabel>
+                                        <Select
+                                        
+                                        value={this.state.post_time}
+                                        onChange={this.handleChange}
+                                            input={<Input name="post_time" />}
+                                        >
+                                            <MenuItem value={30}>30 days</MenuItem>
+                                            <MenuItem value={60}>60 days</MenuItem>
+                                            <MenuItem value={90}>90 days</MenuItem>
+                                        </Select>
+                                        <FormHelperText>Period that the post will be visible to users</FormHelperText>
+                                    </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} >
+                                        <FormControl fullWidth margin="normal">
+                                            <InputLabel >Location</InputLabel>
+                                            <Select
+                                                value={this.state.location}
+                                                onChange={this.handleChange}
+                                                input={<Input name="location" />}>
+                                                <MenuItem value={"Aruba"}>Aruba</MenuItem>
+                                                <MenuItem value={"Bonaire"}>Bonaire</MenuItem>
+                                                <MenuItem value={"Curacao"}>Curacao</MenuItem>
+                                            </Select>
+                                            <FormHelperText>Product origin </FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            
+                        </Grid>
+                    <Grid container direction="row" justify="center">
                     <Grid item xs={10}>
                         <TextField
-                        fullWidth
-                        name="link"
-                        label="Youtube Link"
-                        defaultValue="http://"
-                        onChange={this.handleChange}
-                        margin="normal"></TextField>
+                            name="description"
+                            label="Description"
+                            multiline
+                            fullWidth
+                            rows={4}
+                            margin="normal"
+                            placeholder="detail the product the best way possible for better user understanding and to ease the sale "
+                            onChange={this.handleChange}
+                        ></TextField>
                     </Grid>
-                </Grid>
-                <Grid container direction="row" justify="center" spacing={8}>
-                        <Grid item xs={10}>
-                        <Grid container direction="row" justify="center" spacing={8}
-                        alignItems="center"
-                        >
-                        <Grid item xs={12} sm={6} >
-                            <FormControl fullWidth margin="normal">
-                                <InputLabel >Post time</InputLabel>
-                                <Select
-                                
-                                value={this.state.post_time}
-                                onChange={this.handleChange}
-                                    input={<Input name="post_time" />}
-                                >
-                                    <MenuItem value={30}>30 days</MenuItem>
-                                    <MenuItem value={60}>60 days</MenuItem>
-                                    <MenuItem value={90}>90 days</MenuItem>
-                                </Select>
-                                <FormHelperText>Period that the post will be visible to users</FormHelperText>
-                            </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={6} >
-                            <FormControl fullWidth margin="normal">
-                                <InputLabel >Location</InputLabel>
-                                <Select
-                                
-                                value={this.state.location}
-                                onChange={this.handleChange}
-                                    input={<Input name="location" />}
-                                >
-                                    <MenuItem value={"Aruba"}>Aruba</MenuItem>
-                                    <MenuItem value={"Bonaire"}>Bonaire</MenuItem>
-                                    <MenuItem value={"Curacao"}>Curacao</MenuItem>
-                                </Select>
-                                <FormHelperText>Product origin </FormHelperText>
-                            </FormControl>
-                            </Grid>
+               
+                        <Grid item xs={12}>
+                           <input
+                            type="file"
+                            multiple
+                            ref={this.file}>
+                           </input> 
+                        </Grid>
+                    </Grid>
                         
-                        </Grid>
-                        </Grid>
+                    <br/><br/> 
+                    <Grid container direction="row" justify="center">
+                        <Button
+                        variant="raised"
+                        color="secondary"
+                        onClick={this.create}
+                        > Submit </Button>
+                    </Grid>
                     
-                </Grid>
-                <Grid container direction="row" justify="center">
-                <Grid item xs={10}>
-                    <TextField
-                        name="description"
-                        label="Description"
-                        multiline
-                        fullWidth
-                        rows={4}
-                        margin="normal"
-                        placeholder="detail the product the best way possible for better user understanding and to ease the sale "
-                        onChange={this.handleChange}
-                    ></TextField>
-                </Grid>
-                </Grid>
-                        
-                        <br/><br/> 
-                        <Grid container direction="row" justify="center">
-                            <Button
-                            variant="raised"
-                            color="secondary"
-                            onClick={this.create}
-                            > Submit </Button>
-                        </Grid>
-                        
                                                                                                 
                     </Paper>
                 

@@ -66,13 +66,12 @@ export default class ProductDetail extends Component{
                         { 
                             (this.state.loaded == true) ?
                                 Object.keys(product.type).map((prod, i) => { 
-                                    console.log(i)                                   
                                     return (
                                         <Typography key={i} variant="headline">
                                             {
                                                 (prod != `${product.general.type}_id`) ?
                                                 (prod != 'post_time') ?
-                                                (prod == 'address') ? <LocationContainer />  :
+                                                (prod == 'address') ? <LocationContainer lat={prod.lat} long={prod.long} />  :
                                                 (product.type[prod] == true) ? `${this.Capitalize(prod)}: Yes` :
                                                 (product.type[prod] == false) ? `${this.Capitalize(prod)}: No` : 
                                                 `${this.Capitalize(prod)}: ${product.type[prod]}` 
@@ -89,11 +88,12 @@ export default class ProductDetail extends Component{
                 <Grid item>
                     <Typography variant="title">
                         Product description : 
-                    </Typography>{console.log(this.state.loaded)}
-                    {  (this.state.loaded == true) ?
-                        <Typography variant="body2">
-                            {product.general.description}
-                        </Typography>
+                    </Typography>
+                    {  
+                        (this.state.loaded == true) ?
+                            <Typography variant="body2">
+                                {product.general.description}
+                            </Typography>
                         : null
                     }
                 </Grid>

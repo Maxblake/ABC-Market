@@ -42,7 +42,6 @@ router.get('/latest', (req, res) => {
 
 router.post('/new', upload.array('files[]'), async (req, res) => {
     const { title, description, category, specialty, schedule, address, post_time, link, location } = req.body
-
     multipleUpload = new Promise(async (res, rej) => {
         let arr = []
         for (var i in req.files) {
@@ -80,7 +79,6 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
         console.log(err)
         res.send({ status: 400 })
     })
-
 })
 
 router.post('/edit', (req, res) => {

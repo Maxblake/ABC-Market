@@ -5,6 +5,7 @@ import MultipleDatePicker from 'react-multiple-datepicker'
 import { Link } from 'react-router-dom';
 import { newOffer } from './helpers/Request';
 import { fixDate } from './helpers';
+import GetLocation from '../Map/GetLocation'
 
 class SubmitSale extends Component{
     date = React.createRef()
@@ -13,7 +14,7 @@ class SubmitSale extends Component{
     state={
         category:"",
         title:"",
-        address:"",
+        geolocation:{ lat:0, long:0 },
         price:"",
         location:"",
         description:""
@@ -24,9 +25,16 @@ class SubmitSale extends Component{
         this.setState({[event.target.name]:event.target.value});
     }
 
+    getLocation = (lat, long) => {
+        const  { geolocation } = this.state
+        geolocation.lat = lat
+        geolocation.long = long
+        this.setState({ geolocation })
+    }
+
     create = () => {
         const date = this.date.current.state.selectedDates
-        const { category, title, address, price, location, description } = this.state
+        const { category, title, geolocation, price, location, description } = this.state
         const { files } = this.file.current
         const start = fixDate(date[0])
         const finish =fixDate(date[1])
@@ -38,7 +46,7 @@ class SubmitSale extends Component{
         body.append('description', description)
         body.append('category', category)
         body.append('title', title)
-        body.append('address', address)
+        body.append('address', JSON.stringify(geolocation))
         body.append('start', start)
         body.append('finish', finish)
         body.append('location', location) 
@@ -121,13 +129,12 @@ class SubmitSale extends Component{
                                     <FormHelperText>Period that the post will be visible to users</FormHelperText>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                            <TextField 
-                                    fullWidth
-                                    name="address"
+                            <GetLocation fullWidth
+                                    name="geolocation"
                                     margin="normal"
-                                    label="Add Geolocation"
-                                    onChange={this.handleChange}
-                                />
+                                    label="Add Geolocation"                                       
+                                    getLocation={this.getLocation}
+                            />
                             </Grid>
                             </Grid>
                             </Grid>

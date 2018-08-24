@@ -5,7 +5,8 @@ import { withRouter } from 'react-router'
 
 class ContactButton extends Component{
     render(){
-        const { profile_img, name, phonenumber, code, title, type, trade_id } = this.props.contact
+        const { code, title, type, trade_id, details } = this.props.contact
+        const { profile_img, name, phonenumber } = details[0]
         return (
             <Grid item xs={12} sm={12}>
                 <Paper>
@@ -14,7 +15,7 @@ class ContactButton extends Component{
                             <Avatar src={(profile_img == null) ?
                                     'https://res.cloudinary.com/zingaring/image/upload/v1534155194/qjddlajvth5fw82alozg.png'
                                     : profile_img
-                                }>                            
+                                }>                           
                             
                             </Avatar>
                         </Grid>

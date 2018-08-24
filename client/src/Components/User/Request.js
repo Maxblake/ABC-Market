@@ -14,6 +14,6 @@ export const userContacts = (cb) => {
     })
     .then(response => response.json())
     .then(data => {
-        (data.status == 200) ? cb(data.contacts) : cb(null) 
+        (data.status == 200) ? cb(data.trades) : cb(null) 
     })   
 }

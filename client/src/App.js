@@ -29,16 +29,16 @@ class App extends Component {
     ip: "",
     showcase:{
         products:{
-            categories:["Appliances","Vehicles","Clothes","Phones and SmartPhones","All","Other"],
+            categories:["appliances","vehicles","clothes","phones","all","other"],
         },
         services:{
-            categories:["Cleaning","Yoga Classes","Accountant","Architect","Plumber","Other"],
+            categories:["cleaning","yoga classes","accountant","architect","plumber","other"],
         },
         places:{
-            categories:["Pizza","Sushi","Ice cream","Spa","Restaurant"],
+            categories:["pizza","sushi","ice cream","spa","restaurant"],
         },
         sales:{
-            categories:["Supermarket","Ice cream","General Store","Other"],
+            categories:["supermarket","ice cream","general store","other"],
         } 
     }
 }
@@ -81,27 +81,13 @@ class App extends Component {
         )
     }
 
-    inbox=()=>{
-        return(
-            <Session.Consumer>
-                {session => (
-                    <Inbox
-                        user={session.user}
-                        contacts={this.state.contacts}
-                    /> 
-                )}
-            </Session.Consumer>
-        )
-    }
+    inbox =()=> <Session.Consumer>
+                    {session => <Inbox user={session.user}/>}
+                </Session.Consumer>
     
     
-    chat = () => {
-        return(
-            <Chat 
-                ip={this.state.ip} 
-            />
-        ) 
-    }
+    
+    chat = () => <Chat ip={this.state.ip}/>
 
 
     showcase=(props)=>{

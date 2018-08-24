@@ -21,6 +21,7 @@ module.exports = io => {
 		socket.on('new message', message => {
 			const date = new Date()
 			const time = date.toDateString() + " " + date.toLocaleTimeString()
+			console.log(room_number, user_id, message, time)
 			history.new_message(room_number, user_id, message, time).then(success => {
 				// we tell the client to execute 'new message'
 				io.to(room_number).emit('new message', { message, user_id })

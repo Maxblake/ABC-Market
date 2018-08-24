@@ -19,7 +19,7 @@ export default class Showcase extends Component{
                             <Grid item xs={12} sm={12}>
                                 <Grid container direction="row" justify="center">
                                 <Typography  variant="display2">
-                                    {/* {this.props.showcase.title} */}
+                                    {this.props.match.params.type}
                                 </Typography>
                                 </Grid>
                             </Grid>

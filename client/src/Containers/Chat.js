@@ -4,7 +4,7 @@ import Messages from '../Components/ChatComp/Messages'
 import MsgBox from '../Components/ChatComp/MsgBox'
 import { withRouter } from 'react-router';
 import io from 'socket.io-client';
-import { getSession } from '../Provider/Request';
+import { getSession, chatHistory } from '../Provider/Request';
 require('./chat.css');
 
 class Chat extends React.Component {
@@ -30,15 +30,7 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`/trade/history/${this.props.match.params.id}`)
-        .then(response => response.json())
-        .then(data => {
-            let hist = []
-            const messages = data.messages
-            for (var i in messages) {
-                var { msg, id } = messages[i]
-                hist.push({ msg, id })
-            }
+        chatHistory(this.props.match.params.id, hist => {
             this.setState({ history:this.state.history.concat( hist )})
         })
     }
@@ -49,7 +41,7 @@ class Chat extends React.Component {
 
     initSocket = () => {
         this.socket.on('connect', () => {
-        this.socket.emit('joinroom', this.props.match.params.id)
+            this.socket.emit('joinroom', this.props.match.params.id)
         })
     }
 

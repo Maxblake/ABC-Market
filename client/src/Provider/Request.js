@@ -56,3 +56,17 @@ export const getSession = (cb) => {
         (result.status == 200) ? cb(result.user) : cb(null)
     })
 }
+
+export const chatHistory = (trade_id, cb) => {
+    fetch(`/trade/history/${trade_id}`)
+        .then(response => response.json())
+        .then(data => {
+            let hist = []
+            const messages = data.messages
+            for (var i in messages) {
+                var { msg, id } = messages[i]
+                hist.push({ msg, id })
+            }
+            cb(hist)
+        })
+}

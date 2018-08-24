@@ -66,10 +66,20 @@ router.get('/ip', (req,res,next) => {
 router.get('/user/contacts', auth.isAuth, async (req,res) => {
     try {
         const { person_id } = req.user
-        const contacts = await User.contacts_details(person_id)
+        const trades = await User.trades_details(person_id)
+        for (var i in trades) {
+            const { buyer_id, seller_id } = trades[i]
+            if (buyer_id == person_id) {
+                contact = await User.contact_details(seller_id)
+                trades[i]['details'] = contact
+            } else {
+                contact = await User.contact_details(buyer_id)
+                trades[i]['details'] = contact    
+            }
+        }
         res.send({ 
             status: 200,
-            contacts
+            trades
         })
     } catch (e) {
         console.log(e)

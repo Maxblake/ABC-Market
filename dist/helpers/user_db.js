@@ -20,8 +20,8 @@ module.exports.getUserByUsername = username=>{
 
 module.exports.id = id=>{
     return new Promise((res,rej)=>{
-          db.connect().then((obj)=>{
-              obj.one(user.by_id, [id]).then((data)=>{
+         db.connect().then((obj)=>{
+            obj.one(user.by_id, [id]).then((data)=>{
                 res(data)
                 obj.done()
             }).catch((error)=>{
@@ -36,7 +36,7 @@ module.exports.id = id=>{
 
 module.exports.comparePassword = (candidatePassword, hash)=>{
     return new Promise((res,rej) => {
-      bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+        bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
             if (err) throw rej(err)
             res(isMatch)
         })
@@ -45,7 +45,7 @@ module.exports.comparePassword = (candidatePassword, hash)=>{
 
 module.exports.new = (name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address)=>{
     return new Promise((res,rej)=>{
-      let hashedPass = bcrypt.hashSync(password, 10)
+        let hashedPass = bcrypt.hashSync(password, 10)
         db.connect().then((obj)=>{
             obj.any(user.new, [name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address]).then((data)=>{
                 res(data)

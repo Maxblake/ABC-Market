@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {Button, Grid,Zoom, Paper, Typography,TextField} from '@material-ui/core';
-
+// import {handleChange} from '../../../Helpers/Helpers'
 export default class Remesa extends Component{
     state={
         opened:true,
@@ -12,9 +12,6 @@ export default class Remesa extends Component{
     // componentDidMount(){
     //     this.state.opened=true
     // }
-    handleChange = (event) => {
-        this.setState({ [event.target.name]:event.target.value })
-    }
     currencyChange = ({target:{value}}) => {
         let bs = value/1.8*this.state.rate
         this.setState({bolivares:bs})
@@ -44,9 +41,9 @@ export default class Remesa extends Component{
                     name="rate"
                     label="Rate"
                     margin="normal"
-                    type="number"
+                    type="number" InputProps={{ inputProps: { min: 0, max: 1000000 } }}
                     value={this.state.rate}
-                    onChange={this.handleChange} 
+                    onChange={handleChange} 
                  /> : <Typography variant="headline">
                  Rate : {this.state.rate}</Typography>
                 }
@@ -59,7 +56,7 @@ export default class Remesa extends Component{
                     name="florines"
                     label="Florines"
                     margin="normal"
-                    type="number"
+                    type="number" InputProps={{ inputProps: { min: 0, max: 1000000 } }}
                     onChange={this.currencyChange} 
                  />
             </Grid>
@@ -73,9 +70,9 @@ export default class Remesa extends Component{
                     name="bolivares"
                     label="Bolivares"
                     margin="normal"
-                    type="number"
+                    type="number" InputProps={{ inputProps: { min: 0, max: 1000000 } }}
                     value={this.state.bolivares}
-                    onChange={this.handleChange} 
+                    onChange={handleChange} 
                  />
             </Grid>
             

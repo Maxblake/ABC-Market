@@ -57,7 +57,7 @@ export default class UserInfo extends Component{
                                 <TextField
                                 onChange={this.onUserChange}
                                 fullWidth
-                                type="number"
+                                type="number" InputProps={{ inputProps: { min: 0, max: 1000000 } }}
                                 margin="normal"
                                 key={key}
                                 name={key}

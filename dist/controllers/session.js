@@ -42,7 +42,7 @@ router.post('/signup',auth.isLogged, (req, res, next) => {
             }
             req.logIn(user, (err) => {
                 if (!err) {
-                    res.send({status:200})
+                    res.send({ status:200, user })
                 }
             })
         })(req, res, next)

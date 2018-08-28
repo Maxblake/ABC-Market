@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { logIn, isLogged, logOut, signUp } from './Request';
 import { withRouter } from 'react-router';
+import { checkErrors } from '../Helpers/Helpers';
 
 export const Session = React.createContext({
     user: null,
@@ -13,13 +14,17 @@ export const Session = React.createContext({
 class Auth extends Component {
     state = {
         user: null,
-        setSession: (username, password) => {
-            logIn(username, password, user => {
-                if (user != null) {
-                    this.setState({ user })
-                    window.location.href = `/home/${user.type}`
-                }
-            })
+        setSession: (...options) => {
+            let { username, password } = options[0]
+            let errors = checkErrors(username, password)
+            if (errors) {
+                logIn(username, password, user => {
+                    if (user != null) {
+                        this.setState({ user })
+                        window.location.href = `/home/${user.type}`
+                    }
+                })
+            } 
         },
         refreshSession: () => {
             isLogged(user => {
@@ -36,13 +41,17 @@ class Auth extends Component {
                 }
             })
         },
-        createUserAndSession: (name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address) => {
-            signUp(name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address, user => {
-                if (user != null) {
-                    this.setState({ user })
-                    window.location.href = `/home/${user.type}`
-                }
-            })
+        createUserAndSession: (...options) => {
+            let { name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address } = options = options[0]
+            let errors = checkErrors(name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address)
+            if (errors) {
+                signUp(name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address, user => {
+                    if (user != null) {
+                        this.setState({ user })
+                        window.location.href = `/home/${user.type}`
+                    }
+                })
+            }
         }
     } 
   

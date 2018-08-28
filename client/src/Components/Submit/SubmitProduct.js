@@ -9,52 +9,102 @@ class SubmitProduct extends Component{
     file = React.createRef();
    
     state={
-        description:null,
-        title:null,
-        stock:null,
-        price:null,
-        used:null,
-        link:null,
-        post_time:'',
-        location:'',
-        uploading: false
+        values: {
+            description:'',
+            title:'',
+            stock:'',
+            price:'',
+            used:'',
+            link:'',
+            post_time:'',
+            location:'',
+        },
+        error: {
+            description:null,
+            title:null,
+            stock:null,
+            price:null,
+            used:null,
+            link:null,
+            post_time:null,
+            location:null,
+        },
+        uploading: false,
+        notification: {
+            success: false,
+            message: ''
+        }
     }
 
-    handleChange=(event)=>{
-        console.log(event.target.name+"//"+event.target.value)
-        this.setState({[event.target.name]:event.target.value});
+    handleChange=(element)=>{
+        let error = {...this.state.error}
+        let values = {...this.state.values}
+        
+        if (element.target.value == '') {
+          error[element.target.name] = true
+        } else {
+          error[element.target.name] = false
+        }
+        values[element.target.name] = element.target.value
+        this.setState({ error, values })
+    }
+
+    checkInput = () => {
+        let check = true
+        let error = { ...this.state.error }
+        Object.keys(error).map(err => {
+            if (error[err] == null || error[err]) { 
+                check = false
+                this.setState(prevState => ({
+                    error: { 
+                        ...prevState.error,
+                        [err]:true 
+                    }  
+                }))
+            }
+        })
+        return check
+    }
+
+    closeNotification = () => {
+        this.setState({ notification: {
+            success: false
+        }})
     }
 
     create = () => {
-        this.setState({uploading: true})
-        const { description, title, stock, price, used, link, post_time, location } = this.state
-        const body = new FormData();
-        const { files } = this.file.current;
-        for (var i = 0; i < files.length; i++) {
-            var filing = files[i];
-            body.append('files[]', filing, filing.name);
+        if (this.checkInput()) {
+            this.setState({uploading: true})
+            const { description, title, stock, price, used, link, post_time, location } = this.state.values
+            const body = new FormData();
+            const { files } = this.file.current;
+            for (var i = 0; i < files.length; i++) {
+                var filing = files[i];
+                body.append('files[]', filing, filing.name);
+            }
+            body.append('description', description)
+            body.append('title', title)
+            body.append('stock', stock)
+            body.append('price', price)
+            body.append('used', used)
+            body.append('link', link)
+            body.append('post_time', post_time)
+            body.append('location', location)      
+            newArticle(body, response => {
+                this.setState({ uploading: false, notification: {success:true, message:response} })
+                if (response == "Article uploaded") setTimeout(() => window.location.href = '../../showcase/products', 5000)
+            })
         }
-        body.append('description', description)
-        body.append('title', title)
-        body.append('stock', stock)
-        body.append('price', price)
-        body.append('used', used)
-        body.append('link', link)
-        body.append('post_time', post_time)
-        body.append('location', location)      
-        newArticle(body, response => {
-            this.setState({uploading: false})
-            alert(response)
-        })
     }
 
     render(){
+        const { values, error} = this.state
         return(
         <Grid container justify='center'>
-            
-            <Grid item xs={12} sm={8}><br/>
+            <Grid item xs={12} sm={8}>
+            <br/>
             <Typography variant="headline">
-            Submit/Product
+                Submit/Product
             </Typography><br/>
             {this.state.uploading == false ? 
                 <Paper>
@@ -72,51 +122,55 @@ class SubmitProduct extends Component{
                     <Grid container direction="row" justify="center">
                         <Grid item xs={10}>
                             <TextField
-                            fullWidth
-                            name="title"
-                            margin="normal"
-                            label="Title"
-                            placeholder="Use key words to help users find your product easily..."
-                            onChange={this.handleChange}
-                            ></TextField>
+                                fullWidth
+                                name="title"
+                                margin="normal"
+                                label="Title"
+                                error={error.title}
+                                helperText={(error.title ? 'Title cannot be blank' : '')} 
+                                placeholder="Use key words to help users find your product easily..."
+                                onChange={this.handleChange}/>
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center" spacing={8}>
-                    <Grid item xs={5}>
+                        <Grid item xs={5}>
                             <TextField
                             fullWidth
                             name="stock"
                             label="Quantity"
                             type="number"
+                            error={error.stock}
+                            helperText={(error.stock ? 'Quantity cannot be blank' : '')} 
                             margin="normal"
-                            onChange={this.handleChange}
-                            ></TextField>
+                            onChange={this.handleChange}/>
                         </Grid>
                         <Grid item xs={5}>
-                        <TextField
-                            fullWidth
-                            name="price"
-                            label="Price"
-                            type="number"
-                            margin="normal"
-                            onChange={this.handleChange}
-                            ></TextField>
+                            <TextField
+                                fullWidth
+                                name="price"
+                                label="Price"
+                                type="number"
+                                error={error.price}
+                                helperText={(error.price ? 'Price cannot be blank' : '')} 
+                                margin="normal"
+                                onChange={this.handleChange}/>
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center">
                         <Grid item xs={10}>
                             <FormControl component="fieldset" >
                                 <FormLabel component="legend">State</FormLabel>
-                                    <RadioGroup
-                                        name="used"
-                                        value={this.state.used}
-                                        onChange={this.handleChange}
-                                    >
-                                    <FormControlLabel value="false" control={<Radio />} label="New" />
-                                    <FormControlLabel value="true" control={<Radio/>} label="Used" />
-                                    
-                                    </RadioGroup>
-                                </FormControl>
+                                <RadioGroup
+                                    name="used"
+                                    value={values.used}
+                                    onChange={this.handleChange}>
+                                <FormControlLabel value="false" control={<Radio />} label="New" />
+                                <FormControlLabel value="true" control={<Radio/>} label="Used" />                
+                                </RadioGroup>
+                                {error.used ? 
+                                <FormHelperText error={error.used} >Fill condition</FormHelperText>
+                                :null}
+                            </FormControl>
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center">
@@ -132,69 +186,60 @@ class SubmitProduct extends Component{
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center" spacing={8}>
-                            <Grid item xs={10}>
-                            <Grid container direction="row" justify="center" spacing={8}
-                            alignItems="center"
-                            >
-                            <Grid item xs={12} sm={6} >
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel >Post time</InputLabel>
-                                    <Select
-                                    
-                                    value={this.state.post_time}
-                                    onChange={this.handleChange}
-                                        input={<Input name="post_time" />}
-                                    >
-                                        <MenuItem value={30}>30 days</MenuItem>
-                                        <MenuItem value={60}>60 days</MenuItem>
-                                        <MenuItem value={90}>90 days</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Period that the post will be visible to users</FormHelperText>
-                                </FormControl>
+                        <Grid item xs={10}>
+                            <Grid container direction="row" justify="center" spacing={8} alignItems="center">
+                                <Grid item xs={12} sm={6} >
+                                    <FormControl fullWidth margin="normal">
+                                        <InputLabel>Post time</InputLabel>
+                                        <Select
+                                            value={values.post_time}
+                                            onChange={this.handleChange}
+                                            input={<Input name="post_time" />}>
+                                            <MenuItem value={30}>30 days</MenuItem>
+                                            <MenuItem value={60}>60 days</MenuItem>
+                                            <MenuItem value={90}>90 days</MenuItem>
+                                        </Select>
+                                    <FormHelperText error={error.post_time}>{(error.post_time ? 'Fill post time' : 'Period that the post will be visible to users')}</FormHelperText>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12} sm={6} >
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel >Location</InputLabel>
-                                    <Select
-                                    
-                                    value={this.state.location}
-                                    onChange={this.handleChange}
-                                        input={<Input name="location" />}
-                                    >
-                                        <MenuItem value={"Aruba"}>Aruba</MenuItem>
-                                        <MenuItem value={"Bonaire"}>Bonaire</MenuItem>
-                                        <MenuItem value={"Curacao"}>Curacao</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Product origin </FormHelperText>
-                                </FormControl>
+                                    <FormControl fullWidth margin="normal">
+                                        <InputLabel >Location</InputLabel>
+                                        <Select
+                                            value={values.location}
+                                            onChange={this.handleChange}
+                                            input={<Input name="location" />}>
+                                            <MenuItem value={"Aruba"}>Aruba</MenuItem>
+                                            <MenuItem value={"Bonaire"}>Bonaire</MenuItem>
+                                            <MenuItem value={"Curacao"}>Curacao</MenuItem>
+                                        </Select>
+                                        <FormHelperText error={error.location}>{(error.location ? 'Fill location' : 'Product origin')}</FormHelperText>
+                                    </FormControl>
                                 </Grid>
-                            
                             </Grid>
-                            </Grid>
-                        
+                        </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center">
-                    <Grid item xs={10}>
-                        <TextField
-                            name="description"
-                            label="Description"
-                            multiline
-                            fullWidth
-                            rows={4}
-                            margin="normal"
-                            placeholder="detail the product the best way possible for better user understanding and to ease the sale "
-                            onChange={this.handleChange}
-                     ></TextField>
-                    </Grid>
+                        <Grid item xs={10}>
+                            <TextField
+                                name="description"
+                                label="Description"
+                                multiline
+                                fullWidth
+                                rows={4}
+                                error={error.description}
+                                helperText={(error.description ? 'Description cannot be blank' : '')} 
+                                margin="normal"
+                                placeholder="detail the product the best way possible for better user understanding and to ease the sale "
+                                onChange={this.handleChange}/>
+                        </Grid>
                     </Grid>
 					<br/>
                     <Grid container direction="row" justify="center">
                         <Button
-						variant="raised"
-						color="secondary"
-                        onClick={this.create}
-						> Submit </Button>
-                 
+                            variant="raised"
+                            color="secondary"
+                            onClick={this.create}> Submit </Button>
                     </Grid>
 					<br/>																				
                 </Paper>
@@ -204,14 +249,11 @@ class SubmitProduct extends Component{
                     direction="row"
                     justify="center">
                 <img src={loading} />
-             </Grid> }
-            
-            </Grid>
-        
-        
+                </Grid> }  
+            <Notification success={this.state.notification.success} message={this.state.notification.message} closeNotification={this.closeNotification} />          
+            </Grid>         
         </Grid>
-        )}
-
+    )}  
 }
 
 export default SubmitProduct

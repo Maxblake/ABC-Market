@@ -1,27 +1,24 @@
 import React from "react";
 
 
-class MsgBox extends React.Component {
-  message = React.createRef();
+const MsgBox = (props) => {
+    let message = React.createRef();
 
-  sendMsg = (event) => {
-    event.preventDefault();
-    this.props.socket.emit('new message', this.message.current.value);
-  };
+    const sendMsg = (event) => {
+        props.socket.emit('new message', message.current.value);
+    };
 
-  render() {
     return (
-      <form className="message-box" onSubmit={this.sendMsg}>
-        <textarea
-          type="text"
-          ref={this.message}
-          className="message-input"
-          placeholder="Type message...">
-        </textarea>
-        <button type="submit" className="message-submit">Send</button>
-      </form>
+        <div className="message-box">
+            <textarea
+                type="text"
+                ref={message}
+                className="message-input"
+                placeholder="Type message...">
+            </textarea>
+            <button onClick={sendMsg} className="message-submit">Send</button>
+        </div>
     )
-	}
 }
 
 export default MsgBox;

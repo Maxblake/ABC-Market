@@ -123,18 +123,18 @@ class SubmitService extends Component{
                             </Grid>
                             <Grid container direction="row" justify="center" spacing={24}>
                                 <Grid item xs={12} sm={3}>
-                                <FormControl fullWidth margin="normal">
-                                            <InputLabel >Post time</InputLabel>
-                                            <Select
-                                                value={values.post_time}
-                                                onChange={this.handleChange}
-                                                input={<Input name="post_time" />}>
-                                                <MenuItem value={30}>30 days</MenuItem>
-                                                <MenuItem value={60}>60 days</MenuItem>
-                                                <MenuItem value={90}>90 days</MenuItem>
-                                            </Select>
-                                            <FormHelperText error={error.post_time}> {error.post_time ? 'Fill post time' : 'Period that the post will be visible to users' }</FormHelperText>
-                                        </FormControl>
+                                    <FormControl fullWidth margin="normal">
+                                        <InputLabel >Post time</InputLabel>
+                                        <Select
+                                            value={values.post_time}
+                                            onChange={this.handleChange}
+                                            input={<Input name="post_time" />}>
+                                            <MenuItem value={30}>30 days</MenuItem>
+                                            <MenuItem value={60}>60 days</MenuItem>
+                                            <MenuItem value={90}>90 days</MenuItem>
+                                        </Select>
+                                        <FormHelperText error={error.post_time}> {error.post_time ? 'Fill post time' : 'Period that the post will be visible to users' }</FormHelperText>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12} sm={8}>
                                     <TextField

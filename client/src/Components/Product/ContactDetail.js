@@ -3,7 +3,6 @@ import {Button,Grid,Collapse,TextField,Typography,Paper} from '@material-ui/core
 
 
 export default class ContactDetail extends Component{
-
     state = {
         message: "",
     }    
@@ -23,6 +22,7 @@ export default class ContactDetail extends Component{
         }
         return toRender;
     }
+    
     render(){
         return (
             <Fragment>

@@ -6,7 +6,7 @@ import { withRouter } from 'react-router'
 import { userContacts } from '../User/Request';
 const queryString = require('query-string');
 
-    class Inbox extends Component{
+class Inbox extends Component{
 
     state={
         contacts:[],

@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
 import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabel,Input,FormHelperText,Button} from '@material-ui/core';
-import UploadForm from '../Product/UploadForm'
 import loading from '../../images/loading.svg'
 import { newVehicle } from './helpers/Request';
 import Notification from '../../Helpers/Helpers'

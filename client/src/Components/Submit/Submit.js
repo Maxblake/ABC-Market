@@ -7,25 +7,23 @@ import SubmitVehicle from "./SubmitVehicle";
 import SubmitService from "./SubmitService";
 import SubmitSale from "./SubmitSale";
 import SubmitPlace from "./SubmitPlace";
-// import {handleChange} from '../../../Helpers/Helpers'
-class Submit extends Component {
-  typeSubmit = type => {
-    switch (type) {
-      case "product":
-        return <SubmitSelect {...this.props} />;
-      case "service":
-        return <SubmitService {...this.props} />;
-      case "place":
-        return <SubmitPlace {...this.props} />;
-      case "sale":
-        return <SubmitSale {...this.props} />;
-    }
-  };
 
-  render() {
-    let returned = this.typeSubmit(this.props.match.params.type);
+const Submit = (props) => {
+    const typeSubmit = type => {
+        switch (type) {
+        case "product":
+            return <SubmitSelect {...props} />;
+        case "service":
+            return <SubmitService {...props} />;
+        case "place":
+            return <SubmitPlace {...props} />;
+        case "sale":
+            return <SubmitSale {...props} />;
+        }
+    };
+    
+    let returned = typeSubmit(props.match.params.type);
     return <Fragment>{returned}</Fragment>;
-  }
 }
 
 export default Submit;

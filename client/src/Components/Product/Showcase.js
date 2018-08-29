@@ -88,7 +88,6 @@ export default class Showcase extends Component{
                             <Grid item xs={5}>
                                 <Grid container direction="row" justify="center">
                                     <Button 
-                                        
                                         component={Link}
                                         to={`${this.props.location.pathname}/all`}
                                         fullWidth
@@ -114,15 +113,19 @@ export default class Showcase extends Component{
                         <br/>
                         <br/>
                         <br/>
-                        <Button size="small"  disabled={this.state.last} justify="left" onClick={() => {this.showCategories('+'); this.checkButton('+')}}>
-                            >
-                            </Button>
                         <Grid 
                             container 
                             direction="row"
                             justify="center"
                             spacing={24}>  
-                            
+                            <Grid container justify="flex-end" alignItems="baseline">
+                                <Button 
+                                    size="small"  
+                                    disabled={this.state.last} 
+                                    onClick={() => {this.showCategories('+'); this.checkButton('+')}} >
+                                    >
+                                </Button>
+                            </Grid>
                             {this.state.currentCategories.map((category,index)=>(
                                 <Grid item key={ index } xs={4}>
                                    <Grid 
@@ -138,13 +141,15 @@ export default class Showcase extends Component{
                                    </Grid>
                                 </Grid>
                             ))}
+                            <Grid container justify="flex-start" alignItems="baseline">
+                                <Button  
+                                    size="small"    
+                                    disabled={this.state.start} 
+                                    onClick={() => {this.showCategories('-'); this.checkButton('-')}}>
+                                    {'<'}
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Button  
-                            size="small"    
-                            disabled={this.state.start} 
-                            onClick={() => {this.showCategories('-'); this.checkButton('-')}}>
-                            {'<'}
-                        </Button>
                         <br/>
                         <br/>
                         <Grid 

@@ -3,6 +3,7 @@ import { Grid, Paper, Typography,TextField,FormControl,Select,MenuItem,InputLabe
 import loading from '../../images/loading.svg'
 import { newVehicle } from './helpers/Request';
 import Notification from '../../Helpers/Helpers'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 class SubmitVehicle extends Component{
     file = React.createRef();
@@ -129,11 +130,15 @@ class SubmitVehicle extends Component{
                     <Paper>
                         <Grid container direction="row" justify="center">
                             <Grid item xs={12}>
-                                <input
+                                <Button
+                                    color="primary" 
                                     type="file"
                                     multiple
+                                    style={{justifyContent: 'center'}}
                                     ref={this.file}>
-                                </input>    
+                                    Upload image
+                                <CloudUploadIcon />
+                                </Button>    
                             </Grid>
                         </Grid>
                         <Grid container direction="row" justify="center" spacing={8}>

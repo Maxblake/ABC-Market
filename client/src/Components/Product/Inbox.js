@@ -26,7 +26,8 @@ class Inbox extends Component{
     }
     
     chat = contact => {
-        const { name, trade_id } = contact
+        const { details, trade_id } = contact
+        const { name } = details[0]
         this.props.history.push({
             pathname:`/inbox/${trade_id}`,
             state: { name }
@@ -53,7 +54,7 @@ class Inbox extends Component{
                         <Grid item xs={12}>
                         {this.state.loadedContacts == true ? 
                             this.state.contacts.map(contact=>(
-                                <div>
+                                <div key={contact.trade_id}>
                                 <ContactButton 
                                     style={{height:120}}
                                     key={contact.trade_id}

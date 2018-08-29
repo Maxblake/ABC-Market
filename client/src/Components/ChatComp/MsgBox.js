@@ -1,11 +1,11 @@
 import React from "react";
 
 
-const MsgBox = (props) => {
+const MsgBox = ({socket}) => {
     let message = React.createRef();
 
     const sendMsg = (event) => {
-        props.socket.emit('new message', message.current.value);
+        socket.emit('new message', message.current.value);
     };
 
     return (

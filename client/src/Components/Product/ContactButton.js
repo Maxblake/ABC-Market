@@ -32,10 +32,10 @@ const ContactButton = (props) => {
                         <Typography variant="subheading">
                             {type}
                         </Typography>
-                        {this.props.sendMsg ? 
+                        {props.sendMsg ? 
                             <Button variant="outlined"
                             color="secondary"
-                            onClick={() => this.props.chat()}
+                            onClick={() => props.chat()}
                             > Send Message</Button> : ""
                         }
                     </Grid>

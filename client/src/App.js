@@ -29,7 +29,7 @@ class App extends Component {
     ip: "",
     showcase:{
         products:{
-            categories:["appliances","vehicles","clothes","phones","all","other"],
+            categories:["appliances","vehicles","clothes","phones","all", "cleaning","yoga classes","accountant","architect","plumber","other"],
         },
         services:{
             categories:["cleaning","yoga classes","accountant","architect","plumber","other"],
@@ -119,7 +119,7 @@ class App extends Component {
                      <Route component={this.header} />
                         <Switch>
                             <Route exact path="/submit/:type" component={this.submit}/>
-                            <Route exact path="/submit/product/product" component={SubmitProduct}/>
+                            <Route exact path="/submit/product/article" component={SubmitProduct}/>
                             <Route exact path="/submit/product/vehicle" component={SubmitVehicle}/>
                             <Route exact path="/" component={Welcome}/>
                             <Route exact path="/login" component={Login}/>

@@ -9,7 +9,6 @@ require('./chat.css');
 
 class Chat extends React.Component {
   
-
     state = {
         history: [],
         person_id: ''

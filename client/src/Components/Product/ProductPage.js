@@ -28,18 +28,18 @@ class ProductPage extends Component{
         })
     }
 
-    messageToggle=()=>{
+    messageToggle = () => {
         this.setState({msg:!this.state.msg});
     }
 
-    updateProduct= product => {
+    updateProduct = product => {
         this.setState({
             editMode:false,
             product
         })
     }
     
-    handleEdit=()=>{
+    handleEdit = () => {
         this.setState({
             msg:false,
             contact:false,

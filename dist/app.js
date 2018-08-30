@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
-const webpack = require('webpack');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const morgan = require('morgan');
 const config = require('./helpers/config');
-const webpack_config = require('../webpack.dev.config.js')
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const compiler = webpack(webpack_config)
 const port = process.env.PORT || 3000;
 require('./controllers/chat.js')(io);
 
@@ -24,12 +21,16 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: webpack_config.output.publicPath
-}));
-
-app.use(require('webpack-hot-middleware')(compiler));
+if (process.env.NODE_ENV !== 'production') {
+    const webpack = require('webpack');
+    const webpack_config = require('../webpack.dev.config.js')
+    const compiler = webpack(webpack_config)
+    app.use(require('webpack-hot-middleware')(compiler));
+    app.use(require('webpack-dev-middleware')(compiler, {
+        noInfo: true,
+        publicPath: webpack_config.output.publicPath
+    }));
+}
 
 app.use(session({
     secret:'keyboardcat',

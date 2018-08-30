@@ -20,16 +20,15 @@ app.use((req, res, next) => {
     next();
 });
 
-if (process.env.NODE_ENV !== 'production') {
     const webpack = require('webpack');
-    const webpack_config = require('../webpack.dev.config.js')
+    const webpack_config = require('../webpack.prod.config.js')
     const compiler = webpack(webpack_config)
     app.use(require('webpack-hot-middleware')(compiler));
     app.use(require('webpack-dev-middleware')(compiler, {
         noInfo: true,
         publicPath: webpack_config.output.publicPath
     }));
-}
+
 
 app.use(session({
     secret:'keyboardcat',

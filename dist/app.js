@@ -15,25 +15,26 @@ require('./controllers/chat.js')(io);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Credentials", true);
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
 });
 
 app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: webpack_config.output.publicPath
+    noInfo: true,
+    publicPath: webpack_config.output.publicPath
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use(session({
-  secret:'keyboardcat',
-  resave: false,
-  saveUninitialized: false
+    secret:'keyboardcat',
+    resave: false,
+    saveUninitialized: false
 }));
 
 app.use(passport.initialize());
@@ -43,8 +44,8 @@ app.use(morgan('combined'));
 app.use('/',require('./controllers/'));
 
 app.get('*',  (_, res) => {
-   res.sendFile(path.join(__dirname, 'index.html'));
- });
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 
 passport.use(require('./helpers/localStrategy'));

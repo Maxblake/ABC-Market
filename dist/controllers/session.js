@@ -53,7 +53,6 @@ router.post('/signup',auth.isLogged, (req, res, next) => {
 })
 
 router.get('/checkSession', auth.isAuth, async (req, res) => {
-
         const user = await User.id(req.user.person_id)
         res.send({ status: 200, user })
   

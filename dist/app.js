@@ -1,10 +1,10 @@
+import 'babel-polyfill';
 const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const morgan = require('morgan');
-const config = require('./helpers/config');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;

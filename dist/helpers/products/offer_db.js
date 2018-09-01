@@ -48,3 +48,19 @@ module.exports.delete = (id)=>{
         });
     });
 }
+
+module.exports.by_genre = id =>{
+    return new Promise((res,rej)=>{
+          db.connect().then(obj=>{
+              obj.any(offer.by_genre, [id]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
+        });
+    });
+}

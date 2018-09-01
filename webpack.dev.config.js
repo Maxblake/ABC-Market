@@ -9,23 +9,22 @@ module.exports = {
       publicPath: '/static/'
     },
     module: {
-        loaders: [
-          {
-            test: /\.(js|jsx)$/,
-              loader: 'babel-loader',
-              include: path.join(__dirname, 'client'),
-              exclude: /node_modules/,
-              query: {
-                presets: ['es2015', 'react', 'stage-0']
-              }
+        loaders: [{
+                test: /\.(js|jsx)$/,
+                loader: 'babel-loader',
+                include: path.join(__dirname, 'client'),
+                exclude: /node_modules/,
+                query: {
+                    presets: ['es2015', 'react', 'stage-0']
+                }
             },
             {
-              test: /\.css$/,
-              loaders: ["style-loader", "css-loader", "less-loader"]
+                test: /\.css$/,
+                loaders: ["style-loader", "css-loader", "less-loader"]
             },
             {
-              test: /\.styl$/,
-              loader: "style-loader"
+                test: /\.styl$/,
+                loader: "style-loader"
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2|gif|png|jpe?g|svg|json)$/,

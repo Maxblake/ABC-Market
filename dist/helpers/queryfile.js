@@ -31,9 +31,10 @@ module.exports.product  = {
 
 module.exports.article = {
     new: 'with new_product as (insert into product (person_id, title, description, type, category, location, post_time) values ($1, $2, $3, $4, $5, $6, $7) returning product_id) insert into article (product_id, stock, price, used, link) values ((select product_id from new_product), $8, $9, $10, $11) returning product_id',
-    latest: 'select distinct on (product.product_id) product.description as name, article.used as condition, product.product_id, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id order by product.product_id desc',
+    latest: 'select distinct on (product.product_id) product.title as name, article.used as condition, product.product_id, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id order by product.product_id desc',
     delete: 'delete from article where article_id = $1',
     by_genre: 'select distinct on (product.product_id) product.description as name, article.used as condition, product.product_id, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id where product.category = $1 order by product.product_id desc',
+    search : 'select distinct on (product.product_id) product.title as name, article.used as condition, product.product_id, article.price, image.url as image from product inner join article on product.product_id = article.product_id inner join image on product.product_id = image.product_id where product.title like \'$1\' order by product.product_id desc'    
 }
 
 module.exports.offer = {

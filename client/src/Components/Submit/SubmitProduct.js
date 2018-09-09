@@ -11,6 +11,7 @@ class SubmitProduct extends Component{
     state={
         values: {
             description:'',
+            category:'',
             title:'',
             stock:'',
             price:'',
@@ -21,6 +22,7 @@ class SubmitProduct extends Component{
         },
         error: {
             description:null,
+            category:null,
             title:null,
             stock:null,
             price:null,
@@ -75,7 +77,7 @@ class SubmitProduct extends Component{
     create = () => {
         if (this.checkInput()) {
             this.setState({uploading: true})
-            const { description, title, stock, price, used, link, post_time, location } = this.state.values
+            const { description, title, stock, price, used, link, post_time, location, category } = this.state.values
             const body = new FormData();
             const { files } = this.file.current;
             for (var i = 0; i < files.length; i++) {
@@ -90,6 +92,7 @@ class SubmitProduct extends Component{
             body.append('link', link)
             body.append('post_time', post_time)
             body.append('location', location)      
+            body.append('category', category)      
             newArticle(body, response => {
                 this.setState({ uploading: false, notification: {success:true, message:response} })
                 if (response == "Article uploaded") setTimeout(() => window.location.href = '../../showcase/products', 5000)
@@ -119,8 +122,8 @@ class SubmitProduct extends Component{
                            </input> 
                         </Grid>
                     </Grid>
-                    <Grid container direction="row" justify="center">
-                        <Grid item xs={10}>
+                    <Grid container direction="row" justify="center" spacing={8}>
+                    <Grid item xs={5}>
                             <TextField
                                 fullWidth
                                 name="title"
@@ -131,7 +134,21 @@ class SubmitProduct extends Component{
                                 placeholder="Use key words to help users find your product easily..."
                                 onChange={this.handleChange}/>
                         </Grid>
+                        <Grid item xs={5}>
+                            <TextField
+                                fullWidth
+                                name="price"
+                                label="Price"
+                                type="number"
+                                error={error.price}
+                                helperText={(error.price ? 'Price cannot be blank' : '')} 
+                                margin="normal"
+                                onChange={this.handleChange}/>
+                        </Grid>
                     </Grid>
+
+
+
                     <Grid container direction="row" justify="center" spacing={8}>
                         <Grid item xs={5}>
                             <TextField
@@ -145,15 +162,18 @@ class SubmitProduct extends Component{
                             onChange={this.handleChange}/>
                         </Grid>
                         <Grid item xs={5}>
-                            <TextField
-                                fullWidth
-                                name="price"
-                                label="Price"
-                                type="number"
-                                error={error.price}
-                                helperText={(error.price ? 'Price cannot be blank' : '')} 
-                                margin="normal"
-                                onChange={this.handleChange}/>
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel>Category</InputLabel>
+                                <Select
+                                    value={values.category}
+                                    onChange={this.handleChange}
+                                    input={<Input name="category" />}>
+                                    {this.props.showcase.categories.map((category,index)=>(
+                                        <MenuItem key={index} value={category}>{category}</MenuItem>
+                                    ))}
+                                </Select>
+                            <FormHelperText error={error.category}>{(error.category ? 'Fill category' : '')}</FormHelperText>
+                            </FormControl>
                         </Grid>
                     </Grid>
                     <Grid container direction="row" justify="center">

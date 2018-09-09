@@ -1,44 +1,46 @@
-export const fetching = (data, method, url, cb) => {
-    switch (method) {
-        case 'GET':
-            fetch(url, {
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include',
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(res => {
-                cb(res);
-            })
-            .catch(err => {
-                console.log(`Error while making the request: ${err.message}`);
-            })
-        break
+export const request =  (method, endpoint, params = {}, headers = 'formdata') => {
+    return new Promise((res,rej) => {
+        var body
 
-        case 'POST':
-            let datajson = {
-                method: 'POST',
-                body: JSON.stringify(data),
-                withCredentials: true,
-                credentials: 'include',
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            };
+        var fetchOptions = {
+            method,
+            body,
+            credentials: 'include'
+        }
 
-            fetch(url, datajson)
-            .then(res => res.json())
-            .then(res => {
-                cb(res);
-            })
-            .catch(err => {
-                console.log(`Error while making the request: ${err.message}`);
-            })
-        break;
-    }
+        headers == 'json' ? (fetchOptions[headers] = 'application/json', body = JSON.stringify(params)) : headers
+        headers == 'formdata' ? (body = params) : headers
+
+        switch (method) {
+            case 'GET':
+                fetch(endpoint, {
+                    credentials: 'include',
+                })
+                    .then(response => response.json())
+                    .then(response => res(response))
+                    .catch(err => rej(err.message) )
+            break
+
+            case 'POST':
+                fetch(endpoint, fetchOptions)
+                    .then(response => response.json())
+                    .then(response => res(response) )
+                    .catch(err => rej(err.message) )
+            break
+
+            case 'DELETE':
+                fetch(endpoint, fetchOptions)
+                    .then(response => response.json())
+                    .then(response => res(response) )
+                    .catch(err => rej(err.message) )
+            break
+
+            case 'UPDATE':
+                fetch(endpoint, fetchOptions)
+                    .then(response => response.json())
+                    .then(response => res(response) )
+                    .catch(err => rej(err.message) )
+            break
+        }
+    })
 }
-
-

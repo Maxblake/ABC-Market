@@ -1,3 +1,5 @@
+import { request } from "../../../../fetching/wrapper";
+
 export const newOffer = (body, cb) => {
     fetch('/product/offer/new', {
         method: 'POST',
@@ -96,12 +98,7 @@ export const newVehicle = (body, cb) => {
 }
 
 export const newArticle = (body, cb) => {
-    fetch('/product/article/new', {
-        method: 'POST',
-        credentials: 'include',
-        body
-    })
-    .then(response => response.json())
+    request('POST', '/product/article/new', body)
     .then(result => {
         switch(result.status) {
             case 200:

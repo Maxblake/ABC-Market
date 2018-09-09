@@ -111,6 +111,10 @@ class App extends Component {
         return (<Submit {...props} showcase={this.state.showcase[""+props.match.params.type+"s"]}  />)
     }   
 
+    submitProduct = (props) => {
+        return(<SubmitProduct showcase={this.state.showcase['products']} />)
+    } 
+
     render() {
         return (
             <Fragment>
@@ -119,7 +123,7 @@ class App extends Component {
                      <Route component={this.header} />
                         <Switch>
                             <Route exact path="/submit/:type" component={this.submit}/>
-                            <Route exact path="/submit/product/article" component={SubmitProduct}/>
+                            <Route exact path="/submit/product/article" component={this.submitProduct}/>
                             <Route exact path="/submit/product/vehicle" component={SubmitVehicle}/>
                             <Route exact path="/" component={Welcome}/>
                             <Route exact path="/login" component={Login}/>

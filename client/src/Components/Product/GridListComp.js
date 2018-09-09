@@ -13,7 +13,8 @@ class GridListComp extends Component{
 
     componentDidMount() {
         if (this.props.product != undefined) {
-            this.setState({ products: this.state.products.concat(this.props.product)})
+            console.log(this.props.product)
+            this.setState({ products: this.state.products.concat(this.props.product) })
         } else {
             const { type } = this.props.match.params
             switch(type) {

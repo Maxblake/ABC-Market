@@ -48,6 +48,7 @@ router.get('/category/:category', async (req, res) => {
 })
 
 router.post('/new', upload.array('files[]'), async (req, res) => {
+    console.log(req.body)
     const { category, description, title, stock, price, used, link, post_time, location } = req.body
     const multipleUpload = new Promise(async (res, rej) => {
         let arr = []

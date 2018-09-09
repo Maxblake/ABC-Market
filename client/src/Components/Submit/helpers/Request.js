@@ -1,12 +1,7 @@
 import { request } from "../../../../fetching/wrapper";
 
 export const newOffer = (body, cb) => {
-    fetch('/product/offer/new', {
-        method: 'POST',
-        credentials: 'include',
-        body
-    })
-    .then(response => response.json())
+    request('POST', '/product/offer/new', body)
     .then(result => {
         switch(result.status) {
             case 200:
@@ -25,16 +20,8 @@ export const newOffer = (body, cb) => {
     })
 }
 
-export const newService = (title, category, post_time, description, location, cb) => {
-    fetch('/product/service/new', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({ title, category, post_time, description, location })
-    })
-    .then(response => response.json())
+export const newService = (body, cb) => {
+    request('POST', '/product/service/new', body, 'json')
     .then(result => {
         switch(result.status) {
             case 200:
@@ -48,12 +35,7 @@ export const newService = (title, category, post_time, description, location, cb
 }
 
 export const newPlace = (body, cb) => {
-    fetch('/product/place/new', {
-        method: 'POST',
-        credentials: 'include',
-        body
-    })
-    .then(response => response.json())
+    request('POST', '/product/place/new', body)
     .then(result => {
         switch(result.status) {
             case 200:
@@ -73,12 +55,7 @@ export const newPlace = (body, cb) => {
 }
 
 export const newVehicle = (body, cb) => {
-    fetch('/product/vehicle/new', {
-        method: 'POST',
-        credentials: 'include',
-        body
-    })
-    .then(response => response.json())
+    request('POST', '/product/vehicle/new', body)
     .then(result => {
         switch(result.status) {
             case 200:

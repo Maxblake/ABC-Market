@@ -33,12 +33,7 @@ class SubmitService extends Component{
     handleChange=(element)=>{
         let error = {...this.state.error}
         let values = {...this.state.values}
-        
-        if (element.target.value == '') {
-          error[element.target.name] = true
-        } else {
-          error[element.target.name] = false
-        }
+        error[element.target.name] = (element.target.value == '') ? true : false
         values[element.target.name] = element.target.value
         this.setState({ error, values })
     }
@@ -69,9 +64,8 @@ class SubmitService extends Component{
     create = () => {
         if (this.checkInput()) {
             this.setState({uploading: true})
-            const { title, category, post_time, description, location } = this.state.values
-            newService(title, category, post_time, description, location, response => {
-                this.setState({ uploading: false, notification: {success:true, message:response} })
+            newService(this.state.values, response => {
+                this.setState({ uploading: false, notification: { success:true, message:response } })
                 if (response == "Service uploaded") setTimeout(() => window.location.href = '../showcase/sales', 5000)
             })
         }

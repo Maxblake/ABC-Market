@@ -19,6 +19,7 @@ class ProductPage extends Component{
     
     contactSeller = id => {
         getSeller(id, seller => {
+            console.log(seller)
             if(seller != false) {
                 this.setState({
                     contact:!this.state.contact,
@@ -50,7 +51,8 @@ class ProductPage extends Component{
     sendMessage = (message) => {
         const product_id = this.props.match.params.item
         const { name, person_id } = this.state.seller
-        newMessageFromProduct(message, product_id, person_id, id => {
+        let body = { message, person_id, product_id }
+        newMessageFromProduct(body, id => {
             if (id != null) {
                 this.props.history.push({
                     pathname:`/inbox/${id}`,

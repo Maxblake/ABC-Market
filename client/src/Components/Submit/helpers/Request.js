@@ -1,8 +1,8 @@
-import { request } from "../../../../fetching/wrapper";
+import Http from "../../../../fetching/wrapper";
+const http = new Http()
 
 export const newOffer = (body, cb) => {
-    request('POST', '/product/offer/new', body)
-    .then(result => {
+    http.request('/product/offer/new', 'POST', body).then(result => {
         switch(result.status) {
             case 200:
                 cb('Sale uploaded')
@@ -21,8 +21,7 @@ export const newOffer = (body, cb) => {
 }
 
 export const newService = (body, cb) => {
-    request('POST', '/product/service/new', body, 'json')
-    .then(result => {
+    http.request('/product/service/new', 'POST', body, 'json').then(result => {
         switch(result.status) {
             case 200:
                 cb('Service uploaded')
@@ -35,8 +34,7 @@ export const newService = (body, cb) => {
 }
 
 export const newPlace = (body, cb) => {
-    request('POST', '/product/place/new', body)
-    .then(result => {
+    http.request('/product/place/new', 'POST', body).then(result => {
         switch(result.status) {
             case 200:
                 cb('Place uploaded')
@@ -55,8 +53,7 @@ export const newPlace = (body, cb) => {
 }
 
 export const newVehicle = (body, cb) => {
-    request('POST', '/product/vehicle/new', body)
-    .then(result => {
+    http.request('/product/vehicle/new', 'POST', body).then(result => {
         switch(result.status) {
             case 200:
                 cb('Vehicle uploaded')
@@ -75,8 +72,7 @@ export const newVehicle = (body, cb) => {
 }
 
 export const newArticle = (body, cb) => {
-    request('POST', '/product/article/new', body)
-    .then(result => {
+    http.request('/product/article/new', 'POST', body).then(result => {
         switch(result.status) {
             case 200:
                 cb('Article uploaded')

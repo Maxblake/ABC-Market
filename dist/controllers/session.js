@@ -6,6 +6,10 @@ const router = express.Router();
 var ip = require("ip");
 
 router.post('/login', auth.isLogged, (req, res, next) => {
+    console.log(req.body)
+    const { username, password } = req.body.credentials
+    req.body.username = username
+    req.body.password = password
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             return next(err);
@@ -30,8 +34,11 @@ router.post('/login', auth.isLogged, (req, res, next) => {
 });
 
 router.post('/signup',auth.isLogged, (req, res, next) => {
-    var { name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address } = req.body
-    User.new(name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address).then(data => {
+    const { credentials } = req.body
+    const { username, password } = credentials
+    req.body.username = username
+    req.body.password = password
+    User.new(credentials).then(data => {
         passport.authenticate('local',(err, user, info) => {
             if (err) {
                 console.log(err);
@@ -68,13 +75,8 @@ router.get('/user/contacts', auth.isAuth, async (req,res) => {
         const trades = await User.trades_details(person_id)
         for (var i in trades) {
             const { buyer_id, seller_id } = trades[i]
-            if (buyer_id == person_id) {
-                contact = await User.contact_details(seller_id)
-                trades[i]['details'] = contact
-            } else {
-                contact = await User.contact_details(buyer_id)
-                trades[i]['details'] = contact    
-            }
+            const contact = (buyer_id == person_id) ? await User.contact_details(seller_id) : await User.contact_details(buyer_id)
+            trades[i]['details'] = contact    
         }
         res.send({ 
             status: 200,

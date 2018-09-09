@@ -43,11 +43,13 @@ module.exports.comparePassword = (candidatePassword, hash)=>{
     })
 }
 
-module.exports.new = (name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address)=>{
+module.exports.new = (body)=>{
+    var { name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address } = body
     return new Promise((res,rej)=>{
         let hashedPass = bcrypt.hashSync(password, 10)
+        password = hashedPass
         db.connect().then((obj)=>{
-            obj.any(user.new, [name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address]).then((data)=>{
+            obj.any(user.new, [name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address]).then((data)=>{
                 res(data)
                 obj.done()
             }).catch((error)=>{

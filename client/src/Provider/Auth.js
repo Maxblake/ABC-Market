@@ -15,10 +15,11 @@ class Auth extends Component {
     state = {
         user: null,
         setSession: (...options) => {
-            let { username, password } = options[0]
-            let errors = checkErrors(username, password)
+            const credentials = options[0]
+            const input = { credentials }
+            let errors = checkErrors(input)
             if (errors) {
-                logIn(username, password, user => {
+                logIn(input, user => {
                     if (user != null) {
                         this.setState({ user })
                         window.location.href = `/home/${user.type}`
@@ -42,10 +43,11 @@ class Auth extends Component {
             })
         },
         createUserAndSession: (...options) => {
-            let { name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address } = options = options[0]
-            let errors = checkErrors(name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address)
+            const credentials = options[0]
+            const input = { credentials }
+            let errors = checkErrors(input)    
             if (errors) {
-                signUp(name, lastname, username, code, phoneNumber, password, gender, type, birthDate, address, user => {
+                signUp(input, user => {
                     if (user != null) {
                         this.setState({ user })
                         window.location.href = `/home/${user.type}`

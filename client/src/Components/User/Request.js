@@ -1,19 +1,14 @@
+import Http from "../../../fetching/wrapper";
+const http = new Http()
+
 export const userProduct = (cb) => {
-    fetch('product/by_user', {
-        credentials: 'include'
-    })
-    .then(response => response.json())
-    .then(data => {
+    http.request('product/by_user').then(data => {
         (data.status == 200) ? cb(data.products) : cb(null) 
     })
 }
 
 export const userContacts = (cb) => {
-    fetch('/user/contacts', {
-        credentials: 'include'
-    })
-    .then(response => response.json())
-    .then(data => {
+    http.request('/user/contacts').then(data => {
         (data.status == 200) ? cb(data.trades) : cb(null) 
     })   
 }

@@ -26,7 +26,8 @@ router.post('/trade/new', (req, res) => {
 })
 
 router.post('/new_message_from_product', async (req, res) => {
-    const { product_id, seller_id, message } = req.body
+    const { product_id, message } = req.body
+    const seller_id = req.body.person_id
     const buyer_id = req.user.person_id
     const date = new Date()
     const time = `${date.toDateString()}  ${date.toLocaleTimeString()}`

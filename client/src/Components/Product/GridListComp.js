@@ -42,6 +42,13 @@ class GridListComp extends Component{
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const products  = this.props.product
+        if (products !== prevProps.product) {
+            this.setState({ products })
+        }  
+    }
+
     chat = contact => {
         const { name, trade_id }= contact
         this.props.history.push({

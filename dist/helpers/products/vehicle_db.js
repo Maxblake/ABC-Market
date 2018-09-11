@@ -65,3 +65,19 @@ module.exports.edit = (brand, model, distance, year, fuel, negotiable, finance, 
         });
     });
 }
+
+module.exports.search = name =>{
+    return new Promise((res,rej)=>{
+          db.connect().then(obj=>{
+              obj.any(vehicle.search, [name]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
+        });
+    });
+}

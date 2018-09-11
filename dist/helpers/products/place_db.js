@@ -51,10 +51,29 @@ module.exports.delete = id => {
     });
 }
 
-module.exports.by_genre = () =>{
+module.exports.by_genre = name =>{
     return new Promise((res,rej)=>{
         db.connect().then(obj=>{
-            obj.any(place.by_genre).then(data=>{
+            obj.any(place.by_genre, [name]).then(data=>{
+                res(data);
+                obj.done();
+            }).catch(error=>{
+                console.log(error)
+                rej(error);
+                obj.done();
+            })
+        }).catch(error=>{
+            console.log(error)
+            rej(error);
+        });
+    });
+}
+
+module.exports.search = (name, category) =>{
+    return new Promise((res,rej)=>{
+        db.connect().then(obj=>{
+            console.log(name, category)
+            obj.any(place.search, [name, category]).then(data=>{
                 res(data);
                 obj.done();
             }).catch(error=>{

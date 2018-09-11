@@ -98,11 +98,6 @@ class App extends Component {
         return (<ProductPage />)
     }
 
-    category=(props)=>{
-        return( <Category  />)
-    }
-
-
     watch=(props)=>{
             return (<Watch {...props}  />)
     }

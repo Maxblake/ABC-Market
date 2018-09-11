@@ -34,7 +34,7 @@ router.get('/all', (req, res) => {
 router.post('/new', upload.array('files[]'), async (req, res) => {
     const { brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac, time, location, description, post_time } = req.body
 
-    multipleUpload = new Promise(async (res, rej) => {
+    const multipleUpload = new Promise(async (res, rej) => {
         let arr = []
         for (var i in req.files) {
             await cloudinary.uploader.upload(req.files[i].path, result => {
@@ -47,7 +47,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
         }
     })
 
-    consume = await multipleUpload.then(data => {
+    const consume = await multipleUpload.then(data => {
         vehicle.new(req.user.person_id, null, description, 'vehicle', null, location, post_time, brand, model, distance, year, fuel, negotiable, finance, interior, unique_owner, windows, steer, ac).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
@@ -67,7 +67,35 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
         console.log(err)
         res.send({ status: 400})
     })
+})
 
+router.get('/category/:category', async (req, res) => {
+    try {
+        const products = await vehicle.all()
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
+})
+
+router.post('/search', async (req, res) => {
+    console.log('yes')
+    const { name } = req.body
+    try {
+        const products = await vehicle.search(name)
+        console.log(products)
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
 })
 
 router.post('/edit', (req, res) => {

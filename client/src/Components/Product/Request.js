@@ -23,7 +23,7 @@ export const latestOffer = cb => {
 
 export const productImages = (id, cb) => {
 	http.request(`/product/images/${id}`)
-	.then(result => (result.status == 200) ? cb(result.images) : cb(false))
+	.then(result => (result.status == 200) ? cb(result.images.product_images) : cb(false))
 }
 
 export const productDetail = (id, cb) => {
@@ -43,6 +43,11 @@ export const newMessageFromProduct = (body, cb) => {
 
 export const byCategory = (type, category, cb) => {
 	http.request(`/product/${type}/category/${category}`)
+	.then(result => (result.status == 200) ? cb(result.products) : cb(null) )
+}
+
+export const search = (type, body, cb) => {
+	http.request(`/product/${type}/search`, 'POST', body, 'json')
 	.then(result => (result.status == 200) ? cb(result.products) : cb(null) )
 }
 

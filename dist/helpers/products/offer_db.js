@@ -64,3 +64,19 @@ module.exports.by_genre = id =>{
         });
     });
 }
+
+module.exports.search = (name, category) =>{
+    return new Promise((res,rej)=>{
+          db.connect().then(obj=>{
+              obj.any(offer.search, [name, category]).then(data=>{
+                  res(data);
+                  obj.done();
+              }).catch(error=>{
+                  rej(error);
+                  obj.done();
+              });
+          }).catch(error=>{
+              rej(error);
+        });
+    });
+}

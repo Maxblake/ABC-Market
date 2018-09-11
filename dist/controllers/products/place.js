@@ -29,7 +29,7 @@ router.get('/latest', (req, res) => {
 
 router.post('/new', upload.array('files[]'), async (req, res) => {
     const { title, description, category, specialty, schedule, address, post_time, link, location } = req.body
-    multipleUpload = new Promise(async (res, rej) => {
+    const multipleUpload = new Promise(async (res, rej) => {
         let arr = []
         for (var i in req.files) {
             await cloudinary.uploader.upload(req.files[i].path, result => {
@@ -42,7 +42,7 @@ router.post('/new', upload.array('files[]'), async (req, res) => {
         }
     })
 
-    consume = await multipleUpload.then(data => {
+    const consume = await multipleUpload.then(data => {
         place.new(req.user.person_id, title, description, 'place', category, location, post_time, specialty, schedule, address, link).then(async new_product => {
             const { product_id } = new_product
             for (var i in data) {
@@ -75,6 +75,36 @@ router.post('/edit', (req, res) => {
             status: 403
         })
     })
+})
+
+router.get('/category/:category', async (req, res) => {
+    const { category } = req.params
+    console.log(category)
+    try {
+        const products = await place.by_genre(category)
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
+})
+
+
+router.post('/search', async (req, res) => {
+    const { name, category } = req.body
+    try {
+        const products = await place.search(name, category)
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
 })
 
 router.post('/erase', (req, res) => {

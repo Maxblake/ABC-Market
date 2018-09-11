@@ -26,7 +26,6 @@ class SubmitPlace extends Component{
             title:null,
             specialty:null,
             schedule:null,
-            geolocation: null,
             link:null,
             post_time:null,
             location:null,
@@ -69,6 +68,7 @@ class SubmitPlace extends Component{
     checkInput = () => {
         let check = true
         let error = { ...this.state.error }
+        console.log(error)
         Object.keys(error).map(err => {
             if (error[err] == null || error[err]) { 
                 check = false
@@ -104,7 +104,7 @@ class SubmitPlace extends Component{
             body.append('location', location)      
             newPlace(body, response => {
                 this.setState({ uploading: false, notification: {success:true, message:response} })
-                if (response == "Sale uploaded") setTimeout(() => window.location.href = '../showcase/places', 5000)
+                if (response == "Place uploaded") setTimeout(() => window.location.href = '../showcase/places', 5000)
             })
         }
     }

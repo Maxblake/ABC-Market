@@ -54,6 +54,35 @@ router.post('/erase', (req, res) => {
     })
 })
 
+router.get('/category/:category', async (req, res) => {
+    const { category } = req.params
+    try {
+        const products = await service.by_genre(category)
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
+})
+
+
+router.post('/search', async (req, res) => {
+    const { name, category } = req.body
+    try {
+        const products = await service.search(name)
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
+})
+
 router.get('/show/:id', (req, res) => {
     const { id } = req.params
     service.show(id).then(details => {

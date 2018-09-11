@@ -47,8 +47,25 @@ router.get('/category/:category', async (req, res) => {
     }
 })
 
+
+router.post('/search', async (req, res) => {
+    const { name, category } = req.body
+    try {
+        const products = await article.search(name, category)
+        for (var i in products) {
+            products[i]['condition'] = (i.condition == false) ? 'Used' : 'New'
+        }
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (err) {
+        console.log(err)
+        res.send({ status: 500 })
+    }
+})
+
 router.post('/new', upload.array('files[]'), async (req, res) => {
-    console.log(req.body)
     const { category, description, title, stock, price, used, link, post_time, location } = req.body
     const multipleUpload = new Promise(async (res, rej) => {
         let arr = []

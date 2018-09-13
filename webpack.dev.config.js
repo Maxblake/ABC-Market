@@ -4,9 +4,8 @@ var path = require('path');
 module.exports = {
     entry: './client/index.js',
     output: {
-      path: path.join(__dirname, 'dist'),
-      filename: 'bundle.js',
-      publicPath: '/static/'
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js'
     },
     module: {
         loaders: [{
@@ -30,6 +29,6 @@ module.exports = {
                 test: /\.(eot|svg|ttf|woff|woff2|gif|png|jpe?g|svg|json)$/,
                 loader: 'file-loader'
             },
-        ]
+        ],
     },
 };

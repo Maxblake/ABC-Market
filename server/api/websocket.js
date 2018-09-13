@@ -1,7 +1,7 @@
-const io = require("socket.io");
-const history = require("../helpers/chat_db")
+import io from "socket.io"
+import history from "../models/user"
 
-module.exports = io => {
+const chat = io => {
   // Chatroom
 	var numUsers = 0;
 	
@@ -79,3 +79,5 @@ module.exports = io => {
 		});
 	});
 }
+
+export default chat

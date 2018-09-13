@@ -66580,9 +66580,8 @@
 	                var errors = (0, _Helpers.checkErrors)(input);
 	                if (errors) {
 	                    (0, _Request.signUp)(input, function (user) {
-	                        if (user != null) {
-	                            _this.setState({ user: user });
-	                            window.location.href = '/home/' + user.type;
+	                        if (user) {
+	                            alert('You have registered! please log in');
 	                        }
 	                    });
 	                }
@@ -66646,8 +66645,8 @@
 	};
 
 	var signUp = exports.signUp = function signUp(body, cb) {
-	    http.request('/signup', 'POST', body, 'json').then(function (result) {
-	        result.status == 200 ? cb(result.user) : cb(null);
+	    http.request('/users/new', 'POST', body, 'json').then(function (result) {
+	        result.status == 200 ? cb(true) : cb(null);
 	    });
 	};
 

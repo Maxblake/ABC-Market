@@ -49,3 +49,6 @@ Temporary Items
 /node_modules
 /SIMANCAS OLD CLIENT
 /uploads/
+.env
+/server_original
+/dist

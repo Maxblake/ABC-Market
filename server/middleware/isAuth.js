@@ -1,4 +1,4 @@
-module.exports.isAuth = (req,res,next)=>{
+export const isAuth = (req,res,next)=>{
     if (req.isAuthenticated()) {
         next();
     }else{
@@ -8,7 +8,7 @@ module.exports.isAuth = (req,res,next)=>{
         });
     }
 }
-module.exports.isLogged=(req,res,next)=>{
+export const isLogged=(req,res,next)=>{
     if (req.isAuthenticated()) {
         res.send({
             status: 304,

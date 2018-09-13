@@ -1,11 +1,12 @@
-const db = require('./db')
-const bcrypt = require('bcryptjs')
-const user = require('./queryfile').user
+import db from '../database/db'
+import bcrypt from 'bcryptjs'
+import { user } from '../database/queries'
 
-module.exports.getUserByUsername = username=>{
+ export const byUsername = username=>{
     return new Promise((res,rej)=>{
           db.connect().then((obj)=>{
               obj.one(user.by_username,[username]).then((data)=>{
+                  console.log(data)
                 res(data)
                 obj.done()
             }).catch((error)=>{
@@ -18,7 +19,7 @@ module.exports.getUserByUsername = username=>{
     })
 }
 
-module.exports.id = id=>{
+ export const id = id=>{
     return new Promise((res,rej)=>{
          db.connect().then((obj)=>{
             obj.one(user.by_id, [id]).then((data)=>{
@@ -34,7 +35,7 @@ module.exports.id = id=>{
     })
 }
 
-module.exports.comparePassword = (candidatePassword, hash)=>{
+ export const comparePassword = (candidatePassword, hash)=>{
     return new Promise((res,rej) => {
         bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
             if (err) throw rej(err)
@@ -43,7 +44,7 @@ module.exports.comparePassword = (candidatePassword, hash)=>{
     })
 }
 
-module.exports.new = (body)=>{
+ export const createUser = (body)=>{
     var { name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address } = body
     return new Promise((res,rej)=>{
         let hashedPass = bcrypt.hashSync(password, 10)
@@ -64,7 +65,7 @@ module.exports.new = (body)=>{
     })
 }
 
-module.exports.trades_details = (id)=>{
+ export const trades_details = (id)=>{
     return new Promise((res,rej)=>{
         db.connect().then((obj)=>{
             obj.any(user.trades_details, [id]).then((data)=>{
@@ -80,7 +81,7 @@ module.exports.trades_details = (id)=>{
     })
 }
 
-module.exports.contact_details = (id)=>{
+ export const contact_details = (id)=>{
     return new Promise((res,rej)=>{
         db.connect().then((obj)=>{
             obj.any(user.contact_details, [id]).then((data)=>{

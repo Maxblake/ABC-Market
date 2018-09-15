@@ -4,15 +4,15 @@ import path from 'path'
 import session from 'express-session'
 import passport from 'passport'
 import './env'
-import localStrategy from './api/controllers/auth/localStrategy'
+import localStrategy from './controllers/auth/localStrategy'
 import morgan from 'morgan'
 import http from 'http'
 import socket from 'socket.io'
 import webpack from 'webpack'
 import dev_webpack_config from '../webpack.dev.config.js'
 import prod_webpack_config from '../webpack.prod.config.js'
-import chat from './api/websocket'
-import api from './api'
+import chat from './channel/websocket'
+import routes from './routes'
 import webpack_hot from 'webpack-hot-middleware'
 import webpack_dev from 'webpack-dev-middleware'
 
@@ -22,9 +22,7 @@ const io = socket(server)
 const socket_connection = chat(io)
 const environment = (process.env.NODE_ENV !== 'production') ? dev_webpack_config : prod_webpack_config
 const compiler = webpack(environment)
-const port = process.env.PORT || 3000;
-
-console.log(process.env.DB_USER)
+const port = process.env.PORT || 3001;
 
 const requestHeaders = (req, res, next) => {  
     res.header("Access-Control-Allow-Origin", "*")
@@ -40,7 +38,7 @@ const sessionObject = session({
 })
 
 const toggleSerializeUser = (user, done) => done(null, user)
-const wildcardCallback = (_, res) => res.sendFile(path.join(__dirname, 'index.html'))
+const wildcardCallback = (_, res) => res.sendFile(path.join(__dirname, '../dist/index.html'))
 
 const appUse = (a, b) => b ? app.use(a, b) : app.use(a)
 const hotReload =  webpack_hot(compiler)
@@ -54,6 +52,6 @@ passport.use(localStrategy)
 passport.serializeUser(toggleSerializeUser)
 passport.deserializeUser(toggleSerializeUser)
 
-appUse('/', api())
+appUse('/', routes())
 appUse('*', wildcardCallback )
 server.listen(port);

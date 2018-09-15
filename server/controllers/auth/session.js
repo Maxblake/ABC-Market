@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
-import { createUser, id, tradeDetails, contactDetails } from '../../../models/user'
-import { isAuth } from '../../../middleware/isAuth';
+import { createUser, id, tradeDetails, contactDetails } from '../../models/user'
+import { isAuth } from '../../middleware/isAuth';
 const session = Router()
 
 const login = (req, res, next) => {
@@ -28,7 +28,6 @@ const login = (req, res, next) => {
 const checkSession = async (req, res) => {
     const user = await id(req.user.person_id)
     res.send({ status: 200, user })
-
 }
 
 const logout = (req, res) => {

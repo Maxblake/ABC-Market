@@ -38,7 +38,7 @@ const sessionObject = session({
 })
 
 const toggleSerializeUser = (user, done) => done(null, user)
-const wildcardCallback = (_, res) => res.sendFile(path.join(__dirname, '../dist/index.html'))
+const wildcardCallback = (_, res) => res.sendFile(path.join(__dirname, 'index.html'))
 
 const appUse = (a, b) => b ? app.use(a, b) : app.use(a)
 const hotReload =  webpack_hot(compiler)

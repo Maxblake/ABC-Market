@@ -10,7 +10,6 @@ const login = (req, res, next) => {
     req.body.password = password
     passport.authenticate('local', (error, user, info) => {
         if(error){
-            console.log(error)
             return next(error)
         }
         if(!user) {

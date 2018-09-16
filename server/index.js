@@ -22,7 +22,7 @@ const io = socket(server)
 const socket_connection = chat(io)
 const environment = (process.env.NODE_ENV !== 'production') ? dev_webpack_config : prod_webpack_config
 const compiler = webpack(environment)
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 const requestHeaders = (req, res, next) => {  
     res.header("Access-Control-Allow-Origin", "*")

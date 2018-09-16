@@ -10,10 +10,10 @@ export default () => {
     let router = Router()
     router.use('/', products)
     router.use('/article', articles);
-    // router.use('/offer', offers);
-    // router.use('/place',  places);
-    // router.use('/vehicle', vehicles);
-    // router.use('/service', services);
+    router.use('/offer', offers);
+    router.use('/place',  places);
+    router.use('/service', services);
+    router.use('/vehicle', vehicles);
 
     return router
 }

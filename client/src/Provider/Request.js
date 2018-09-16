@@ -20,7 +20,7 @@ export const logOut = cb => {
 }
 
 export const signUp = (body, cb) => {
-    http.request('/users/new', 'POST', body, 'json').then(result => {
+    http.request('/user/new', 'POST', body, 'json').then(result => {
         (result.status == 200) ? cb(true) : cb(null)
     })
 }

@@ -3,36 +3,30 @@ import { Router } from 'express'
 import cloudinary from 'cloudinary'
 import {  latest, byGenre, search, create, erase } from '../../models/category/article'
 import { addImage } from '../../models/product'
+import { cloudinary_config } from '../../helpers/util';
 
 const articles = Router()
 const upload = multer({dest: "./uploads/"});
-const { cloud_name, api_key, api_secret } = process.env
 
-cloudinary.config({ cloud_name, api_key, api_secret })
+cloudinary.config(cloudinary_config)
   
 const latestArticles = async (req, res) => {
-        try {   
-            const products = await latest()
-            for (var i in products) {
-                products[i]['condition'] = (i.condition == false) ? 'Used' : 'New'
-            }
-            res.send({ 
-                status: 200,
-                products
-            })
-        } catch (error) {
-            console.log(err)
-            res.send({ status: 404 })
-        }
+    try {   
+        const products = await latest()
+        res.send({ 
+            status: 200,
+            products
+        })
+    } catch (error) {
+        console.log(err)
+        res.send({ status: 404 })
+    }
 }
 
 const category = async (req, res) => {
     const { category } = req.params
     try {
         const products = await byGenre(category)
-        for (var i in products) {
-            products[i]['condition'] = (i.condition == false) ? 'Used' : 'New'
-        }
         res.send({ 
             status: 200,
             products
@@ -47,9 +41,6 @@ const find = async (req, res) => {
     const { name, category } = req.body
     try {
         const products = await search(name, category)
-        for (var i in products) {
-            products[i]['condition'] = (i.condition == false) ? 'Used' : 'New'
-        }
         res.send({ 
             status: 200,
             products
@@ -66,10 +57,8 @@ const createArticle = async (req, res) => {
         let arr = []
         for (var i in req.files) {
             await cloudinary.uploader.upload(req.files[i].path, result => {
-                console.log(i)
                 if (result.error) return rej(result.error)
                 arr.push(result.secure_url);
-                console.log(`${i} done`)
                 if (arr.length === req.files.length) {
                     res(arr);
                 }
@@ -78,18 +67,17 @@ const createArticle = async (req, res) => {
     })
 
     const consume = await multipleUpload.then(data => {
-        console.log('testing')
         create(req.user.person_id, title, description, 'article', category, location, post_time, stock, price, used, link).then(async new_product => {
             const { product_id } = new_product
-            for (var i in data) {
-                try {
-                    await addImage(product_id, data[i])
-                } catch (err) {
-                    console.log(err)
-                    res.send({ status: 404 })
+            try {
+                for (var i in data) {
+                    const add = await addImage(product_id, data[i])
                 }
+                res.send({ status: 200 })
+            } catch (err) {
+                console.log(err)
+                res.send({ status: 404 })
             }
-            res.send({ status: 200 })
         }).catch(err => {
             console.log(err)
             res.send({ status: 500 })
@@ -98,7 +86,6 @@ const createArticle = async (req, res) => {
         console.log(err)
         res.send({ status: 400 })
     })
-
 }
 
 const edit = (req, res) => {

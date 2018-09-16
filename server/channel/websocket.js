@@ -1,7 +1,7 @@
 import io from "socket.io"
-import history from "../models/user"
+import { newMessage } from "../models/chat"
 
-const chat = io => {
+export default (io) => {
   // Chatroom
 	var numUsers = 0;
 	
@@ -18,16 +18,15 @@ const chat = io => {
 
 		var addedUser = false;
 		// when the client emits 'new message', this listens and executes
-		socket.on('new message', message => {
+		socket.on('new message', async message => {
 			const date = new Date()
-			const time = date.toDateString() + " " + date.toLocaleTimeString()
-			console.log(room_number, user_id, message, time)
-			history.new_message(room_number, user_id, message, time).then(success => {
-				// we tell the client to execute 'new message'
+			const time = `${date.toDateString()} ${date.toLocaleTimeString()}`
+			try {
+				const success = await newMessage(room_number, user_id, message, time)
 				io.to(room_number).emit('new message', { message, user_id })
-			}).catch(err => {
-				console.log(err)
-			})
+			} catch (error) {
+				console.log(error)
+			}
 		});
 
 
@@ -80,4 +79,3 @@ const chat = io => {
 	});
 }
 
-export default chat

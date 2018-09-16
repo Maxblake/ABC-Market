@@ -5,7 +5,8 @@ const productImages = id => {
     const show = (res, rej) => {
         const query = async object => {
             try {
-                const data = await object.one(product.images, [id])
+                const data = await object.any(product.images, [id])
+                console.log(data)
                 res(data)
                 object.done()
             } catch (error) {
@@ -43,6 +44,7 @@ const category = id => {
                 res(data)
                 object.done()
             } catch (error) {
+                console.log('here in cat')
                 rej(error)
                 object.done()
             }
@@ -60,6 +62,7 @@ const show = (category, id) => {
                 res(data)
                 object.done()
             } catch (error) {
+                console.log('here in show')
                 rej(error)
                 object.done()
             }
@@ -74,7 +77,7 @@ const userUploads = (seller_id) => {
     const uploads = (res, rej) => {
         const query = async object => {
             try {
-                const data = await object.one(product.user_uploads, [seller_id])
+                const data = await object.any(product.user_uploads, [seller_id])
                 res(data)
                 object.done()
             } catch (error) {
@@ -87,4 +90,4 @@ const userUploads = (seller_id) => {
     return new Promise(uploads)
 }
 
-export { productImages, category, show, userUploads }
+export { productImages, category, show, userUploads, addImage }

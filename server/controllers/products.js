@@ -1,11 +1,10 @@
 import { Router } from 'express'
-import { isAuth } from '../middleware/isAuth';
 import { category, productImages, erase, update, userUploads, show } from '../models/product'
 import { id } from '../models/user'
 
 const products = Router()
 
-products.get('/detail/:id', async (req,res)=> {
+const details = async (req,res)=> {
     const { id } = req.params
     const general = {}
     const type = {}
@@ -30,9 +29,9 @@ products.get('/detail/:id', async (req,res)=> {
             status: 404
         })
     }
-})
+}
 
-products.get('/images/:id', async (req, res) => {
+const images = async (req, res) => {
     try {
         const images = await productImages(req.params.id)
         res.send({ 
@@ -45,9 +44,9 @@ products.get('/images/:id', async (req, res) => {
             status: 404
         })
     }
-})
+}
 
-products.get('/contact/:id', async (req, res) => {
+const contacts =  async (req, res) => {
     try {
         const contact = await id(req.params.id)
         delete contact['password']
@@ -62,7 +61,26 @@ products.get('/contact/:id', async (req, res) => {
             status: 404
         })
     }
-})
+}
+
+const userPosts = async (req, res) => {
+    try {    
+        const products = await userUploads(req.user.person_id)
+        res.send({ 
+            status: 200,
+            products 
+        })
+    } catch (e) {
+        res.send({ 
+            status: 404,
+        })
+    }
+}
+
+products.get('/detail/:id', details)
+products.get('/images/:id', images)
+products.get('/contact/:id', contacts)
+products.get('/by_user', userPosts)
 
 // products.get('/delete/:id', (req, res) => {
 //     product.delete_product(req.params.id).then(data=>{
@@ -82,19 +100,6 @@ products.get('/contact/:id', async (req, res) => {
 //     });
 // });
 
-products.get('/by_user', async (req, res) => {
-    try {    
-        const products =  await userUploads(req.user.person_id)
-        res.send({ 
-            status: 200,
-            products 
-        })
-    } catch (e) {
-        res.send({ 
-            status: 404,
-        })
-    }
-})
 
 
 export default products

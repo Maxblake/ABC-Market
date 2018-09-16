@@ -128,18 +128,12 @@ class SubmitVehicle extends Component{
                     </Typography><br/>
                     {this.state.uploading == false ? 
                     <Paper>
-                        <Grid container direction="row" justify="center">
-                            <Grid item xs={12}>
-                                <Button
-                                    color="primary" 
-                                    type="file"
-                                    multiple
-                                    style={{justifyContent: 'center'}}
-                                    ref={this.file}>
-                                    Upload image
-                                <CloudUploadIcon />
-                                </Button>    
-                            </Grid>
+                        <Grid item xs={12}>
+                            <input
+                                type="file"
+                                multiple
+                                ref={this.file}>
+                            </input> 
                         </Grid>
                         <Grid container direction="row" justify="center" spacing={8}>
                             <Grid item xs={12} sm={5}>

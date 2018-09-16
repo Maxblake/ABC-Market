@@ -48,9 +48,8 @@ class Auth extends Component {
             let errors = checkErrors(input)    
             if (errors) {
                 signUp(input, user => {
-                    if (user != null) {
-                        this.setState({ user })
-                        window.location.href = `/home/${user.type}`
+                    if (user) {
+                        alert('You have registered! please log in')    
                     }
                 })
             }

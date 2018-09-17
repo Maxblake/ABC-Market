@@ -2,16 +2,15 @@ const path = require('path')
 const webpack = require('webpack')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 
-const dev = process.env.NODE_ENV !== 'production' && process.argv.indexOf('-p') === -1
+const dev = process.env.NODE_ENV !== 'production'
 
 const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
     template: path.join(__dirname, '/server/index.html'),
     filename: 'index.html',
-    inject: 'body',
 })
 
+
 module.exports = {
-    mode: 'production',
     entry: './client/index.js',
     output: {
         path: path.join(__dirname, 'dist'),

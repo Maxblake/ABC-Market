@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import 'babel-polyfill'
-=======
-import 'babel-polyfill';
->>>>>>> 8d41aff2f3f5c232bceef36cf8fbf37a03530b60
 import express from 'express'
 import path from 'path'
 import session from 'express-session'
@@ -42,11 +38,7 @@ const sessionObject = session({
 })
 
 const toggleSerializeUser = (user, done) => done(null, user)
-<<<<<<< HEAD
 const wildcardCallback = (_, res) => res.sendFile(path.join(__dirname, '../dist/index.html'))
-=======
-const wildcardCallback = (_, res) => res.sendFile(path.join(__dirname, 'index.html'))
->>>>>>> 8d41aff2f3f5c232bceef36cf8fbf37a03530b60
 
 const appUse = (a, b) => b ? app.use(a, b) : app.use(a)
 const hotReload =  webpack_hot(compiler)

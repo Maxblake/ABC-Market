@@ -16,19 +16,14 @@ const create = async (req, res) => {
 	}
 }
 
-const contacts = async (req,res) => {
+const contacts = async (req, res) => {
     try {
         const { person_id } = req.user
         const trades = await tradeDetails(person_id)
         for (var i in trades) {
             const { buyer_id, seller_id } = trades[i]
-            if (buyer_id == person_id) {
-                var contact = await contactDetails(seller_id)
-                trades[i]['details'] = contact
-            } else {
-                var contact = await contactDetails(buyer_id)
-                trades[i]['details'] = contact    
-            }
+            const contact = (buyer_id == person_id) ? await contactDetails(seller_id) : await contactDetails(buyer_id)
+            trades[i]['details'] = contact    
         }
         res.send({ 
             status: 200,

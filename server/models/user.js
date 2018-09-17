@@ -97,11 +97,7 @@ const productImages = id => {
     return new Promise(trade)
 }
 
-<<<<<<< HEAD
  const contactDetails = id => {
-=======
- const contactDetails = (id)=>{
->>>>>>> 8d41aff2f3f5c232bceef36cf8fbf37a03530b60
     const contact = (res, rej) => {
         const query = async object => {
             try {

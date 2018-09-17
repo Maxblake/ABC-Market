@@ -1,8 +1,14 @@
 const path = require('path')
 const webpack = require('webpack')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 const dev = process.env.NODE_ENV !== 'production' && process.argv.indexOf('-p') === -1
 
+const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
+    template: path.join(__dirname, '/server/index.html'),
+    filename: 'index.html',
+    inject: 'body',
+})
 
 module.exports = {
     mode: 'production',
@@ -12,6 +18,7 @@ module.exports = {
         filename: 'bundle.js',
     },
     plugins: dev ? [
+        HTMLWebpackPluginConfig,
         new webpack.optimize.UglifyJsPlugin({
             minimize: true,
             compress: {
@@ -21,7 +28,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': { NODE_ENV: JSON.stringify('production') }
         }),
-    ] : null,    
+    ] : HTMLWebpackPluginConfig,    
     module: {
         loaders: [
           {

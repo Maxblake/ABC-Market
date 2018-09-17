@@ -97,7 +97,7 @@ const productImages = id => {
     return new Promise(trade)
 }
 
- const contactDetails = (id)=>{
+ const contactDetails = id => {
     const contact = (res, rej) => {
         const query = async object => {
             try {

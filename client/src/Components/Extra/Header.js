@@ -16,7 +16,7 @@ class Header extends React.Component {
         const { session, user } = this.props;
         return (
             <div>
-                <AppBar position="static" color="secondary">
+                <AppBar position="static" color="primary">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
                             ABCMarket

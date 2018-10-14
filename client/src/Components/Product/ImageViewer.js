@@ -19,11 +19,12 @@ class ImageViewer extends Component {
 
     componentDidMount() {
         productImages(this.props.id, images => {
-        this.setState(prevState => ({
-            loaded: true,
-            images: prevState.images.concat(images),
-            selectedImage: 0
-        }));
+            console.log(images)
+            this.setState(prevState => ({
+                loaded: true,
+                images: prevState.images.concat(images),
+                selectedImage: 0
+            }));
         });
     }
 

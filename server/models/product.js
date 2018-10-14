@@ -5,7 +5,7 @@ const productImages = id => {
     const show = (res, rej) => {
         const query = async object => {
             try {
-                const data = await object.any(product.images, [id])
+                const data = await object.one(product.images, [id])
                 console.log(data)
                 res(data)
                 object.done()

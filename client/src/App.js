@@ -21,6 +21,7 @@ import { fetching } from '../fetching/wrapper'
 import Chat from './Containers/Chat'
 import Remesa from './Components/Remesa'
 import Auth,{ Session } from './Provider/Auth'
+import withRoot from './withRoot';
 
 const auth = new Auth()
 
@@ -99,7 +100,7 @@ class App extends Component {
     }
 
     watch=(props)=>{
-            return (<Watch {...props}  />)
+        return (<Watch {...props}  />)
     }
     
     submit=(props)=>{
@@ -136,12 +137,11 @@ class App extends Component {
                         </Switch>
                     </div>
                 </BrowserRouter>
-            <br/><br/><br/>
-            <Footer footer/>
+                <br/><br/><br/>
+                <Footer footer/>
             </Fragment>
-        
         );
     }
 }
 
-export default App;
+export default withRoot(App);

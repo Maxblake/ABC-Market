@@ -20,7 +20,7 @@ class Chat extends React.Component {
                 this.setState({ person_id:response.person_id })
             }
         })
-        this.socket = io.connect(`${this.props.ip}:3000`,{ query: `trade=${this.props.match.params.id}` });
+        this.socket = io.connect({ query: `trade=${this.props.match.params.id}` });
         this.initSocket();  
     }
 

@@ -84,7 +84,7 @@ const productImages = id => {
     const trade = (res, rej) => {
         const query = async object => {
             try {
-                const data = await object.one(user.trades_details, [id])
+                const data = await object.any(user.trades_details, [id])
                 res(data)
                 object.done()
             } catch (error) {

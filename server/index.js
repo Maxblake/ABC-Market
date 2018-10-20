@@ -21,7 +21,6 @@ const io = socket(server)
 const socket_connection = chat(io)
 const environment = webpack_config
 const compiler = webpack(environment)
-const port = process.env.PORT || 3000;
 
 const requestHeaders = (req, res, next) => {  
     res.header("Access-Control-Allow-Origin", "*")
@@ -53,4 +52,4 @@ passport.deserializeUser(toggleSerializeUser)
 
 appUse('/', routes())
 appUse('*', wildcardCallback )
-server.listen(port);
+server.listen(process.env.PORT || 3000);

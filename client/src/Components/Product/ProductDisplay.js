@@ -8,11 +8,11 @@ const ProductDisplay = (props) => {
         <Grid item xs={12} >
             <Paper>
                 <Grid container direction="row">
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                         <Avatar src={image}>
                         </Avatar>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                         {Object.keys(props.product).map(key => (
                             key !== "image" ?
                             key !== "product_id" ?

@@ -25,7 +25,7 @@ export const product  = {
     show_place: 'select product.*, place.* from person inner join product on person.person_id = product.person_id inner join place on product.product_id = place.product_id where product.product_id = $1',
     show_service: 'select product.*, service.* from person inner join product on person.person_id = product.person_id inner join service on product.product_id = service.product_id where product.product_id = $1',
     show_vehicle: 'select product.*, vehicle.* from person inner join product on person.person_id = product.person_id inner join vehicle on product.product_id = vehicle.product_id where product.product_id = $1',
-    user_uploads: 'select distinct on (product.product_id) product.title, product.type, image.url as image from product inner join trade on product.product_id = trade.product_id inner join image on trade.product_id = image.product_id where trade.seller_id = $1'
+    user_uploads: 'select distinct on (product.product_id) product.title, product.type, image.url as image from product inner join image on product.product_id = image.product_id where product.person_id = $1'
 }
 
 export const article = {

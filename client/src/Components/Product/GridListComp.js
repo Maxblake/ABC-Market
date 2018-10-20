@@ -13,7 +13,6 @@ class GridListComp extends Component{
 
     componentDidMount() {
         if (this.props.product != undefined) {
-            console.log(this.props.product)
             this.setState({ products: this.state.products.concat(this.props.product) })
         } else {
             const { type } = this.props.match.params
@@ -63,11 +62,10 @@ class GridListComp extends Component{
                 {this.state.products != [] ? 
                     <GridList
                         cellHeight={100}
-                        style={{maxWidth:800,height:200}}
                         cols={1}>
                 
                         {this.state.products.map((product,index)=>(
-                            <GridListTile  key={ index } cols={1}>
+                            <GridListTile key={ index } >
                                 <ProductDisplay
                                     product={product}
                                     edit={this.props.edit}
@@ -79,8 +77,7 @@ class GridListComp extends Component{
                 }
                 {this.props.type ==="contact" ? 
                     <GridList 
-                        cellHeight={150}
-                        style={{maxWidth:800,height:200}}
+                        cellHeight={100}    
                         cols={1}>
                     {this.props.contacts.map((contact,index)=>(
                         <GridListTile key={index} cols={1}>

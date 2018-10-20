@@ -25,6 +25,7 @@ export default class ProfilePage extends Component {
         })
         userProduct(response => {
             if(response != null) {
+                console.log(response)
                 this.setState({
                     products: this.state.products.concat(response),
                     loadedProd: true 

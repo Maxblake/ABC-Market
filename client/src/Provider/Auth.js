@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { logIn, isLogged, logOut, signUp } from './Request';
-import { withRouter } from 'react-router';
 import { checkErrors } from '../Helpers/Helpers';
 
 export const Session = React.createContext({
@@ -21,6 +20,7 @@ class Auth extends Component {
             if (errors) {
                 logIn(input, user => {
                     if (user != null) {
+                        console.log(user)
                         this.setState({ user })
                         window.location.href = `/home/${user.type}`
                     }

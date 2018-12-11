@@ -25,7 +25,7 @@ export const signUp = (body, cb) => {
     })
 }
 
-export const getSession = (cb) => {
+export const getSession = cb => {
     http.request('/checkSession').then(result => {
         (result.status == 200) ? cb(result.user) : cb(null)
     })

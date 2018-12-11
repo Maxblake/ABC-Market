@@ -55,6 +55,8 @@ const productImages = id => {
 
  const comparePassword = (candidatePassword, hash) => {
     return new Promise((res,rej) => {
+        let hashedPass = bcrypt.hash(candidatePassword, 10);   
+        console.log(hashedPass, hash)  
         bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
             if (err) throw rej(err)
             res(isMatch)
@@ -67,7 +69,8 @@ const productImages = id => {
     const create = (res, rej) => {
         const query = async object => {
             try {
-                const data = await object.none(user.new, [name, lastname, code, phoneNumber, username, password, gender, type, birthDate, address])
+                let hashedPass = bcrypt.hashSync(password, 10);     
+                const data = await object.one(user.new, [name, lastname, code, phoneNumber, username, hashedPass, gender, type, birthDate, address])
                 res(data)
                 object.done()
             } catch (error) {

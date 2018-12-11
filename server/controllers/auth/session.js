@@ -5,6 +5,7 @@ import { isAuth } from '../../middleware/isAuth';
 const session = Router()
 
 const login = (req, res, next) => {
+    console.log(req.body)
     const { username, password } = req.body.credentials
     req.body.username = username
     req.body.password = password

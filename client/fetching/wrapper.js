@@ -14,8 +14,8 @@ class Http {
                 credentials: 'include'
             }
             
-            method != 'GET' ? fetchOptions['method'] = method : method
             headers == 'json' ? (fetchOptions['headers'] = {'Content-Type':'application/json'}, fetchOptions['body'] = JSON.stringify(params)) : fetchOptions['body'] = params
+            method != 'GET' ? (fetchOptions['method'] = method) : delete fetchOptions.body
     
             this.call(endpoint, fetchOptions, res, rej)           
         })

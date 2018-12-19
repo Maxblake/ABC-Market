@@ -17,6 +17,7 @@ export default class Register extends Component {
             type: '',
             birthDate: '',
             address: '',
+            confirm_password: ''
         },
         error: {
             name: null,
@@ -144,9 +145,11 @@ export default class Register extends Component {
                                 fullWidth
                                 type="password"
                                 label="Confirm Password"
+                                name="confirm_password"
                                 error={error.confirm_password}
                                 helperText={(error.confirm_password ? 'Password confirmation cannot be blank' : '')} 
                                 margin="normal"
+                                onChange={this.handleChange}
                             />
                             </Grid>
                         </Grid>
@@ -160,7 +163,6 @@ export default class Register extends Component {
                                 name="gender"
                                 value={values.gender}
                                 onChange={this.handleChange}
-                                error={error.gender}
                                 >
                                 <FormControlLabel
                                     value="female"
@@ -183,7 +185,6 @@ export default class Register extends Component {
                                     name="type"
                                     value={values.type}
                                     onChange={this.handleChange}
-                                    error={error.type}
                                     >
                                     <FormControlLabel
                                         value="tourist"
@@ -221,8 +222,8 @@ export default class Register extends Component {
                                 rows="4"
                                 label="Address"
                                 name="address"
-                                error={error.confirm_password}
-                                helperText={(error.confirm_password ? 'Address cannot be blank' : '')} 
+                                error={error.address}
+                                helperText={(error.address ? 'Address cannot be blank' : '')} 
                                 onChange={this.handleChange}
                             />
                             </Grid>

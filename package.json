@@ -5,7 +5,9 @@
     "scripts": {
         "start": "npm run build && NODE_ENV=production node server/start.js",
         "dev": "npm run build && NODE_ENV=development nodemon server/start.js",
-        "build": "webpack --config ./webpack.config.js"
+        "build": "webpack --config ./webpack.config.js",
+        "build_db": "node server/database/scripts/init.js",
+        "destroy_db": "node server/database/scripts/reset.js"
     },
     "author": "",
     "license": "ISC",
@@ -30,6 +32,8 @@
         "passport": "^0.4.0",
         "passport-local": "^1.0.0",
         "pg-promise": "^7.3.2",
+        "pgtools": "^0.3.0",
+        "prompt": "^1.0.0",
         "react": "^16.4.2",
         "react-breadcrumbs": "^2.1.6",
         "react-dom": "^16.4.2",

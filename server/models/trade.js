@@ -1,4 +1,4 @@
-import db from '../database/db'
+import { db } from '../database/db'
 import { trade } from '../database/queries'
 
 const create = (product_id, seller_id, buyer_id)=>{

@@ -1,4 +1,4 @@
-import db from '../../database/db'
+import { db } from '../../database/db'
 import { place } from '../../database/queries'
 
 const latest = () =>{

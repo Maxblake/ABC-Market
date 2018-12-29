@@ -1,4 +1,4 @@
-import db from '../database/db'
+import { db } from '../database/db'
 import { product } from '../database/queries'
 
 const productImages = id => {

@@ -1,4 +1,4 @@
-import db from '../database/db'
+import { db } from '../database/db'
 import { chat } from '../database/queries'
 
 const show = trade_id => {
